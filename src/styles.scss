@@ -1,4 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: "Helvetica", "Helvetica Neue", sans-serif; }
+
+
+.footer {
+  font-size: 9px;
+  padding-bottom:20px;
+  padding-top:70px;
+  color:#a4a4a4;
+  text-align: center;
+}
+
+.footer > h3 {
+  margin: 0;
+}
+
+h1 {
+  font-size: 12px;
+  padding-bottom: 3px;
+  margin: 0;
+}
+
+p {
+  font-size: 10px;
+  margin: 0;
+}
+
+span {
+  font-size: 9px;
+}

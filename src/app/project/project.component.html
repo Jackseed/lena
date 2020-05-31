@@ -2,15 +2,11 @@
   <div fxFlex="100%" fxFlex.sm="60%" fxFlex.xs="100%">
     <!-- HEADER -->
     <div ngStyle.lt-md="margin:20px;" ngStyle.gt-sm="width:500px;">
-      <h1 class="titre-projets">{{ (project$ | async).titre }}</h1>
-      <p
-        class="description-projets"
-        *ngFor="let description of (project$ | async).description"
-      >
+      <h1>{{ (project$ | async).titre }}</h1>
+      <p *ngFor="let description of (project$ | async).description">
         {{ description }}
       </p>
-      <br />
-      <h3>{{ (project$ | async).signature_projet }}</h3>
+      <span class="signature">{{ (project$ | async).signature_projet }}</span>
     </div>
     <!-- FIRST IMAGES -->
     <div *ngFor="let image of (project$ | async).images">
