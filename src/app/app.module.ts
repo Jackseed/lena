@@ -9,6 +9,11 @@ import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { LayoutComponent } from "./layout/layout.component";
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
+import { ToolbarComponent } from './toolbar/toolbar.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +22,7 @@ import { LayoutComponent } from "./layout/layout.component";
     ProjectComponent,
     GridComponent,
     LayoutComponent,
+    ToolbarComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,6 +30,10 @@ import { LayoutComponent } from "./layout/layout.component";
     NoopAnimationsModule,
     FlexLayoutModule,
     MatGridListModule,
+    MatToolbarModule,
+    MatMenuModule,
+    MatIconModule,
+    MatButtonModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
