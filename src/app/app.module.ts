@@ -9,6 +9,7 @@ import { GridComponent } from "./grid/grid.component";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MatGridListModule } from "@angular/material/grid-list";
+import { ProjectPageComponent } from './project-page/project-page.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { MatGridListModule } from "@angular/material/grid-list";
     MenuComponent,
     ProjectComponent,
     GridComponent,
+    ProjectPageComponent,
   ],
   imports: [
     BrowserModule,
