@@ -1,18 +1,23 @@
 <div class="container">
   <div *ngFor="let title of imgTitles; let i = index">
-    <!-- IMAGE TITLE SECTION -->
+    <!-- IMAGE TITLE  -->
     <img
+      ngClass.xs="title-img-xs"
+      ngClass.gt-xs="title-img"
       [class.first-img]="i === 0"
       [class.other-img]="i > 0"
       src="assets/img/{{ title.img }}"
     />
-
-    <!-- PROJECT TITLES -->
+    <!-- PROJECTS -->
     <ul *ngFor="let project of projects">
       <ng-container *ngIf="project.section === title.section">
-        <a class="project-links" routerLink="/{{ project.lien }}">
-          <span>{{ project.titre }}</span>
-        </a>
+        <div ngClass.gt-xs="project" ngClass.xs="project-xs">
+          <a class="project-link" routerLink="/{{ project.lien }}">
+            <span ngClass.xs="project-title-xs" ngClass.sm="project-title-sm">{{
+              project.titre
+            }}</span>
+          </a>
+        </div>
       </ng-container>
     </ul>
   </div>
@@ -25,11 +30,7 @@
       />
     </a>
     <a href="mailto:atelier@lenapiroux.com">
-      <img
-        class="contact-img"
-        src="assets/img/mail.jpg"
-        alt="Contactez-moi!"
-      />
+      <img class="contact-img" src="assets/img/mail.jpg" alt="Contactez-moi!" />
     </a>
   </div>
 </div>

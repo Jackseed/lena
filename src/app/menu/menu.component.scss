@@ -11,24 +11,39 @@ ul {
   padding-left: 5px;
 }
 
-.project-links {
-  font-size: 11px;
+.project {
+  padding-bottom: 3px;
+}
+.project-xs {
+  padding-bottom: 10px;
+}
+.project-title-sm {
+  font-size: 15px;
+}
+.project-title-xs {
+  font-size: 20px;
+}
+.project-link {
   color: #666666;
   text-decoration: none;
 }
 
-.project-links:hover {
+.project-link:hover {
   color: #000000;
+}
+.title-img {
+  height: 30px;
+}
+.title-img-xs {
+  height: 40px;
 }
 
 .first-img {
-  height: 30px;
   margin-top: 0%;
   margin-bottom: 2%;
 }
 
 .other-img {
-  height: 30px;
   margin-top: 7%;
   margin-bottom: 2%;
 }

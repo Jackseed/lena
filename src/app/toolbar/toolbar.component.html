@@ -9,47 +9,8 @@
     </button>
   </div>
   <mat-menu #menu="matMenu" class="menu-lena">
-    <div *ngFor="let title of imgTitles; let i = index">
-      <!-- TITLE -->
-      <img
-        class="images-titres"
-        style="width: 20%;"
-        ngStyle.lt-md="width:150px;"
-        src="assets/img/{{ title.img }}"
-      />
+    <app-menu></app-menu>
 
-      <!-- PROJECTS -->
-      <ul *ngFor="let project of projects">
-        <ng-container *ngIf="project.section === title.section">
-          <button
-            mat-menu-item
-            class="liens-projets"
-            routerLink="/{{ project.lien }}"
-          >
-            {{ project.titre }}
-          </button>
-        </ng-container>
-      </ul>
-    </div>
-    <div fxFlex="100" class="img-contact-container">
-      <a href="http://instagram.com/lenapiroux" target="_blank">
-        <img
-          style="width: 10%;"
-          ngStyle.lt-md="width:30px; margin-right:10px;"
-          class="images-contact"
-          src="assets/img/instalena.jpg"
-          alt="Contactez-moi!"
-        />
-      </a>
-      <a href="mailto:atelier@lenapiroux.com">
-        <img
-          style="width: 10%;"
-          ngStyle.lt-md="width:30px;"
-          src="assets/img/mail.jpg"
-          alt="Contactez-moi!"
-        />
-      </a>
-    </div>
   </mat-menu>
   <div class="logo-container" fxFlexFill>
     <a routerLink="home">

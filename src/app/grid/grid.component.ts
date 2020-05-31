@@ -29,7 +29,7 @@ export class GridComponent implements OnDestroy {
         if (change.mqAlias === "xs") {
           this.grid = { cols: 2, gutterSize: 0 };
         } else if (change.mqAlias === "sm") {
-          this.grid = { cols: 4, gutterSize: 20 };
+          this.grid = { cols: 4, gutterSize: 0 };
         } else {
           this.grid = { cols: 4, gutterSize: 20 };
         }

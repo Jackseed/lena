@@ -3,6 +3,9 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: "Helvetica", "Helvetica Neue", sans-serif; }
 
+html{
+  font-size: 62.5%;
+}
 
 .footer {
   font-size: 9px;
@@ -28,5 +31,5 @@ p {
 }
 
 span {
-  font-size: 9px;
+  font-size: calc(0.8rem + 0.5vmin);
 }
