@@ -1,0 +1,30 @@
+.app-container-desktop {
+  padding-top: 4%;
+  width: 900px;
+  display: block;
+  margin: auto;
+}
+
+.menu-container {
+  display: block;
+  float: left;
+}
+.title-img {
+  display: block;
+  margin: 0 auto;
+}
+
+.content-container-desktop {
+  margin-top: 80px;
+  display: block;
+  float: left;
+}
+
+#logo {
+  width: 200px;
+  margin-left: 1.5%;
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 0;
+  display: block;
+}
