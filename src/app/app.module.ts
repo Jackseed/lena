@@ -10,6 +10,7 @@ import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { ProjectPageComponent } from './project-page/project-page.component';
+import { LayoutComponent } from './layout/layout.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { ProjectPageComponent } from './project-page/project-page.component';
     ProjectComponent,
     GridComponent,
     ProjectPageComponent,
+    LayoutComponent,
   ],
   imports: [
     BrowserModule,

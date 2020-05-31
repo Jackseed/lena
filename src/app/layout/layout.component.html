@@ -1,0 +1,18 @@
+<div fxLayout="row" ngClass.gt-sm="app-container-desktop">
+  <div fxFlex.lt-md="100%">
+    <div fxLayout="row">
+      <!-- MENU -->
+      <div class="menu-container" fxHide.lt-md="true">
+        <a routerLink="home">
+          <img id="logo" class="images-titres" src="assets/img/logoweb.jpg" />
+        </a>
+        <app-menu></app-menu>
+      </div>
+
+      <!-- PAGE -->
+      <div fxFlex.lt-md="100%" ngClass.gt-sm="content-container-desktop">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
