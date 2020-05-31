@@ -1,0 +1,41 @@
+.container {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 75px;
+  width: 240px;
+}
+ul {
+  line-height: 0.8;
+}
+
+.project-links {
+  font-size: 11px;
+  color: #666666;
+  padding-left: 5px;
+  margin-left: 8px;
+  text-decoration: none;
+}
+
+.project-links:hover {
+  color: #000000;
+}
+
+.first-img {
+  height: 30px;
+  margin-left: 3%;
+  margin-top: 0%;
+  margin-bottom: 2%;
+}
+
+.other-img {
+  height: 30px;
+  margin-left: 3%;
+  margin-top: 7%;
+  margin-bottom: 2%;
+}
+
+.contact-img {
+  height: 30px;
+  margin-left: 3%;
+  width: 33px;
+}

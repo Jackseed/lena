@@ -1,1 +1,35 @@
-<p>menu works!</p>
+<div class="container">
+  <div *ngFor="let title of imgTitles; let i = index">
+    <!-- IMAGE TITLE SECTION -->
+    <img
+      [class.first-img]="i === 0"
+      [class.other-img]="i > 0"
+      src="assets/img/{{ title.img }}"
+    />
+
+    <!-- PROJECT TITLES -->
+    <ul *ngFor="let project of projects">
+      <ng-container *ngIf="project.section === title.section">
+        <a class="project-links" routerLink="/{{ project.lien }}">
+          <span>{{ project.titre }}</span>
+        </a>
+      </ng-container>
+    </ul>
+  </div>
+  <div>
+    <a href="http://instagram.com/lenapiroux" target="_blank">
+      <img
+        class="contact-img"
+        src="assets/img/instalena.jpg"
+        alt="Contactez-moi!"
+      />
+    </a>
+    <a href="mailto:atelier@lenapiroux.com">
+      <img
+        class="images-contact"
+        src="assets/img/mail.jpg"
+        alt="Contactez-moi!"
+      />
+    </a>
+  </div>
+</div>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ImgTitle, MenuTitles } from '../models/menu-titles';
+import { Project, Projects } from '../models/project-list';
 
 @Component({
   selector: 'app-menu',
@@ -6,6 +8,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
+
+  public imgTitles: ImgTitle[] = MenuTitles;
+  public projects: Project[] = Projects;
 
   constructor() { }
 
