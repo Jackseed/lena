@@ -15,6 +15,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { AngularFireModule } from "@angular/fire";
+import { ProjectFormComponent } from './admin/project-form/project-form.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDi0VGkbRt-rPpaWFcEHzkDC9yQK4cMWyQ",
@@ -34,6 +35,7 @@ const firebaseConfig = {
     GridComponent,
     LayoutComponent,
     ToolbarComponent,
+    ProjectFormComponent,
   ],
   imports: [
     BrowserModule,
