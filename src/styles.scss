@@ -1,17 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/flex-layout/mq";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: "Helvetica", "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "Helvetica", "Helvetica Neue", sans-serif;
+}
 
-html{
+html {
   font-size: 62.5%;
 }
 
 .footer {
   font-size: 9px;
-  padding-bottom:20px;
-  padding-top:70px;
-  color:#a4a4a4;
+  padding-bottom: 20px;
+  padding-top: 70px;
+  color: #a4a4a4;
   text-align: center;
 }
 
@@ -23,13 +30,23 @@ h1 {
   font-size: 12px;
   padding-bottom: 3px;
   margin: 0;
+  @include layout-bp(xs) {
+    font-size: 18px;
+  }
 }
 
 p {
   font-size: 10px;
   margin: 0;
+
+  @include layout-bp(xs) {
+    font-size: 15px;
+  }
 }
 
 span {
   font-size: calc(0.8rem + 0.5vmin);
+  @include layout-bp(xs) {
+    font-size: 12px;
+  }
 }

@@ -14,6 +14,17 @@ import { MatMenuModule } from "@angular/material/menu";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { AngularFireModule } from "@angular/fire";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDi0VGkbRt-rPpaWFcEHzkDC9yQK4cMWyQ",
+  authDomain: "lena-website-26d6e.firebaseapp.com",
+  databaseURL: "https://lena-website-26d6e.firebaseio.com",
+  projectId: "lena-website-26d6e",
+  storageBucket: "lena-website-26d6e.appspot.com",
+  messagingSenderId: "629985807671",
+  appId: "1:629985807671:web:a3ae2cb224629232b11eb2"
+};
 
 @NgModule({
   declarations: [
@@ -27,6 +38,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    AngularFireModule.initializeApp(firebaseConfig),
     NoopAnimationsModule,
     FlexLayoutModule,
     MatGridListModule,

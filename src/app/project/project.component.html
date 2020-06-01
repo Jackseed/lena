@@ -6,7 +6,9 @@
       <p *ngFor="let description of (project$ | async).description">
         {{ description }}
       </p>
-      <span class="signature">{{ (project$ | async).signature_projet }}</span>
+
+      <br />
+      <span> {{ (project$ | async).signature_projet }}</span>
     </div>
     <!-- FIRST IMAGES -->
     <div *ngFor="let image of (project$ | async).images">
