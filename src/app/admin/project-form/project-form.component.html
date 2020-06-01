@@ -1,1 +1,16 @@
-<p>project-form works!</p>
+<h1>Nouveau projet</h1>
+<form [formGroup]="newProject">
+
+  <label>
+    Titre :
+    <input type="text" formControlName="title">
+  </label>
+
+  <label>
+    Description :
+    <input type="text" formControlName="description">
+  </label>
+
+</form>
+
+<app-uploader></app-uploader>

@@ -1,16 +1,16 @@
-<mat-toolbar
-  fxHide.gt-sm="true"
-  class="toolbar"
-  fxLayoutAlign="center center"
->
+<mat-toolbar fxHide.gt-sm="true" class="toolbar" fxLayoutAlign="center center">
   <div class="menu-button">
-    <button mat-icon-button [matMenuTriggerFor]="menu">
+    <button mat-icon-button [matMenuTriggerFor]="belowMenu">
       <mat-icon>menu</mat-icon>
     </button>
   </div>
-  <mat-menu #menu="matMenu"  yPosition="below" [overlapTrigger]="false" class="menu-lena">
+  <mat-menu
+    #belowMenu="matMenu"
+    yPosition="below"
+    [overlapTrigger]="false"
+    class="menu-lena"
+  >
     <app-menu></app-menu>
-
   </mat-menu>
   <div class="logo-container" fxFlexFill>
     <a routerLink="home">
