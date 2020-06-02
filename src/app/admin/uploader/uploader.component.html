@@ -11,6 +11,6 @@
 
 <h3>Fichiers</h3>
 
-<div *ngFor="let file of files">
-  <app-upload-task [file]="file"></app-upload-task>
+<div *ngFor="let file of files; let i = index">
+  <app-upload-task [file]="file" [i]="i"></app-upload-task>
 </div>
