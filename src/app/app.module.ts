@@ -1,5 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { NgModule, LOCALE_ID } from "@angular/core";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { MenuComponent } from "./menu/menu.component";
@@ -13,13 +13,16 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from "@angular/material/button";
-import { ToolbarComponent } from './toolbar/toolbar.component';
+import { ToolbarComponent } from "./toolbar/toolbar.component";
 import { AngularFireModule } from "@angular/fire";
-import { ProjectFormComponent } from './admin/project-form/project-form.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { DropzoneDirective } from './admin/dropzone.directive';
-import { UploaderComponent } from './admin/uploader/uploader.component';
-import { UploadTaskComponent } from './admin/upload-task/upload-task.component';
+import { ProjectFormComponent } from "./admin/project-form/project-form.component";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { DropzoneDirective } from "./admin/dropzone.directive";
+import { UploaderComponent } from "./admin/uploader/uploader.component";
+import { UploadTaskComponent } from "./admin/upload-task/upload-task.component";
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+registerLocaleData(localeFr);
 
 const firebaseConfig = {
   apiKey: "AIzaSyDi0VGkbRt-rPpaWFcEHzkDC9yQK4cMWyQ",
@@ -28,7 +31,7 @@ const firebaseConfig = {
   projectId: "lena-website-26d6e",
   storageBucket: "lena-website-26d6e.appspot.com",
   messagingSenderId: "629985807671",
-  appId: "1:629985807671:web:a3ae2cb224629232b11eb2"
+  appId: "1:629985807671:web:a3ae2cb224629232b11eb2",
 };
 
 @NgModule({
@@ -58,7 +61,7 @@ const firebaseConfig = {
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [{ provide: LOCALE_ID, useValue: "fr-FR" }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
