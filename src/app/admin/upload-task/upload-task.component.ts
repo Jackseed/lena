@@ -6,6 +6,7 @@ import {
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
 import { finalize, tap } from "rxjs/operators";
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: "app-upload-task",
@@ -24,6 +25,7 @@ export class UploadTaskComponent implements OnInit {
   path: string;
   ref: any;
   id: string;
+  caption = new FormControl("");
 
   constructor(
     private storage: AngularFireStorage,
@@ -95,5 +97,9 @@ export class UploadTaskComponent implements OnInit {
       snapshot.state === "running" &&
       snapshot.bytesTransferred < snapshot.totalBytes
     );
+  }
+
+  public save() {
+    this.db.collection("files").doc(this.id).update({caption: this.caption.value});
   }
 }

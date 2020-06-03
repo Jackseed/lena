@@ -9,6 +9,14 @@
   <div *ngIf="downloadURL as url">
     <h3>Image {{ i + 1 }}</h3>
     <img [src]="url" /><br />
-    <button mat-icon-button (click)="deleteImg()"><mat-icon>delete</mat-icon></button>
+    <button mat-icon-button (click)="deleteImg()">
+      <mat-icon>delete</mat-icon>
+    </button>
+
+    <label>
+      Légende :
+      <input type="text" [formControl]="caption" />
+    </label>
+      <p><button mat-button (click)="save()">Sauvegarder</button></p>
   </div>
 </div>
