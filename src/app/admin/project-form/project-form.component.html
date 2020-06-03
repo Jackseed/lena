@@ -1,16 +1,21 @@
 <h1>Nouveau projet</h1>
 <form [formGroup]="newProject">
-
   <label>
     Titre :
-    <input type="text" formControlName="title">
+    <input type="text" formControlName="title" />
   </label>
 
   <label>
     Description :
-    <input type="text" formControlName="description">
+    <input type="text" formControlName="description" />
   </label>
 
+  <label>
+    Légende :
+    <input type="text" formControlName="caption" />
+  </label>
 </form>
+<button mat-button>Sauvegarder</button>
+<button mat-button>Publier</button>
 
 <app-uploader></app-uploader>

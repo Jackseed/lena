@@ -9,7 +9,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 export class ProjectFormComponent implements OnInit {
   public newProject = new FormGroup({
     title: new FormControl(''),
-    description: new FormControl('')
+    description: new FormControl(''),
+    caption: new FormControl(''),
   });
 
   constructor() { }

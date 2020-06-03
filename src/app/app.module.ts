@@ -22,6 +22,7 @@ import { UploaderComponent } from "./admin/uploader/uploader.component";
 import { UploadTaskComponent } from "./admin/upload-task/upload-task.component";
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
+import { ProjectListComponent } from './project-list/project-list.component';
 registerLocaleData(localeFr);
 
 const firebaseConfig = {
@@ -46,6 +47,7 @@ const firebaseConfig = {
     DropzoneDirective,
     UploaderComponent,
     UploadTaskComponent,
+    ProjectListComponent,
   ],
   imports: [
     BrowserModule,
