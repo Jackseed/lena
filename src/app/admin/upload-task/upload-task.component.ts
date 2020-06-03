@@ -6,7 +6,9 @@ import {
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Observable } from "rxjs";
 import { finalize, tap } from "rxjs/operators";
-import { FormControl } from '@angular/forms';
+import { FormControl } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
+import { firestore } from "firebase/app";
 
 @Component({
   selector: "app-upload-task",
@@ -29,12 +31,13 @@ export class UploadTaskComponent implements OnInit {
 
   constructor(
     private storage: AngularFireStorage,
-    private db: AngularFirestore
+    private db: AngularFirestore,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
     this.startUpload();
-    this.id = this.db.createId();
+    this.id = this.route.snapshot.paramMap.get("id");
   }
 
   startUpload() {
@@ -57,9 +60,17 @@ export class UploadTaskComponent implements OnInit {
         this.downloadURL = await this.ref.getDownloadURL().toPromise();
 
         this.db
-          .collection("files")
+          .collection("projects")
           .doc(this.id)
-          .set({ downloadURL: this.downloadURL, path: this.path });
+          .set(
+            {
+              images: firestore.FieldValue.arrayUnion({
+                downloadURL: this.downloadURL,
+                path: this.path,
+              }),
+            },
+            { merge: true }
+          );
       })
     );
   }
@@ -100,6 +111,35 @@ export class UploadTaskComponent implements OnInit {
   }
 
   public save() {
-    this.db.collection("files").doc(this.id).update({caption: this.caption.value});
+    this.db
+      .collection("projects")
+      .doc(this.id)
+      .set(
+        {
+          images: firestore.FieldValue.arrayRemove({
+            downloadURL: this.downloadURL,
+            path: this.path,
+          }),
+        },
+        { merge: true }
+      )
+      .then(() => {
+        this.db
+          .collection("projects")
+          .doc(this.id)
+          .set(
+            {
+              images: firestore.FieldValue.arrayUnion({
+                downloadURL: this.downloadURL,
+                path: this.path,
+                caption: this.caption.value,
+              }),
+            },
+            { merge: true }
+          );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 }

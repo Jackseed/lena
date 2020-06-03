@@ -1,5 +1,5 @@
 <h1>Nouveau projet</h1>
-<form [formGroup]="newProject">
+<form [formGroup]="newProject" (ngSubmit)="onSubmit()">
   <label>
     Titre :
     <input type="text" formControlName="title" />
@@ -15,7 +15,7 @@
     <input type="text" formControlName="caption" />
   </label>
 </form>
-<button mat-button>Sauvegarder</button>
+<button mat-button type="submit" (click)="save()">Sauvegarder</button>
 <button mat-button>Publier</button>
 
 <app-uploader></app-uploader>
