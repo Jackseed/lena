@@ -12,9 +12,9 @@
     <ul *ngFor="let project of projects">
       <ng-container *ngIf="project.section === title.section">
         <div ngClass.gt-xs="project" ngClass.xs="project-xs">
-          <a class="project-link" routerLink="/{{ project.lien }}">
+          <a class="project-link" routerLink="/{{ project.link }}">
             <span ngClass.xs="project-title-xs" ngClass.sm="project-title-sm">{{
-              project.titre
+              project.title
             }}</span>
           </a>
         </div>

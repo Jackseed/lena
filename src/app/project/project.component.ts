@@ -19,7 +19,7 @@ export class ProjectComponent implements OnInit {
       map((p) => p.title),
       map((title) =>
         Projects.find((projet) => {
-          return projet.lien === title;
+          return projet.link === title;
         })
       )
     );

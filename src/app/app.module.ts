@@ -23,6 +23,7 @@ import { UploadTaskComponent } from "./admin/upload-task/upload-task.component";
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { ProjectListComponent } from './project-list/project-list.component';
+import { ProjectViewComponent } from './project-view/project-view.component';
 registerLocaleData(localeFr);
 
 const firebaseConfig = {
@@ -48,6 +49,7 @@ const firebaseConfig = {
     UploaderComponent,
     UploadTaskComponent,
     ProjectListComponent,
+    ProjectViewComponent,
   ],
   imports: [
     BrowserModule,

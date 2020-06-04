@@ -1,1 +1,4 @@
 <button mat-button (click)="add()">Nouveau projet</button>
+<div *ngFor="let project of projects$ | async">
+  {{project.title}}
+</div>

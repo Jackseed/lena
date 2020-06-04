@@ -87,7 +87,7 @@ export class UploadTaskComponent implements OnInit {
         // delete on firestorage
         imgRef
           .delete()
-          .then((_) => {
+          .then(() => {
             console.log("Fichier supprimée de storage !");
             this.downloadURL = "";
           })
