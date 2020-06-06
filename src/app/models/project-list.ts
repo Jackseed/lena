@@ -7,7 +7,7 @@ export interface Project {
   caption?: string;
   images?: {
     downloadUrl: string;
-    ref: string;
+    path: string;
     caption: string;
   }[];
   images0?: string[];

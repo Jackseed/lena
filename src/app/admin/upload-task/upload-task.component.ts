@@ -64,6 +64,7 @@ export class UploadTaskComponent implements OnInit, OnDestroy {
               images: firestore.FieldValue.arrayUnion({
                 downloadUrl,
                 path,
+                caption: "",
               }),
             },
             { merge: true }

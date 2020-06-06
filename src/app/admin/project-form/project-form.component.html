@@ -24,7 +24,7 @@
   <div *ngFor="let image of project.images; let i = index">
     <h3>Image {{ i + 1 }}</h3>
     <img src="{{ image.downloadUrl }}" />
-    <button mat-icon-button (click)="deleteImg(image.downloadUrl)">
+    <button mat-icon-button (click)="deleteImg(image.downloadUrl, image.path, image.caption)">
       <mat-icon>delete</mat-icon>
     </button>
     <p>{{ image.caption }}</p>
@@ -33,7 +33,7 @@
       <input type="text" [formControl]="caption" />
     </label>
     <p>
-      <button mat-button (click)="saveCaption(image.downloadUrl, image.ref)">
+      <button mat-button (click)="saveCaption(image.downloadUrl, image.path, image.caption)">
         Sauvegarder
       </button>
     </p>

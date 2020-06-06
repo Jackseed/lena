@@ -64,13 +64,25 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   // TODO: use a function onDelete to delete the file on Storage
-  deleteImg(downloadUrl) {
+  deleteImg(downloadUrl, path, caption) {
+    console.log(downloadUrl, path);
+
     const imgRef = this.storage.storage.refFromURL(downloadUrl);
     // delete on firestore
+
     this.db
-      .collection("files")
-      .doc(this.id)
-      .delete()
+      .collection("projects")
+      .doc(this.project.id)
+      .set(
+        {
+          images: firestore.FieldValue.arrayRemove({
+            downloadUrl,
+            path,
+            caption,
+          }),
+        },
+        { merge: true }
+      )
       .then((_) => {
         console.log("Image supprimée de la bdd !");
         // delete on firestorage
@@ -91,7 +103,8 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       });
   }
 
-  public saveCaption(downloadUrl, path) {
+  public saveCaption(downloadUrl, path, caption) {
+    console.log(downloadUrl, path);
     this.db
       .collection("projects")
       .doc(this.project.id)
@@ -100,6 +113,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
           images: firestore.FieldValue.arrayRemove({
             downloadUrl,
             path,
+            caption,
           }),
         },
         { merge: true }
