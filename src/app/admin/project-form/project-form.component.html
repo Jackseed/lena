@@ -19,3 +19,23 @@
 <button mat-button>Publier</button>
 
 <app-uploader></app-uploader>
+
+<div *ngIf="project$ | async as project">
+  <div *ngFor="let image of project.images; let i = index">
+    <h3>Image {{ i + 1 }}</h3>
+    <img src="{{ image.downloadUrl }}" />
+    <button mat-icon-button (click)="deleteImg(image.downloadUrl)">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <p>{{ image.caption }}</p>
+    <label>
+      Légende :
+      <input type="text" [formControl]="caption" />
+    </label>
+    <p>
+      <button mat-button (click)="saveCaption(image.downloadUrl, image.ref)">
+        Sauvegarder
+      </button>
+    </p>
+  </div>
+</div>

@@ -1,12 +1,11 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, OnDestroy } from "@angular/core";
 import {
   AngularFireStorage,
   AngularFireUploadTask,
 } from "@angular/fire/storage";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { Observable } from "rxjs";
+import { Observable, Subscription } from "rxjs";
 import { finalize, tap } from "rxjs/operators";
-import { FormControl } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { firestore } from "firebase/app";
 
@@ -15,7 +14,7 @@ import { firestore } from "firebase/app";
   templateUrl: "./upload-task.component.html",
   styleUrls: ["./upload-task.component.scss"],
 })
-export class UploadTaskComponent implements OnInit {
+export class UploadTaskComponent implements OnInit, OnDestroy {
   @Input() file: File;
   @Input() i: number;
 
@@ -23,11 +22,8 @@ export class UploadTaskComponent implements OnInit {
 
   percentage: Observable<number>;
   snapshot: Observable<any>;
-  downloadURL: string;
-  path: string;
-  ref: any;
   id: string;
-  caption = new FormControl("");
+  private sub: Subscription;
 
   constructor(
     private storage: AngularFireStorage,
@@ -42,22 +38,23 @@ export class UploadTaskComponent implements OnInit {
 
   startUpload() {
     // The storage path
-    this.path = `test/${Date.now()}_${this.file.name}`;
+    const path = `test/${Date.now()}_${this.file.name}`;
 
     // Reference to storage bucket
-    this.ref = this.storage.ref(this.path);
+    const ref = this.storage.ref(path);
 
     // The main task
-    this.task = this.storage.upload(this.path, this.file);
+    this.task = this.storage.upload(path, this.file);
 
     // Progress monitoring
     this.percentage = this.task.percentageChanges();
+    console.log(this.task);
 
     this.snapshot = this.task.snapshotChanges().pipe(
       tap(console.log),
       // The file's download URL
       finalize(async () => {
-        this.downloadURL = await this.ref.getDownloadURL().toPromise();
+        const downloadUrl = await ref.getDownloadURL().toPromise();
 
         this.db
           .collection("projects")
@@ -65,42 +62,15 @@ export class UploadTaskComponent implements OnInit {
           .set(
             {
               images: firestore.FieldValue.arrayUnion({
-                downloadURL: this.downloadURL,
-                path: this.path,
+                downloadUrl,
+                path,
               }),
             },
             { merge: true }
           );
       })
     );
-  }
-  // TODO: use a function onDelete to delete the file on Storage
-  deleteImg() {
-    const imgRef = this.storage.storage.refFromURL(this.downloadURL);
-    // delete on firestore
-    this.db
-      .collection("files")
-      .doc(this.id)
-      .delete()
-      .then((_) => {
-        console.log("Image supprimée de la bdd !");
-        // delete on firestorage
-        imgRef
-          .delete()
-          .then(() => {
-            console.log("Fichier supprimée de storage !");
-            this.downloadURL = "";
-          })
-          .catch((error) => {
-            console.error(
-              "Erreur dans la suppression fichier storage: ",
-              error
-            );
-          });
-      })
-      .catch((error) => {
-        console.error("Erreur dans la suppression bdd: ", error);
-      });
+    this.sub = this.snapshot.subscribe();
   }
 
   isActive(snapshot) {
@@ -110,36 +80,7 @@ export class UploadTaskComponent implements OnInit {
     );
   }
 
-  public save() {
-    this.db
-      .collection("projects")
-      .doc(this.id)
-      .set(
-        {
-          images: firestore.FieldValue.arrayRemove({
-            downloadURL: this.downloadURL,
-            path: this.path,
-          }),
-        },
-        { merge: true }
-      )
-      .then(() => {
-        this.db
-          .collection("projects")
-          .doc(this.id)
-          .set(
-            {
-              images: firestore.FieldValue.arrayUnion({
-                downloadURL: this.downloadURL,
-                path: this.path,
-                caption: this.caption.value,
-              }),
-            },
-            { merge: true }
-          );
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 }

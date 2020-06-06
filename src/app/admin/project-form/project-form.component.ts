@@ -3,8 +3,10 @@ import { FormGroup, FormControl } from "@angular/forms";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ActivatedRoute } from "@angular/router";
 import { Project } from "src/app/models/project-list";
-import { Subscription } from "rxjs";
+import { Subscription, Observable } from "rxjs";
 import { take, tap } from "rxjs/operators";
+import { AngularFireStorage } from "@angular/fire/storage";
+import { firestore } from "firebase/app";
 
 @Component({
   selector: "app-project-form",
@@ -13,18 +15,26 @@ import { take, tap } from "rxjs/operators";
 })
 export class ProjectFormComponent implements OnInit, OnDestroy {
   private id: string;
-  private project: Project;
+  public project: Project;
+  public project$: Observable<Project>;
   public newProject = new FormGroup({
     title: new FormControl(""),
     description: new FormControl(""),
     caption: new FormControl(""),
   });
+  caption = new FormControl("");
   private sub: Subscription;
 
-  constructor(private db: AngularFirestore, private route: ActivatedRoute) {}
+  constructor(
+    private storage: AngularFireStorage,
+    private db: AngularFirestore,
+    private route: ActivatedRoute
+  ) {}
 
   async ngOnInit() {
     this.id = this.route.snapshot.paramMap.get("id");
+    this.project$ = this.db.collection("projects").doc(this.id).valueChanges();
+
     this.sub = this.db
       .collection("projects")
       .doc(this.id)
@@ -33,7 +43,9 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
         take(1),
         tap((project) => {
           if (project) {
+            this.project = project;
             this.newProject.patchValue(project);
+            console.log(this.project);
           }
         })
       )
@@ -49,6 +61,67 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       },
       { merge: true }
     );
+  }
+
+  // TODO: use a function onDelete to delete the file on Storage
+  deleteImg(downloadUrl) {
+    const imgRef = this.storage.storage.refFromURL(downloadUrl);
+    // delete on firestore
+    this.db
+      .collection("files")
+      .doc(this.id)
+      .delete()
+      .then((_) => {
+        console.log("Image supprimée de la bdd !");
+        // delete on firestorage
+        imgRef
+          .delete()
+          .then(() => {
+            console.log("Fichier supprimée de storage !");
+          })
+          .catch((error) => {
+            console.error(
+              "Erreur dans la suppression fichier storage: ",
+              error
+            );
+          });
+      })
+      .catch((error) => {
+        console.error("Erreur dans la suppression bdd: ", error);
+      });
+  }
+
+  public saveCaption(downloadUrl, path) {
+    this.db
+      .collection("projects")
+      .doc(this.project.id)
+      .set(
+        {
+          images: firestore.FieldValue.arrayRemove({
+            downloadUrl,
+            path,
+          }),
+        },
+        { merge: true }
+      )
+      .then(() => {
+        this.db
+          .collection("projects")
+          .doc(this.project.id)
+          .set(
+            {
+              images: firestore.FieldValue.arrayUnion({
+                downloadUrl,
+                path,
+                caption: this.caption.value,
+              }),
+            },
+            { merge: true }
+          );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   ngOnDestroy() {
