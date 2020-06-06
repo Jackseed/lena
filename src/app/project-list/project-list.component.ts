@@ -25,7 +25,7 @@ export class ProjectListComponent implements OnInit {
 
   public add() {
     const id = this.db.createId();
-    this.db.collection("projects").doc(id).set({ id });
-    this.router.navigate([`admin/${id}`]);
+    this.db.collection("projects").doc(id).set({id});
+    this.router.navigate([`admin/${id}/edit`]);
   }
 }

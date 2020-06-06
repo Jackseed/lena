@@ -1,4 +1,5 @@
 export interface Project {
+  id?: string;
   section?: string;
   title?: string;
   link?: string;
@@ -27,13 +28,16 @@ export interface Project {
 
 export function createProject(p: Partial<Project>): Project {
   const project = {
+    id: p.id,
     title: p.title,
     description: p.description,
     caption: p.caption,
     images: [],
   };
-  for (const image of p.images) {
-    project.images.push(image);
+  if (p.images?.length > 0) {
+    for (const image of p.images) {
+      project.images.push(image);
+    }
   }
   return project;
 }
