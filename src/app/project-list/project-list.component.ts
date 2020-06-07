@@ -5,6 +5,7 @@ import { Project } from "../models/project-list";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
+import { Category } from "../models/menu-titles";
 
 @Component({
   selector: "app-project-list",
@@ -13,9 +14,20 @@ import { CdkDragDrop } from "@angular/cdk/drag-drop";
 })
 export class ProjectListComponent implements OnInit {
   public projects$: Observable<Project[]>;
+  public categories$: Observable<Category[]>;
+
   constructor(private db: AngularFirestore, private router: Router) {}
 
   ngOnInit(): void {
+    this.categories$ = this.db
+      .collection("categories")
+      .valueChanges()
+      .pipe(
+        map((categories: Category[]) =>
+          categories.sort((a, b) => a.position - b.position)
+        )
+      );
+
     this.projects$ = this.db
       .collection("projects")
       .valueChanges()
@@ -33,6 +45,7 @@ export class ProjectListComponent implements OnInit {
     this.db.collection("projects").doc(id).set({ id, position });
     this.router.navigate([`admin/${id}/edit`]);
   }
+
   drop(event: CdkDragDrop<string[]>) {
     this.changePosition(event.previousIndex, event.currentIndex);
   }

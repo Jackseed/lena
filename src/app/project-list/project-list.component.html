@@ -1,17 +1,25 @@
 <button mat-button routerLink="categories">Nouvelle catégorie</button>
 <button mat-button (click)="addProject()">Nouveau projet</button>
-<div
-  cdkDropList
-  [cdkDropListData]="projects$ | async"
-  class="list"
-  (cdkDropListDropped)="drop($event)"
->
+
+<div cdkDropListGroup>
   <div
-    *ngFor="let project of projects$ | async"
-    class="item"
-    [routerLink]="[project.id, 'edit']"
-    cdkDrag
+    cdkDropList
+    [cdkDropListData]="projects$ | async"
+    class="list container"
+    (cdkDropListDropped)="drop($event)"
+    *ngFor="let category of categories$ | async"
   >
-    {{ project.title }}
+    <h2>{{ category.name }}</h2>
+
+    <div
+      *ngFor="let project of projects$ | async"
+      class="item"
+      [routerLink]="[project.id, 'edit']"
+      cdkDrag
+    >
+      <div *ngIf="project.category === category.name">
+        {{ project.title }}
+      </div>
+    </div>
   </div>
 </div>
