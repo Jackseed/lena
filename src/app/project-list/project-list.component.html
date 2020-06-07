@@ -12,14 +12,12 @@
     <h2>{{ category.name }}</h2>
 
     <div
-      *ngFor="let project of projects$ | async"
+      *ngFor="let project of projects$ | async | filter: category.name"
       class="item"
       [routerLink]="[project.id, 'edit']"
       cdkDrag
     >
-      <div *ngIf="project.category === category.name">
-        {{ project.title }}
-      </div>
+      {{ project.title }}
     </div>
   </div>
 </div>
