@@ -1,10 +1,9 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ActivatedRoute } from "@angular/router";
 import { Project } from "src/app/models/project-list";
-import { Subscription, Observable } from "rxjs";
-import { take, tap } from "rxjs/operators";
+import { Observable } from "rxjs";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { firestore } from "firebase/app";
 
@@ -13,9 +12,8 @@ import { firestore } from "firebase/app";
   templateUrl: "./project-form.component.html",
   styleUrls: ["./project-form.component.scss"],
 })
-export class ProjectFormComponent implements OnInit, OnDestroy {
+export class ProjectFormComponent implements OnInit {
   private id: string;
-  public project: Project;
   public project$: Observable<Project>;
   public newProject = new FormGroup({
     title: new FormControl(""),
@@ -23,7 +21,6 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     caption: new FormControl(""),
   });
   caption = new FormControl("");
-  private sub: Subscription;
 
   constructor(
     private storage: AngularFireStorage,
@@ -34,22 +31,12 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.id = this.route.snapshot.paramMap.get("id");
     this.project$ = this.db.collection("projects").doc(this.id).valueChanges();
-
-    this.sub = this.db
+    const project = await this.db
       .collection("projects")
       .doc(this.id)
-      .valueChanges()
-      .pipe(
-        take(1),
-        tap((project) => {
-          if (project) {
-            this.project = project;
-            this.newProject.patchValue(project);
-            console.log(this.project);
-          }
-        })
-      )
-      .subscribe();
+      .get()
+      .toPromise();
+    this.newProject.patchValue(project.data());
   }
   onSubmit() {}
   save() {
@@ -64,21 +51,24 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   // TODO: use a function onDelete to delete the file on Storage
-  deleteImg(downloadUrl, path, caption) {
-    console.log(downloadUrl, path);
-
+  async deleteImg(downloadUrl, path, caption, i) {
     const imgRef = this.storage.storage.refFromURL(downloadUrl);
-    // delete on firestore
+    const project = await this.db
+      .collection("projects")
+      .doc(this.id)
+      .get()
+      .toPromise();
 
+    // delete on firestore
     this.db
       .collection("projects")
-      .doc(this.project.id)
+      .doc(project.data().id)
       .set(
         {
           images: firestore.FieldValue.arrayRemove({
             downloadUrl,
             path,
-            caption,
+            caption: project.data().images[i].caption,
           }),
         },
         { merge: true }
@@ -103,17 +93,22 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       });
   }
 
-  public saveCaption(downloadUrl, path, caption) {
-    console.log(downloadUrl, path);
+  public async saveCaption(downloadUrl, path, caption, i) {
+    const project = await this.db
+      .collection("projects")
+      .doc(this.id)
+      .get()
+      .toPromise();
+
     this.db
       .collection("projects")
-      .doc(this.project.id)
+      .doc(project.data().id)
       .set(
         {
           images: firestore.FieldValue.arrayRemove({
             downloadUrl,
             path,
-            caption,
+            caption: project.data().images[i].caption,
           }),
         },
         { merge: true }
@@ -121,13 +116,13 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       .then(() => {
         this.db
           .collection("projects")
-          .doc(this.project.id)
+          .doc(project.data().id)
           .set(
             {
               images: firestore.FieldValue.arrayUnion({
                 downloadUrl,
                 path,
-                caption: this.caption.value,
+                caption,
               }),
             },
             { merge: true }
@@ -136,9 +131,5 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       .catch((error) => {
         console.log(error);
       });
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
   }
 }
