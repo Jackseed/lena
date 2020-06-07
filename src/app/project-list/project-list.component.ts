@@ -26,7 +26,7 @@ export class ProjectListComponent implements OnInit {
       );
   }
 
-  public async add() {
+  public async addProject() {
     const collection = await this.db.collection("projects").get().toPromise();
     const position = collection.size;
     const id = this.db.createId();

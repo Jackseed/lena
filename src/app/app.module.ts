@@ -26,6 +26,7 @@ registerLocaleData(localeFr);
 import { ProjectListComponent } from "./project-list/project-list.component";
 import { ProjectViewComponent } from "./project-view/project-view.component";
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { CategoryListComponent } from './admin/category-list/category-list.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDi0VGkbRt-rPpaWFcEHzkDC9yQK4cMWyQ",
@@ -51,6 +52,7 @@ const firebaseConfig = {
     UploadTaskComponent,
     ProjectListComponent,
     ProjectViewComponent,
+    CategoryListComponent,
   ],
   imports: [
     BrowserModule,

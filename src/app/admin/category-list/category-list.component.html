@@ -1,0 +1,18 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="newCategory">
+  <label>
+    Nouvelle catégorie :
+    <input type="text" formControlName="category" />
+  </label>
+  <button mat-button type="submit" (click)="save()">Ajouter</button>
+</form>
+
+<div
+  cdkDropList
+  [cdkDropListData]="categories$ | async"
+  class="list"
+  (cdkDropListDropped)="drop($event)"
+>
+  <div *ngFor="let category of categories$ | async" class="item" cdkDrag>
+    {{ category.name }}
+  </div>
+</div>

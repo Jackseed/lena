@@ -1,7 +1,7 @@
 export interface Project {
   id?: string;
   position?: number;
-  section?: string;
+  category?: string;
   title?: string;
   link?: string;
   description?: string;
@@ -45,7 +45,7 @@ export function createProject(p: Partial<Project>): Project {
 
 export const Projects = [
   {
-    section: "graphisme",
+    category: "graphisme",
     title: "Le Monde des enfants",
     link: "lemondedesenfants",
     description:
@@ -85,7 +85,7 @@ export const Projects = [
     signature: "Lena Piroux 2016",
   },
   {
-    section: "graphisme",
+    category: "graphisme",
     title: "College 75",
     link: "college75",
     description: "",
@@ -106,7 +106,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "graphisme",
+    category: "graphisme",
     title: "Chill, Farm & Sun",
     link: "chillfarmandsun",
     description: "",
@@ -127,7 +127,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "graphisme",
+    category: "graphisme",
     title: "Les Silences de Palomar",
     link: "palomar",
     description: "",
@@ -148,7 +148,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "graphisme",
+    category: "graphisme",
     title: "Manuel Typographique",
     link: "manueltypo",
     description: "",
@@ -169,7 +169,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "graphisme",
+    category: "graphisme",
     title: "Couvertures de livres",
     link: "collectionxxi",
     description: "",
@@ -190,7 +190,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "graphisme",
+    category: "graphisme",
     title: "m²",
     link: "m2",
     description: "",
@@ -211,7 +211,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "graphisme",
+    category: "graphisme",
     title: "Cartographie",
     link: "cartoactium",
     description: "",
@@ -232,7 +232,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "graphisme",
+    category: "graphisme",
     title: "L'établi - logo",
     link: "letabli",
     description: "",
@@ -253,7 +253,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "graphisme",
+    category: "graphisme",
     title: "ReadMyBook",
     link: "readmybook",
     description: "",
@@ -274,7 +274,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "graphisme",
+    category: "graphisme",
     title: "La Cabine - logo",
     link: "lacabine",
     description: "",
@@ -295,7 +295,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
+    category: "illustration",
     title: "Illustrations I",
     link: "illustrations1",
     description: "",
@@ -316,7 +316,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
+    category: "illustration",
     title: "Illustrations II",
     link: "illustrations2",
     description: "",
@@ -337,7 +337,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
+    category: "illustration",
     title: "Illustrations III",
     link: "illustrations3",
     description: "",
@@ -358,7 +358,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
+    category: "illustration",
     title: "Paulette Magazine",
     link: "paulette",
     description: "",
@@ -379,7 +379,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
+    category: "illustration",
     title: "Paulette Magazine web",
     link: "pauletteweb",
     description: "",
@@ -400,7 +400,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
+    category: "illustration",
     title: "Feels Like Home",
     link: "feelslikehome",
     description: "",
@@ -421,7 +421,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
+    category: "illustration",
     title: "Make your monsters",
     link: "serigraphie",
     description: "",
@@ -442,7 +442,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
+    category: "illustration",
     title: "Pictogrammes",
     link: "pictosbateaux",
     description: "",
@@ -463,7 +463,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
+    category: "illustration",
     title: "Pourquoi ?",
     link: "pourquoi",
     description: "",
@@ -484,7 +484,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
+    category: "illustration",
     title: "Carnets",
     link: "carnets",
     description: "",
@@ -505,7 +505,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "animation",
+    category: "animation",
     title: "GIFS",
     link: "gifs",
     description: "",
@@ -526,7 +526,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "animation",
+    category: "animation",
     title: "Les Petites Résolutions Paulette",
     link: "paulettegif",
     description: "",
@@ -547,7 +547,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "animation",
+    category: "animation",
     title: "Matabase",
     link: "matabase",
     description: "",
@@ -568,7 +568,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "animation",
+    category: "animation",
     title: "Saul Bass's Walk to Chaumont",
     link: "saulbasswalk",
     description: "",
@@ -589,7 +589,7 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "animation",
+    category: "animation",
     title: "ReadMyBook - animation",
     link: "readmybookgif",
     description: "",

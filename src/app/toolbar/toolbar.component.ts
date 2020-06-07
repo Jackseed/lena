@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Project, Projects } from '../models/project-list';
-import { MenuTitles, ImgTitle } from '../models/menu-titles';
+import { MenuTitles, Category } from '../models/menu-titles';
 
 @Component({
   selector: 'app-toolbar',
@@ -9,7 +9,7 @@ import { MenuTitles, ImgTitle } from '../models/menu-titles';
 })
 export class ToolbarComponent implements OnInit {
   public projects: Project[] = Projects;
-  public imgTitles: ImgTitle[] = MenuTitles;
+  public imgTitles: Category[] = MenuTitles;
 
   constructor() { }
 

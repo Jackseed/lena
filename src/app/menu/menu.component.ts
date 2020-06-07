@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ImgTitle, MenuTitles } from '../models/menu-titles';
+import { Category, MenuTitles } from '../models/menu-titles';
 import { Project, Projects } from '../models/project-list';
 
 @Component({
@@ -9,7 +9,7 @@ import { Project, Projects } from '../models/project-list';
 })
 export class MenuComponent implements OnInit {
 
-  public imgTitles: ImgTitle[] = MenuTitles;
+  public categories: Category[] = MenuTitles;
   public projects: Project[] = Projects;
 
   constructor() { }
