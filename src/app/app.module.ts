@@ -20,11 +20,12 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { DropzoneDirective } from "./admin/dropzone.directive";
 import { UploaderComponent } from "./admin/uploader/uploader.component";
 import { UploadTaskComponent } from "./admin/upload-task/upload-task.component";
-import { registerLocaleData } from '@angular/common';
-import localeFr from '@angular/common/locales/fr';
-import { ProjectListComponent } from './project-list/project-list.component';
-import { ProjectViewComponent } from './project-view/project-view.component';
+import { registerLocaleData } from "@angular/common";
+import localeFr from "@angular/common/locales/fr";
 registerLocaleData(localeFr);
+import { ProjectListComponent } from "./project-list/project-list.component";
+import { ProjectViewComponent } from "./project-view/project-view.component";
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDi0VGkbRt-rPpaWFcEHzkDC9yQK4cMWyQ",
@@ -64,6 +65,7 @@ const firebaseConfig = {
     MatButtonModule,
     FormsModule,
     ReactiveFormsModule,
+    DragDropModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: "fr-FR" }],
   bootstrap: [AppComponent],

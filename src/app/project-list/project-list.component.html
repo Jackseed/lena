@@ -1,7 +1,16 @@
 <button mat-button (click)="add()">Nouveau projet</button>
 <div
-  *ngFor="let project of projects$ | async"
-  [routerLink]="[project.id, 'edit']"
+  cdkDropList
+  [cdkDropListData]="projects$ | async"
+  class="list"
+  (cdkDropListDropped)="drop($event)"
 >
-  {{ project.title }}
+  <div
+    *ngFor="let project of projects$ | async"
+    class="project"
+    [routerLink]="[project.id, 'edit']"
+    cdkDrag
+  >
+    {{ project.title }}
+  </div>
 </div>
