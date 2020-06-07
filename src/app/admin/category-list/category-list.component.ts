@@ -37,6 +37,7 @@ export class CategoryListComponent implements OnInit {
       id,
       name: this.newCategory.value.category,
       position,
+      projectIds: [],
     });
     this.newCategory.reset();
   }

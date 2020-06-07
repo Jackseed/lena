@@ -6,6 +6,7 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
 import { Category } from "../models/menu-titles";
+import { firestore } from "firebase/app";
 
 @Component({
   selector: "app-project-list",
@@ -14,11 +15,12 @@ import { Category } from "../models/menu-titles";
 })
 export class ProjectListComponent implements OnInit {
   public projects$: Observable<Project[]>;
+  public projects: Project[] = [];
   public categories$: Observable<Category[]>;
 
   constructor(private db: AngularFirestore, private router: Router) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.categories$ = this.db
       .collection("categories")
       .valueChanges()
@@ -36,14 +38,54 @@ export class ProjectListComponent implements OnInit {
           projects.sort((a, b) => a.position - b.position)
         )
       );
+
+    await this.db
+      .collection("projects")
+      .get()
+      .toPromise()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (doc.exists) {
+            this.projects.push(doc.data());
+          }
+        });
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
   }
 
-  public async addProject() {
-    const collection = await this.db.collection("projects").get().toPromise();
-    const position = collection.size;
+  public async addProject(categoryId: string) {
+    const batch = this.db.firestore.batch();
+    const categoryDoc = await this.db
+      .collection("categories")
+      .doc(categoryId)
+      .get()
+      .toPromise();
+    const position = categoryDoc.data().projectIds.length;
     const id = this.db.createId();
-    this.db.collection("projects").doc(id).set({ id, position });
+
+    batch.set(this.db.firestore.collection("projects").doc(id), {
+      id,
+      categoryId,
+    });
+
+    batch.update(this.db.firestore.collection("categories").doc(categoryId), {
+      projectIds: firestore.FieldValue.arrayUnion({
+        id,
+        position,
+      }),
+    });
+    batch.commit();
     this.router.navigate([`admin/${id}/edit`]);
+  }
+
+  sortByPosition(projectIds: { id: string; position: number }[]) {
+    return projectIds.sort((a, b) => a.position - b.position);
+  }
+
+  getProjectById(id: string): Project {
+    return this.projects.find((project) => project.id === id);
   }
 
   drop(event: CdkDragDrop<string[]>) {

@@ -57,7 +57,7 @@ export class ProjectFormComponent implements OnInit {
         title: this.newProject.value.title,
         description: this.newProject.value.description,
         caption: this.newProject.value.caption,
-        category: this.newProject.value.category,
+/*         category: this.newProject.value.category, */
       },
       { merge: true }
     );

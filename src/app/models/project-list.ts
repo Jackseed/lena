@@ -1,7 +1,7 @@
 export interface Project {
   id?: string;
   position?: number;
-  category?: string;
+  categoryId?: string;
   title?: string;
   link?: string;
   description?: string;

@@ -1,5 +1,4 @@
 <button mat-button routerLink="categories">Nouvelle catégorie</button>
-<button mat-button (click)="addProject()">Nouveau projet</button>
 
 <div cdkDropListGroup>
   <div
@@ -10,14 +9,15 @@
     *ngFor="let category of categories$ | async"
   >
     <h2>{{ category.name }}</h2>
+    <button mat-button (click)="addProject(category.id)">Nouveau projet</button>
 
     <div
-      *ngFor="let project of projects$ | async | filter: category.name"
+      *ngFor="let projectId of sortByPosition(category.projectIds)"
       class="item"
-      [routerLink]="[project.id, 'edit']"
+      [routerLink]="[projectId.id, 'edit']"
       cdkDrag
     >
-      {{ project.title }}
+      {{ getProjectById(projectId.id).title }}
     </div>
   </div>
 </div>

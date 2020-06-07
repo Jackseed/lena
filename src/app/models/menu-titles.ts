@@ -3,6 +3,10 @@ export interface Category {
   name?: string;
   img?: string;
   position?: number;
+  projectIds?: {
+    id: string;
+    position: number;
+  }[];
 }
 
 export const MenuTitles = [
