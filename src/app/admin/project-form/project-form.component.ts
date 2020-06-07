@@ -6,6 +6,8 @@ import { Project } from "src/app/models/project-list";
 import { Observable } from "rxjs";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { firestore } from "firebase/app";
+import { Category } from "src/app/models/menu-titles";
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-project-form",
@@ -17,10 +19,12 @@ export class ProjectFormComponent implements OnInit {
   public project$: Observable<Project>;
   public newProject = new FormGroup({
     title: new FormControl(""),
+    category: new FormControl(""),
     description: new FormControl(""),
     caption: new FormControl(""),
   });
   caption = new FormControl("");
+  public categories$: Observable<Category[]>;
 
   constructor(
     private storage: AngularFireStorage,
@@ -36,6 +40,14 @@ export class ProjectFormComponent implements OnInit {
       .doc(this.id)
       .get()
       .toPromise();
+    this.categories$ = this.db
+      .collection("categories")
+      .valueChanges()
+      .pipe(
+        map((categories: Category[]) =>
+          categories.sort((a, b) => a.position - b.position)
+        )
+      );
     this.newProject.patchValue(project.data());
   }
   onSubmit() {}
@@ -45,6 +57,7 @@ export class ProjectFormComponent implements OnInit {
         title: this.newProject.value.title,
         description: this.newProject.value.description,
         caption: this.newProject.value.caption,
+        category: this.newProject.value.category,
       },
       { merge: true }
     );

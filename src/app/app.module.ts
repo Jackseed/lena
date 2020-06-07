@@ -26,8 +26,8 @@ registerLocaleData(localeFr);
 import { ProjectListComponent } from "./project-list/project-list.component";
 import { ProjectViewComponent } from "./project-view/project-view.component";
 import { DragDropModule } from "@angular/cdk/drag-drop";
-import { CategoryListComponent } from './admin/category-list/category-list.component';
-
+import { CategoryListComponent } from "./admin/category-list/category-list.component";
+import { MatSelectModule } from "@angular/material/select";
 const firebaseConfig = {
   apiKey: "AIzaSyDi0VGkbRt-rPpaWFcEHzkDC9yQK4cMWyQ",
   authDomain: "lena-website-26d6e.firebaseapp.com",
@@ -68,6 +68,7 @@ const firebaseConfig = {
     FormsModule,
     ReactiveFormsModule,
     DragDropModule,
+    MatSelectModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: "fr-FR" }],
   bootstrap: [AppComponent],

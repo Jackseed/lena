@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { firestore } from "firebase/app";
 import { Category } from "src/app/models/menu-titles";
 import { Observable } from "rxjs";
 import { map } from "rxjs/internal/operators/map";
@@ -37,7 +36,7 @@ export class CategoryListComponent implements OnInit {
     this.db.collection("categories").doc(id).set({
       id,
       name: this.newCategory.value.category,
-      position
+      position,
     });
     this.newCategory.reset();
   }

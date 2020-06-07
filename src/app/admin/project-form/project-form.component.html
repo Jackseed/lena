@@ -5,6 +5,18 @@
     <input type="text" formControlName="title" />
   </label>
 
+  <mat-form-field>
+    <mat-label>Category</mat-label>
+    <mat-select formControlName="category">
+      <mat-option
+        *ngFor="let category of categories$ | async"
+        [value]="category.name"
+      >
+        {{ category.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <label>
     Description :
     <input type="text" formControlName="description" />
