@@ -1,29 +1,22 @@
 import { Component, OnInit } from "@angular/core";
 import { Project, Projects } from "../models/project-list";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from "@angular/router";
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
-  selector: 'app-project-view',
-  templateUrl: './project-view.component.html',
-  styleUrls: ['./project-view.component.scss']
+  selector: "app-project-view",
+  templateUrl: "./project-view.component.html",
+  styleUrls: ["./project-view.component.scss"],
 })
 export class ProjectViewComponent implements OnInit {
-
+  private id: string;
   public project$: Observable<Project>;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private db: AngularFirestore, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    this.project$ = this.route.params.pipe(
-      map((p) => p.title),
-      map((title) =>
-        Projects.find((projet) => {
-          return projet.link === title;
-        })
-      )
-    );
+    this.id = this.route.snapshot.paramMap.get("id");
+    this.project$ = this.db.collection("projects").doc(this.id).valueChanges();
   }
-
 }
