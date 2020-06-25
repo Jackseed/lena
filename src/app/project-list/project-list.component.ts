@@ -98,7 +98,9 @@ export class ProjectListComponent implements OnInit {
     } else {
       this.switchCategory(
         event.previousContainer.data,
+        event.previousContainer.id,
         event.container.data,
+        event.container.id,
         event.previousIndex,
         event.currentIndex
       );
@@ -135,51 +137,64 @@ export class ProjectListComponent implements OnInit {
     batch.commit();
   }
 
-  private switchCategory(projectIds, newProjectIds, previousIndex, newIndex) {
+  private switchCategory(
+    projectIds,
+    oldCategoryId,
+    newProjectIds,
+    newCategoryId,
+    previousIndex,
+    newIndex
+  ) {
     const batch = this.db.firestore.batch();
-    // sort old category and remove changing project
-    projectIds.sort((a, b) => a.position - b.position);
-    projectIds.splice(previousIndex, 1);
+    const projectId = projectIds[previousIndex].id;
+    console.log("projectId: ", projectId);
     // sort new category and add changing project
     newProjectIds.sort((a, b) => a.position - b.position);
     newProjectIds.splice(newIndex, 0, projectIds[previousIndex]);
+
+    // sort old category and remove changing project
+    projectIds.sort((a, b) => a.position - b.position);
+    projectIds.splice(previousIndex, 1);
+
     console.log(projectIds, newProjectIds);
     // delete all projectIds from old category
     batch.update(
-      this.db.firestore
-        .collection("categories")
-        .doc(this.getProjectById(projectIds[0].id).categoryId),
+      this.db.firestore.collection("categories").doc(oldCategoryId),
       {
         projectIds: firestore.FieldValue.delete(),
       }
     );
-    // re-write all projectIds from old category without changing project
-    // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < projectIds.length; i++) {
-      projectIds[i].position = i;
 
+    // re-write all projectIds from old category without the changing project
+    // if there is no more project, write an empty array
+    // tslint:disable-next-line: prefer-for-of
+    if (projectIds.length === 0) {
       batch.update(
-        this.db.firestore
-          .collection("categories")
-          .doc(this.getProjectById(projectIds[0].id).categoryId),
+        this.db.firestore.collection("categories").doc(oldCategoryId),
         {
-          projectIds: firestore.FieldValue.arrayUnion(projectIds[i]),
+          projectIds: [],
         }
       );
+    } else {
+      for (let i = 0; i < projectIds.length; i++) {
+        projectIds[i].position = i;
+
+        batch.update(
+          this.db.firestore.collection("categories").doc(oldCategoryId),
+          {
+            projectIds: firestore.FieldValue.arrayUnion(projectIds[i]),
+          }
+        );
+      }
     }
     // change the category id of the changing project
-    batch.update(
-      this.db.firestore.collection("projects").doc(newProjectIds[newIndex].id),
-      {
-        categoryId: this.getProjectById(newProjectIds[0].id).categoryId,
-      }
-    );
+    batch.update(this.db.firestore.collection("projects").doc(projectId), {
+      categoryId: newCategoryId,
+    });
 
     // delete all projectIds from new category
     batch.update(
-      this.db.firestore
-        .collection("categories")
-        .doc(this.getProjectById(newProjectIds[newIndex].id).categoryId),
+      this.db.firestore.collection("categories").doc(newCategoryId),
       {
         projectIds: firestore.FieldValue.delete(),
       }
@@ -190,9 +205,7 @@ export class ProjectListComponent implements OnInit {
       newProjectIds[i].position = i;
 
       batch.update(
-        this.db.firestore
-          .collection("categories")
-          .doc(this.getProjectById(newProjectIds[0].id).categoryId),
+        this.db.firestore.collection("categories").doc(newCategoryId),
         {
           projectIds: firestore.FieldValue.arrayUnion(newProjectIds[i]),
         }
