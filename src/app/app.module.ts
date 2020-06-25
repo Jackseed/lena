@@ -28,7 +28,7 @@ import { ProjectViewComponent } from "./project-view/project-view.component";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { CategoryListComponent } from "./admin/category-list/category-list.component";
 import { MatSelectModule } from "@angular/material/select";
-import { FilterPipe } from './filter.pipe';
+
 const firebaseConfig = {
   apiKey: "AIzaSyDi0VGkbRt-rPpaWFcEHzkDC9yQK4cMWyQ",
   authDomain: "lena-website-26d6e.firebaseapp.com",
@@ -54,7 +54,6 @@ const firebaseConfig = {
     ProjectListComponent,
     ProjectViewComponent,
     CategoryListComponent,
-    FilterPipe,
   ],
   imports: [
     BrowserModule,

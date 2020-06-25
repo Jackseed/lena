@@ -3,7 +3,7 @@
 <div cdkDropListGroup>
   <div
     cdkDropList
-    [cdkDropListData]="projects$ | async"
+    [cdkDropListData]="category.projectIds"
     class="list container"
     (cdkDropListDropped)="drop($event)"
     *ngFor="let category of categories$ | async"

@@ -46,6 +46,7 @@ export class CategoryListComponent implements OnInit {
     this.changePosition(event.previousIndex, event.currentIndex);
   }
   async changePosition(previousIndex, currentIndex) {
+    // TODO: write projects as subcollection to avoid the flash and arrayUnion
     const categories: Category[] = [];
     await this.db
       .collection("categories")

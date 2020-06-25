@@ -89,38 +89,115 @@ export class ProjectListComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    this.changePosition(event.previousIndex, event.currentIndex);
+    if (event.previousContainer === event.container) {
+      this.changePosition(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      this.switchCategory(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
   }
-  async changePosition(previousIndex, currentIndex) {
-    const projects: Project[] = [];
-    await this.db
-      .collection("projects")
-      .get()
-      .toPromise()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          if (doc.exists) {
-            projects.push(doc.data());
-          }
-        });
-      })
-      .catch((error) => {
-        console.log("Error getting documents: ", error);
-      });
-    projects.sort((a, b) => a.position - b.position);
-    projects.splice(currentIndex, 0, projects.splice(previousIndex, 1)[0]);
-
+  async changePosition(projectIds, previousIndex, currentIndex) {
     const batch = this.db.firestore.batch();
+    projectIds.sort((a, b) => a.position - b.position);
+    projectIds.splice(currentIndex, 0, projectIds.splice(previousIndex, 1)[0]);
+    console.log(projectIds);
+    batch.update(
+      this.db.firestore
+        .collection("categories")
+        .doc(this.getProjectById(projectIds[0].id).categoryId),
+      {
+        projectIds: firestore.FieldValue.delete(),
+      }
+    );
 
-    for (let i = 0; i < projects.length; i++) {
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < projectIds.length; i++) {
+      projectIds[i].position = i;
+
       batch.update(
-        this.db.firestore.collection("projects").doc(projects[i].id),
+        this.db.firestore
+          .collection("categories")
+          .doc(this.getProjectById(projectIds[0].id).categoryId),
         {
-          position: i,
+          projectIds: firestore.FieldValue.arrayUnion(projectIds[i]),
         }
       );
     }
 
+    batch.commit();
+  }
+
+  private switchCategory(projectIds, newProjectIds, previousIndex, newIndex) {
+    const batch = this.db.firestore.batch();
+    // sort old category and remove changing project
+    projectIds.sort((a, b) => a.position - b.position);
+    projectIds.splice(previousIndex, 1);
+    // sort new category and add changing project
+    newProjectIds.sort((a, b) => a.position - b.position);
+    newProjectIds.splice(newIndex, 0, projectIds[previousIndex]);
+    console.log(projectIds, newProjectIds);
+    // delete all projectIds from old category
+    batch.update(
+      this.db.firestore
+        .collection("categories")
+        .doc(this.getProjectById(projectIds[0].id).categoryId),
+      {
+        projectIds: firestore.FieldValue.delete(),
+      }
+    );
+    // re-write all projectIds from old category without changing project
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < projectIds.length; i++) {
+      projectIds[i].position = i;
+
+      batch.update(
+        this.db.firestore
+          .collection("categories")
+          .doc(this.getProjectById(projectIds[0].id).categoryId),
+        {
+          projectIds: firestore.FieldValue.arrayUnion(projectIds[i]),
+        }
+      );
+    }
+    // change the category id of the changing project
+    batch.update(
+      this.db.firestore.collection("projects").doc(newProjectIds[newIndex].id),
+      {
+        categoryId: this.getProjectById(newProjectIds[0].id).categoryId,
+      }
+    );
+
+    // delete all projectIds from new category
+    batch.update(
+      this.db.firestore
+        .collection("categories")
+        .doc(this.getProjectById(newProjectIds[newIndex].id).categoryId),
+      {
+        projectIds: firestore.FieldValue.delete(),
+      }
+    );
+    // add the changing project to new category
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < newProjectIds.length; i++) {
+      newProjectIds[i].position = i;
+
+      batch.update(
+        this.db.firestore
+          .collection("categories")
+          .doc(this.getProjectById(newProjectIds[0].id).categoryId),
+        {
+          projectIds: firestore.FieldValue.arrayUnion(newProjectIds[i]),
+        }
+      );
+    }
     batch.commit();
   }
 }
