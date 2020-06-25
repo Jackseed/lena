@@ -110,7 +110,7 @@ export class ProjectListComponent implements OnInit {
     const batch = this.db.firestore.batch();
     projectIds.sort((a, b) => a.position - b.position);
     projectIds.splice(currentIndex, 0, projectIds.splice(previousIndex, 1)[0]);
-    console.log(projectIds);
+
     batch.update(
       this.db.firestore
         .collection("categories")
@@ -147,7 +147,7 @@ export class ProjectListComponent implements OnInit {
   ) {
     const batch = this.db.firestore.batch();
     const projectId = projectIds[previousIndex].id;
-    console.log("projectId: ", projectId);
+
     // sort new category and add changing project
     newProjectIds.sort((a, b) => a.position - b.position);
     newProjectIds.splice(newIndex, 0, projectIds[previousIndex]);
@@ -156,7 +156,6 @@ export class ProjectListComponent implements OnInit {
     projectIds.sort((a, b) => a.position - b.position);
     projectIds.splice(previousIndex, 1);
 
-    console.log(projectIds, newProjectIds);
     // delete all projectIds from old category
     batch.update(
       this.db.firestore.collection("categories").doc(oldCategoryId),

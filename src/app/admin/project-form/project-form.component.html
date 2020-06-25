@@ -5,18 +5,6 @@
     <input type="text" formControlName="title" />
   </label>
 
-<!--   <mat-form-field>
-    <mat-label>Category</mat-label>
-    <mat-select formControlName="category" required>
-      <mat-option
-        *ngFor="let category of categories$ | async"
-        [value]="category.name"
-      >
-        {{ category.name }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
- -->
   <label>
     Description :
     <input type="text" formControlName="description" />
@@ -30,9 +18,10 @@
 <button mat-button type="submit" (click)="save()">Sauvegarder</button>
 <button mat-button>Publier</button>
 
-<app-uploader></app-uploader>
-
 <div *ngIf="project$ | async as project">
+  <button mat-button [routerLink]="['/admin', project.id, 'view']">Prévisualiser</button>
+  <app-uploader></app-uploader>
+
   <div *ngFor="let image of project.images; let i = index">
     <h3>Image {{ i + 1 }}</h3>
     <img src="{{ image.downloadUrl }}" />

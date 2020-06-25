@@ -64,7 +64,7 @@ export class CategoryListComponent implements OnInit {
       });
     categories.sort((a, b) => a.position - b.position);
     categories.splice(currentIndex, 0, categories.splice(previousIndex, 1)[0]);
-    console.log(categories);
+
     const batch = this.db.firestore.batch();
 
     for (let i = 0; i < categories.length; i++) {
