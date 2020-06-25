@@ -78,6 +78,7 @@ export class ProjectFormComponent implements OnInit {
 
   // TODO: use a function onDelete to delete the file on Storage
   async deleteImg(downloadUrl, path, caption, position) {
+    const batch = this.db.firestore.batch();
     const imgRef = this.storage.storage.refFromURL(downloadUrl);
     const project = await this.db
       .collection("projects")
@@ -107,6 +108,32 @@ export class ProjectFormComponent implements OnInit {
           .delete()
           .then(() => {
             console.log("Fichier supprimée de storage !");
+            // reposition remaining images
+            const images = project
+              .data()
+              .images.sort((a, b) => a.position - b.position);
+            images.splice(position, 1);
+
+            batch.update(
+              this.db.firestore.collection("projects").doc(project.data().id),
+              {
+                images: firestore.FieldValue.delete(),
+              }
+            );
+
+            // tslint:disable-next-line: prefer-for-of
+            for (let i = 0; i < images.length; i++) {
+              images[i].position = i;
+
+              batch.update(
+                this.db.firestore.collection("projects").doc(project.data().id),
+                {
+                  images: firestore.FieldValue.arrayUnion(images[i]),
+                }
+              );
+            }
+
+            batch.commit();
           })
           .catch((error) => {
             console.error(

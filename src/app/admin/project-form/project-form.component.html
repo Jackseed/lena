@@ -23,28 +23,14 @@
     Prévisualiser
   </button>
   <app-uploader></app-uploader>
-
-  <div *ngFor="let image of sortByPosition(project.images)">
-    <h3>Image {{ image.position + 1 }}</h3>
-    <img src="{{ image.downloadUrl }}" />
-    <button
-      mat-icon-button
-      (click)="
-        deleteImg(image.downloadUrl, image.path, image.caption, image.position)
-      "
-    >
-      <mat-icon>delete</mat-icon>
-    </button>
-
-    <label>
-      Légende :
-      <input type="text" [(ngModel)]="image.caption" />
-    </label>
-    <p>
+  <div *ngIf="project.images">
+    <div *ngFor="let image of sortByPosition(project.images)">
+      <h3>Image {{ image.position + 1 }}</h3>
+      <img src="{{ image.downloadUrl }}" />
       <button
-        mat-button
+        mat-icon-button
         (click)="
-          saveCaption(
+          deleteImg(
             image.downloadUrl,
             image.path,
             image.caption,
@@ -52,8 +38,28 @@
           )
         "
       >
-        Sauvegarder
+        <mat-icon>delete</mat-icon>
       </button>
-    </p>
+
+      <label>
+        Légende :
+        <input type="text" [(ngModel)]="image.caption" />
+      </label>
+      <p>
+        <button
+          mat-button
+          (click)="
+            saveCaption(
+              image.downloadUrl,
+              image.path,
+              image.caption,
+              image.position
+            )
+          "
+        >
+          Sauvegarder
+        </button>
+      </p>
+    </div>
   </div>
 </div>
