@@ -19,15 +19,19 @@
 <button mat-button>Publier</button>
 
 <div *ngIf="project$ | async as project">
-  <button mat-button [routerLink]="['/admin', project.id, 'view']">Prévisualiser</button>
+  <button mat-button [routerLink]="['/admin', project.id, 'view']">
+    Prévisualiser
+  </button>
   <app-uploader></app-uploader>
 
-  <div *ngFor="let image of project.images; let i = index">
-    <h3>Image {{ i + 1 }}</h3>
+  <div *ngFor="let image of sortByPosition(project.images)">
+    <h3>Image {{ image.position + 1 }}</h3>
     <img src="{{ image.downloadUrl }}" />
     <button
       mat-icon-button
-      (click)="deleteImg(image.downloadUrl, image.path, image.caption, i)"
+      (click)="
+        deleteImg(image.downloadUrl, image.path, image.caption, image.position)
+      "
     >
       <mat-icon>delete</mat-icon>
     </button>
@@ -39,7 +43,14 @@
     <p>
       <button
         mat-button
-        (click)="saveCaption(image.downloadUrl, image.path, image.caption, i)"
+        (click)="
+          saveCaption(
+            image.downloadUrl,
+            image.path,
+            image.caption,
+            image.position
+          )
+        "
       >
         Sauvegarder
       </button>

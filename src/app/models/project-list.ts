@@ -10,6 +10,7 @@ export interface Project {
     downloadUrl: string;
     path: string;
     caption: string;
+    position: number;
   }[];
   images0?: string[];
   legende1?: string[];

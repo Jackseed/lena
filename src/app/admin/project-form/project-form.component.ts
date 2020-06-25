@@ -65,8 +65,19 @@ export class ProjectFormComponent implements OnInit {
     );
   }
 
+  sortByPosition(
+    images: {
+      downloadUrl: string;
+      path: string;
+      caption: string;
+      position: number;
+    }[]
+  ) {
+    return images.sort((a, b) => a.position - b.position);
+  }
+
   // TODO: use a function onDelete to delete the file on Storage
-  async deleteImg(downloadUrl, path, caption, i) {
+  async deleteImg(downloadUrl, path, caption, position) {
     const imgRef = this.storage.storage.refFromURL(downloadUrl);
     const project = await this.db
       .collection("projects")
@@ -83,7 +94,8 @@ export class ProjectFormComponent implements OnInit {
           images: firestore.FieldValue.arrayRemove({
             downloadUrl,
             path,
-            caption: project.data().images[i].caption,
+            caption,
+            position,
           }),
         },
         { merge: true }
@@ -108,13 +120,13 @@ export class ProjectFormComponent implements OnInit {
       });
   }
 
-  public async saveCaption(downloadUrl, path, caption, i) {
+  public async saveCaption(downloadUrl, path, caption, position) {
     const project = await this.db
       .collection("projects")
       .doc(this.id)
       .get()
       .toPromise();
-
+    console.log(project.data().images);
     this.db
       .collection("projects")
       .doc(project.data().id)
@@ -123,7 +135,8 @@ export class ProjectFormComponent implements OnInit {
           images: firestore.FieldValue.arrayRemove({
             downloadUrl,
             path,
-            caption: project.data().images[i].caption,
+            caption: project.data().images[position].caption,
+            position,
           }),
         },
         { merge: true }
@@ -138,6 +151,7 @@ export class ProjectFormComponent implements OnInit {
                 downloadUrl,
                 path,
                 caption,
+                position,
               }),
             },
             { merge: true }

@@ -32,11 +32,23 @@ export class UploadTaskComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.startUpload();
     this.id = this.route.snapshot.paramMap.get("id");
+    this.startUpload();
   }
 
-  startUpload() {
+  async startUpload() {
+    const project = await this.db
+      .collection("projects")
+      .doc(this.id)
+      .get()
+      .toPromise();
+    let position: number;
+    // image position
+    if (project.data().images) {
+      position = project.data().images.length;
+    } else {
+      position = 0;
+    }
     // The storage path
     const path = `test/${Date.now()}_${this.file.name}`;
 
@@ -65,6 +77,7 @@ export class UploadTaskComponent implements OnInit, OnDestroy {
                 downloadUrl,
                 path,
                 caption: "",
+                position,
               }),
             },
             { merge: true }
