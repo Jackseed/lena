@@ -45,7 +45,7 @@ export class UploadTaskComponent implements OnInit, OnDestroy {
     let position: number;
     // image position
     if (project.data().images) {
-      position = project.data().images.length;
+      position = project.data().images.length + this.i;
     } else {
       position = 0;
     }
