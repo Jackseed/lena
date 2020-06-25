@@ -48,7 +48,9 @@ export class ProjectFormComponent implements OnInit {
           categories.sort((a, b) => a.position - b.position)
         )
       );
-    this.newProject.patchValue(project.data());
+    if (project) {
+      this.newProject.patchValue(project.data());
+    }
   }
   onSubmit() {}
   save() {
@@ -57,7 +59,7 @@ export class ProjectFormComponent implements OnInit {
         title: this.newProject.value.title,
         description: this.newProject.value.description,
         caption: this.newProject.value.caption,
-/*         category: this.newProject.value.category, */
+        /*         category: this.newProject.value.category, */
       },
       { merge: true }
     );
