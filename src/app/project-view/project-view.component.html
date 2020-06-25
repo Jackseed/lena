@@ -13,18 +13,20 @@
       </div>
       <!-- IMAGES -->
       <div *ngFor="let image of project.images">
+        <p
+          ngStyle.xs="margin-right: 5%; margin-left: 5%; width: 90%;"
+          ngStyle.gt-sm="width:500px;"
+          class="legende-projets"
+          *ngIf="image.caption"
+        >
+          {{ image.caption }}
+        </p>
+
         <img
           ngClass.lt-md="images-projet-mobile"
           ngClass.gt-sm="images-projet"
           src="{{ image.downloadUrl }}"
         />
-        <p
-          ngStyle.xs="margin-right: 5%; margin-left: 5%; width: 90%;"
-          ngStyle.gt-sm="width:500px;"
-          class="legende-projets"
-        >
-          {{ image.caption }}
-        </p>
       </div>
     </div>
   </div>
