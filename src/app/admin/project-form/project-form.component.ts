@@ -148,44 +148,37 @@ export class ProjectFormComponent implements OnInit {
   }
 
   public async saveCaption(downloadUrl, path, caption, position) {
+    const batch = this.db.firestore.batch();
     const project = await this.db
       .collection("projects")
       .doc(this.id)
       .get()
       .toPromise();
     console.log(project.data().images);
-    this.db
-      .collection("projects")
-      .doc(project.data().id)
-      .set(
+
+    const images = project
+      .data()
+      .images.sort((a, b) => a.position - b.position);
+    images[position].caption = caption;
+    console.log(images);
+
+    batch.update(
+      this.db.firestore.collection("projects").doc(project.data().id),
+      {
+        images: firestore.FieldValue.delete(),
+      }
+    );
+
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < images.length; i++) {
+      batch.update(
+        this.db.firestore.collection("projects").doc(project.data().id),
         {
-          images: firestore.FieldValue.arrayRemove({
-            downloadUrl,
-            path,
-            caption: project.data().images[position].caption,
-            position,
-          }),
-        },
-        { merge: true }
-      )
-      .then(() => {
-        this.db
-          .collection("projects")
-          .doc(project.data().id)
-          .set(
-            {
-              images: firestore.FieldValue.arrayUnion({
-                downloadUrl,
-                path,
-                caption,
-                position,
-              }),
-            },
-            { merge: true }
-          );
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+          images: firestore.FieldValue.arrayUnion(images[i]),
+        }
+      );
+    }
+
+    batch.commit();
   }
 }
