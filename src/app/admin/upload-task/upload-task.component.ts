@@ -7,7 +7,6 @@ import { AngularFirestore } from "@angular/fire/firestore";
 import { Observable, Subscription } from "rxjs";
 import { finalize, tap } from "rxjs/operators";
 import { ActivatedRoute } from "@angular/router";
-import { firestore } from "firebase/app";
 
 @Component({
   selector: "app-upload-task",
@@ -42,13 +41,7 @@ export class UploadTaskComponent implements OnInit, OnDestroy {
       .doc(this.id)
       .get()
       .toPromise();
-    let position: number;
-    // image position
-    if (project.data().images) {
-      position = project.data().images.length + this.i;
-    } else {
-      position = 0;
-    }
+    const id = this.db.createId();
     // The storage path
     const path = `test/${Date.now()}_${this.file.name}`;
 
@@ -71,17 +64,14 @@ export class UploadTaskComponent implements OnInit, OnDestroy {
         this.db
           .collection("projects")
           .doc(this.id)
-          .set(
-            {
-              images: firestore.FieldValue.arrayUnion({
-                downloadUrl,
-                path,
-                caption: "",
-                position,
-              }),
-            },
-            { merge: true }
-          );
+          .collection("images")
+          .doc(id)
+          .set({
+            id,
+            downloadUrl,
+            path,
+            caption: "",
+          });
       })
     );
     this.sub = this.snapshot.subscribe();
