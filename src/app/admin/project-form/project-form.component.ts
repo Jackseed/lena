@@ -22,6 +22,7 @@ export class ProjectFormComponent implements OnInit {
     category: new FormControl(""),
     description: new FormControl(""),
     caption: new FormControl(""),
+    finalCaption: new FormControl(""),
   });
   caption = new FormControl("");
   public categories$: Observable<Category[]>;
@@ -59,7 +60,7 @@ export class ProjectFormComponent implements OnInit {
         title: this.newProject.value.title,
         description: this.newProject.value.description,
         caption: this.newProject.value.caption,
-        /*         category: this.newProject.value.category, */
+        finalCaption: this.newProject.value.finalCaption,
       },
       { merge: true }
     );
@@ -159,8 +160,8 @@ export class ProjectFormComponent implements OnInit {
     const images = project
       .data()
       .images.sort((a, b) => a.position - b.position);
-    images[position].caption = caption;
     console.log(images);
+    images[position].caption = caption;
 
     batch.update(
       this.db.firestore.collection("projects").doc(project.data().id),

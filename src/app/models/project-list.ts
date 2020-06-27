@@ -6,6 +6,7 @@ export interface Project {
   link?: string;
   description?: string;
   caption?: string;
+  finalCaption?: string;
   images?: {
     downloadUrl: string;
     path: string;
