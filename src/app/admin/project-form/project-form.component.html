@@ -41,17 +41,7 @@
         <input type="text" [(ngModel)]="image.caption" />
       </label>
       <p>
-        <button
-          mat-button
-          (click)="
-            saveCaption(
-              image.downloadUrl,
-              image.path,
-              image.caption,
-              image.position
-            )
-          "
-        >
+        <button mat-button (click)="saveCaption(image)">
           Sauvegarder
         </button>
       </p>

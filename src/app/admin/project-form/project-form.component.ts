@@ -137,34 +137,13 @@ export class ProjectFormComponent implements OnInit {
       });
   }
 
-  public async saveCaption(downloadUrl, path, caption, position) {
-    const batch = this.db.firestore.batch();
-    const project = await this.projectRef.get().toPromise();
-    console.log(project.data().images);
-
-    const images = project
-      .data()
-      .images.sort((a, b) => a.position - b.position);
-    console.log(images);
-    images[position].caption = caption;
-
-    batch.update(
-      this.db.firestore.collection("projects").doc(project.data().id),
-      {
-        images: firestore.FieldValue.delete(),
-      }
-    );
-
-    // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < images.length; i++) {
-      batch.update(
-        this.db.firestore.collection("projects").doc(project.data().id),
-        {
-          images: firestore.FieldValue.arrayUnion(images[i]),
-        }
-      );
-    }
-
-    batch.commit();
+  public async saveCaption(img: Image) {
+    this.projectRef
+      .collection("images")
+      .doc(img.id)
+      .update({ caption: img.caption })
+      .catch((error) => {
+        console.error("Erreur dans l'update caption': ", error);
+      });
   }
 }
