@@ -7,6 +7,7 @@ import { Observable } from "rxjs";
 import { AngularFireStorage } from "@angular/fire/storage";
 import { firestore } from "firebase/app";
 import { Category } from "src/app/models/menu-titles";
+import { Image } from "src/app/models/images";
 import { map } from "rxjs/operators";
 
 @Component({
@@ -26,6 +27,8 @@ export class ProjectFormComponent implements OnInit {
   });
   caption = new FormControl("");
   public categories$: Observable<Category[]>;
+  public images$: Observable<Image[]>;
+  private projectRef;
 
   constructor(
     private storage: AngularFireStorage,
@@ -35,12 +38,9 @@ export class ProjectFormComponent implements OnInit {
 
   async ngOnInit() {
     this.id = this.route.snapshot.paramMap.get("id");
-    this.project$ = this.db.collection("projects").doc(this.id).valueChanges();
-    const project = await this.db
-      .collection("projects")
-      .doc(this.id)
-      .get()
-      .toPromise();
+    this.projectRef = this.db.collection("projects").doc(this.id);
+    this.project$ = this.projectRef.valueChanges();
+    const project = await this.projectRef.get().toPromise();
     this.categories$ = this.db
       .collection("categories")
       .valueChanges()
@@ -49,13 +49,14 @@ export class ProjectFormComponent implements OnInit {
           categories.sort((a, b) => a.position - b.position)
         )
       );
-    if (project) {
+    this.images$ = this.projectRef.collection("images").valueChanges();
+    if (project.data()) {
       this.newProject.patchValue(project.data());
     }
   }
   onSubmit() {}
   save() {
-    this.db.collection("projects").doc(this.id).set(
+    this.projectRef.set(
       {
         title: this.newProject.value.title,
         description: this.newProject.value.description,
@@ -66,42 +67,33 @@ export class ProjectFormComponent implements OnInit {
     );
   }
 
-  sortByPosition(
-    images: {
-      downloadUrl: string;
-      path: string;
-      caption: string;
-      position: number;
-    }[]
-  ) {
+  sortByPosition(images: Image[]): Image[] {
     return images.sort((a, b) => a.position - b.position);
   }
 
   // TODO: use a function onDelete to delete the file on Storage
-  async deleteImg(downloadUrl, path, caption, position) {
+  async deleteImg(img: Image) {
     const batch = this.db.firestore.batch();
-    const imgRef = this.storage.storage.refFromURL(downloadUrl);
-    const project = await this.db
-      .collection("projects")
-      .doc(this.id)
+    const imgRef = this.storage.storage.refFromURL(img.downloadUrl);
+    const images = [];
+    this.projectRef
+      .collection("images")
       .get()
-      .toPromise();
+      .toPromise()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          images.push(doc.data());
+        });
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
 
     // delete on firestore
-    this.db
-      .collection("projects")
-      .doc(project.data().id)
-      .set(
-        {
-          images: firestore.FieldValue.arrayRemove({
-            downloadUrl,
-            path,
-            caption,
-            position,
-          }),
-        },
-        { merge: true }
-      )
+    this.projectRef
+      .collection("images")
+      .doc(img.id)
+      .delete()
       .then((_) => {
         console.log("Image supprimée de la bdd !");
         // delete on firestorage
@@ -110,26 +102,23 @@ export class ProjectFormComponent implements OnInit {
           .then(() => {
             console.log("Fichier supprimée de storage !");
             // reposition remaining images
-            const images = project
-              .data()
-              .images.sort((a, b) => a.position - b.position);
-            images.splice(position, 1);
+            images.sort((a, b) => a.position - b.position);
+            images.splice(img.position, 1);
 
             batch.update(
-              this.db.firestore.collection("projects").doc(project.data().id),
-              {
-                images: firestore.FieldValue.delete(),
-              }
+              this.db.firestore.collection("projects").doc(this.id),
+              { imageCount: firestore.FieldValue.increment(-1) }
             );
-
             // tslint:disable-next-line: prefer-for-of
             for (let i = 0; i < images.length; i++) {
-              images[i].position = i;
-
               batch.update(
-                this.db.firestore.collection("projects").doc(project.data().id),
+                this.db.firestore
+                  .collection("projects")
+                  .doc(this.id)
+                  .collection("images")
+                  .doc(images[i].id),
                 {
-                  images: firestore.FieldValue.arrayUnion(images[i]),
+                  position: i,
                 }
               );
             }
@@ -150,11 +139,7 @@ export class ProjectFormComponent implements OnInit {
 
   public async saveCaption(downloadUrl, path, caption, position) {
     const batch = this.db.firestore.batch();
-    const project = await this.db
-      .collection("projects")
-      .doc(this.id)
-      .get()
-      .toPromise();
+    const project = await this.projectRef.get().toPromise();
     console.log(project.data().images);
 
     const images = project

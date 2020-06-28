@@ -19,27 +19,26 @@ export const documentWriteListener = functions.firestore
         .collection("projects")
         .doc(projectId);
       if (!change.before.exists) {
-        // Update Customer
         const imageRef = projectRef.collection("images").doc(imageId);
 
         return db.runTransaction(
           async (transaction: firebase.firestore.Transaction) => {
             const project = (await transaction.get(projectRef)).data();
 
-            let imageCount = project?.imageCount + 1;
+            let position = project?.imageCount;
 
-            if(!imageCount) {
-              imageCount = 0;
+            if (!position) {
+              position = 0;
             }
 
             transaction.update(projectRef, {
-              imageCount,
+              imageCount: position + 1,
             });
 
             transaction.set(
               imageRef,
               {
-                position: imageCount,
+                position,
               },
               { merge: true }
             );

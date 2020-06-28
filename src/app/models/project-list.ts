@@ -7,12 +7,6 @@ export interface Project {
   description?: string;
   caption?: string;
   finalCaption?: string;
-  images?: {
-    downloadUrl: string;
-    path: string;
-    caption: string;
-    position: number;
-  }[];
   images0?: string[];
   legende1?: string[];
   images1?: string[];
@@ -35,13 +29,8 @@ export function createProject(p: Partial<Project>): Project {
     title: p.title,
     description: p.description,
     caption: p.caption,
-    images: [],
   };
-  if (p.images?.length > 0) {
-    for (const image of p.images) {
-      project.images.push(image);
-    }
-  }
+
   return project;
 }
 

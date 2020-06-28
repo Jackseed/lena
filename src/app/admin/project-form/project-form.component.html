@@ -28,21 +28,11 @@
     Prévisualiser
   </button>
   <app-uploader></app-uploader>
-  <div *ngIf="project.images">
-    <div *ngFor="let image of sortByPosition(project.images)">
+  <div *ngIf="images$ | async as images">
+    <div *ngFor="let image of sortByPosition(images)">
       <h3>Image {{ image.position + 1 }}</h3>
       <img src="{{ image.downloadUrl }}" />
-      <button
-        mat-icon-button
-        (click)="
-          deleteImg(
-            image.downloadUrl,
-            image.path,
-            image.caption,
-            image.position
-          )
-        "
-      >
+      <button mat-icon-button (click)="deleteImg(image)">
         <mat-icon>delete</mat-icon>
       </button>
 
