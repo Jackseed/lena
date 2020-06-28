@@ -1,44 +1,47 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 admin.initializeApp();
-const FieldValue = require("firebase-admin").firestore.FieldValue;
-import { Change, EventContext } from "firebase-functions";
+import { EventContext } from "firebase-functions";
 import * as firebase from "firebase-admin";
+const db = admin.firestore();
 
 export const documentWriteListener = functions.firestore
   .document("projects/{projectId}/images/{imageId}")
-  .onWrite((change: Change<any>, context: EventContext) => {
-    const projectId: string = context.params.projectId;
-    const imageId: string = context.params.imageId;
-    const firestore = admin.firestore();
-    const docRef: firebase.firestore.DocumentReference = firestore
-      .collection("projects")
-      .doc(projectId);
+  .onCreate(
+    (snapshot: firebase.database.DataSnapshot, context: EventContext) => {
+      const projectId: string | null | undefined =
+        snapshot.ref.parent?.parent?.key;
+      const imageId: string | null = snapshot.ref.key;
 
-    if (!change.before.exists) {
-      // New document Created : add one to count
-      return docRef
-        .collection("images")
-        .get()
-        .then((querySnapshot: firebase.firestore.QuerySnapshot) => {
-          const imageCount = querySnapshot.size;
-          const batch: firebase.firestore.WriteBatch = firestore.batch();
-          batch.update(docRef, { numberOfImages: FieldValue.increment(1) });
-          batch.update(docRef.collection("images").doc(imageId), {
-            position: imageCount,
+      if (imageId === null || projectId === null) {
+        return 0;
+      }
+
+      const projectRef: firebase.firestore.DocumentReference = db
+        .collection("projects")
+        .doc(projectId);
+
+      // Update Customer
+      const imageRef = projectRef.collection("images").doc(imageId);
+
+      return db.runTransaction(
+        async (transaction: firebase.firestore.Transaction) => {
+          const project = (await transaction.get(projectRef)).data();
+
+          const imageCount = project?.imageCount + 1;
+
+          transaction.update(projectRef, {
+            imageCount,
           });
-          batch.commit().catch((err) => console.log(err));
-        })
-        .catch((err: any) => console.log(err));
-    } else if (change.before.exists && change.after.exists) {
-      // Updating existing document : Do nothing
-    } else if (!change.after.exists) {
-      // Deleting document : subtract one from count
 
-      return docRef
-        .update({ numberOfDocs: FieldValue.increment(-1) })
-        .catch((err) => console.log(err));
+          transaction.set(
+            imageRef,
+            {
+              position: imageCount,
+            },
+            { merge: true }
+          );
+        }
+      );
     }
-
-    return 0;
-  });
+  );
