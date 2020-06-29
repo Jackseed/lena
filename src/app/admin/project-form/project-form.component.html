@@ -1,55 +1,80 @@
-<h1>Nouveau projet</h1>
+<div fxFlexLayout="row" fxFlexAlign="center end"   ngClass.lt-md="title-line-mobile"
+ngClass.gt-sm="title-line">
+  <h1 class="title" fxFlex>Nouveau projet</h1>
+  <div fxFlex="nogrow" class="title-button">
+    <button mat-stroked-button type="submit" (click)="save()">
+      Sauvegarder
+    </button>
+  </div>
+  <div fxFlex="nogrow" class="title-button" *ngIf="project$ | async as project">
+    <button mat-stroked-button [routerLink]="['/admin', project.id, 'view']">
+      Prévisualiser
+    </button>
+  </div>
+  <div fxFlex="nogrow">
+    <button mat-stroked-button>Publier</button>
+  </div>
+</div>
 <form [formGroup]="newProject" (ngSubmit)="onSubmit()">
-  <label>
-    Titre :
-    <input type="text" formControlName="title" />
-  </label>
+  <h2>
+    <mat-form-field>
+      <mat-label>Titre</mat-label>
+      <input matInput type="text" formControlName="title" />
+    </mat-form-field>
+  </h2>
 
-  <label>
-    Description :
-    <input type="text" formControlName="description" />
-  </label>
+  <h3>
+    <mat-form-field class="description">
+      <mat-label>Description</mat-label>
+      <textarea matInput type="text" formControlName="description"></textarea>
+    </mat-form-field>
+  </h3>
+  <p>
+    <mat-form-field class="legende">
+      <mat-label>Signature</mat-label>
+      <input matInput type="text" formControlName="caption" />
+    </mat-form-field>
 
-  <label>
-    Légende :
-    <input type="text" formControlName="caption" />
-  </label>
-
-  <label>
-    Légende finale :
-    <input type="text" formControlName="finalCaption" />
-  </label>
+    <mat-form-field>
+      <mat-label>Légende finale</mat-label>
+      <input matInput type="text" formControlName="finalCaption" />
+    </mat-form-field>
+  </p>
 </form>
-<button mat-button type="submit" (click)="save()">Sauvegarder</button>
-<button mat-button>Publier</button>
 
-<div *ngIf="project$ | async as project">
-  <button mat-button [routerLink]="['/admin', project.id, 'view']">
-    Prévisualiser
-  </button>
+<div
+  ngClass.lt-md="images-projet-mobile"
+  ngClass.gt-sm="images-projet"
+  class="upload-box"
+>
   <app-uploader></app-uploader>
-  <div *ngIf="images$ | async as images">
-    <div *ngFor="let image of sortByPosition(images)">
-      <h3>Image {{ image.position + 1 }}</h3>
-      <img src="{{ image.downloadUrl }}" />
-      <button mat-icon-button (click)="deleteImg(image)">
-        <mat-icon>delete</mat-icon>
-      </button>
-      <button mat-icon-button (click)="downImg(image)">
-        <mat-icon>arrow_downward</mat-icon>
-      </button>
-      <button mat-icon-button (click)="upImg(image)">
-        <mat-icon>arrow_upward</mat-icon>
-      </button>
-      <label>
-        Titre :
-        <input type="text" [(ngModel)]="image.caption" />
-      </label>
-      <p>
-        <button mat-button (click)="saveCaption(image)">
-          Sauvegarder
-        </button>
-      </p>
-    </div>
+</div>
+
+<div *ngIf="images$ | async as images" class="images">
+  <div *ngFor="let image of sortByPosition(images)">
+    <h3>Image {{ image.position + 1 }}</h3>
+    <label>
+      Titre :
+      <input type="text" [(ngModel)]="image.caption" />
+    </label>
+
+    <button mat-button (click)="saveCaption(image)">
+      Sauvegarder
+    </button>
+
+    <button mat-icon-button (click)="downImg(image)">
+      <mat-icon>arrow_downward</mat-icon>
+    </button>
+    <button mat-icon-button (click)="upImg(image)">
+      <mat-icon>arrow_upward</mat-icon>
+    </button>
+    <button mat-icon-button (click)="deleteImg(image)">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <img
+      ngClass.lt-md="images-projet-mobile"
+      ngClass.gt-sm="images-projet"
+      src="{{ image.downloadUrl }}"
+    />
   </div>
 </div>

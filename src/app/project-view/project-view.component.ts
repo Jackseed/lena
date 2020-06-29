@@ -1,8 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { Project, Projects } from "../models/project-list";
+import { Project } from "../models/project-list";
+import { Image } from "../models/images";
 import { Observable } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore } from "@angular/fire/firestore";
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: "app-project-view",
@@ -12,11 +14,20 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class ProjectViewComponent implements OnInit {
   private id: string;
   public project$: Observable<Project>;
+  public images$: Observable<any[]>;
 
   constructor(private db: AngularFirestore, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get("id");
     this.project$ = this.db.collection("projects").doc(this.id).valueChanges();
+    this.images$ = this.db
+      .collection("projects")
+      .doc(this.id)
+      .collection("images")
+      .valueChanges()
+      .pipe(
+        map((images: Image[]) => images.sort((a, b) => a.position - b.position))
+      );
   }
 }

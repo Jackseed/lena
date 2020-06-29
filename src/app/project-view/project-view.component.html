@@ -12,7 +12,7 @@
         <span> {{ project.caption }}</span>
       </div>
       <!-- IMAGES -->
-      <div *ngFor="let image of project.images">
+      <div *ngFor="let image of images$ | async">
         <p
           ngStyle.xs="margin-right: 5%; margin-left: 5%; width: 90%;"
           ngStyle.gt-sm="width:500px;"

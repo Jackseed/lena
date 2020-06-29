@@ -28,6 +28,8 @@ import { ProjectViewComponent } from "./project-view/project-view.component";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { CategoryListComponent } from "./admin/category-list/category-list.component";
 import { MatSelectModule } from "@angular/material/select";
+import { MatInputModule } from "@angular/material/input";
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDi0VGkbRt-rPpaWFcEHzkDC9yQK4cMWyQ",
@@ -70,6 +72,8 @@ const firebaseConfig = {
     ReactiveFormsModule,
     DragDropModule,
     MatSelectModule,
+    MatInputModule,
+    MatFormFieldModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: "fr-FR" }],
   bootstrap: [AppComponent],
