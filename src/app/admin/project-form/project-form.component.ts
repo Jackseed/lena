@@ -72,11 +72,10 @@ export class ProjectFormComponent implements OnInit {
   }
 
   // TODO: use a function onDelete to delete the file on Storage
-  async deleteImg(img: Image) {
-    const batch = this.db.firestore.batch();
+  public async deleteImg(img: Image) {
     const imgRef = this.storage.storage.refFromURL(img.downloadUrl);
-    const images = [];
-    this.projectRef
+    let images = [];
+    await this.projectRef
       .collection("images")
       .get()
       .toPromise()
@@ -102,26 +101,15 @@ export class ProjectFormComponent implements OnInit {
           .then(() => {
             console.log("Fichier supprimée de storage !");
             // reposition remaining images
-            images.sort((a, b) => a.position - b.position);
+            images = this.sortByPosition(images);
             images.splice(img.position, 1);
+
+            const batch = this.updateImgPositions(images);
 
             batch.update(
               this.db.firestore.collection("projects").doc(this.id),
               { imageCount: firestore.FieldValue.increment(-1) }
             );
-            // tslint:disable-next-line: prefer-for-of
-            for (let i = 0; i < images.length; i++) {
-              batch.update(
-                this.db.firestore
-                  .collection("projects")
-                  .doc(this.id)
-                  .collection("images")
-                  .doc(images[i].id),
-                {
-                  position: i,
-                }
-              );
-            }
 
             batch.commit();
           })
@@ -137,7 +125,7 @@ export class ProjectFormComponent implements OnInit {
       });
   }
 
-  public async saveCaption(img: Image) {
+  public saveCaption(img: Image) {
     this.projectRef
       .collection("images")
       .doc(img.id)
@@ -145,5 +133,65 @@ export class ProjectFormComponent implements OnInit {
       .catch((error) => {
         console.error("Erreur dans l'update caption': ", error);
       });
+  }
+
+  private updateImgPositions(images: Image[]): firestore.WriteBatch {
+    const batch = this.db.firestore.batch();
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < images.length; i++) {
+      batch.update(
+        this.db.firestore
+          .collection("projects")
+          .doc(this.id)
+          .collection("images")
+          .doc(images[i].id),
+        {
+          position: i,
+        }
+      );
+    }
+    return batch;
+  }
+
+  public async upImg(img: Image) {
+    let images = [];
+    await this.projectRef
+      .collection("images")
+      .get()
+      .toPromise()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          images.push(doc.data());
+        });
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
+    images = this.sortByPosition(images);
+    images.splice(img.position, 1);
+    images.splice(img.position - 1, 0, img);
+    const batch = this.updateImgPositions(images);
+    batch.commit();
+  }
+
+  public async downImg(img: Image) {
+    let images = [];
+    await this.projectRef
+      .collection("images")
+      .get()
+      .toPromise()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          images.push(doc.data());
+        });
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
+    images = this.sortByPosition(images);
+    images.splice(img.position, 1);
+    images.splice(img.position + 1, 0, img);
+    const batch = this.updateImgPositions(images);
+    batch.commit();
   }
 }

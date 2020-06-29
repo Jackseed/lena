@@ -35,7 +35,12 @@
       <button mat-icon-button (click)="deleteImg(image)">
         <mat-icon>delete</mat-icon>
       </button>
-
+      <button mat-icon-button (click)="downImg(image)">
+        <mat-icon>arrow_downward</mat-icon>
+      </button>
+      <button mat-icon-button (click)="upImg(image)">
+        <mat-icon>arrow_upward</mat-icon>
+      </button>
       <label>
         Titre :
         <input type="text" [(ngModel)]="image.caption" />
