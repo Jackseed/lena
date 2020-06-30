@@ -30,6 +30,8 @@ import { CategoryListComponent } from "./admin/category-list/category-list.compo
 import { MatSelectModule } from "@angular/material/select";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { VignetteListComponent } from './admin/vignette-list/vignette-list.component';
+import { FooterComponent } from './footer/footer.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDi0VGkbRt-rPpaWFcEHzkDC9yQK4cMWyQ",
@@ -56,6 +58,8 @@ const firebaseConfig = {
     ProjectListComponent,
     ProjectViewComponent,
     CategoryListComponent,
+    VignetteListComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
