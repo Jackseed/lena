@@ -19,11 +19,25 @@
   </mat-grid-list>
 </div>
 
-
 <div class="example-container" cdkDropListGroup>
-  <div cdkDropList [cdkDropListEnterPredicate]="enter" (cdkDropListDropped)="drop()" #placeholder></div>
-  <div cdkDropList *ngFor="let item of items"
-       [cdkDropListEnterPredicate]="enter" (cdkDropListDropped)="drop()">
-    <div cdkDrag class="example-box">{{item}}</div>
+  <div
+    cdkDropList
+    [cdkDropListEnterPredicate]="enter"
+    (cdkDropListDropped)="drop()"
+    #placeholder
+  ></div>
+  <div
+    cdkDropList
+    *ngFor="let vignette of vignettes"
+    [cdkDropListEnterPredicate]="enter"
+    (cdkDropListDropped)="drop()"
+  >
+    <div cdkDrag class="example-box">
+      <img
+        ngClass.gt-sm="tiles"
+        ngClass.lt-md="mobile-tiles"
+        src="{{ vignette.downloadUrl }}"
+      />
+    </div>
   </div>
 </div>

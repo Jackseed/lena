@@ -23,7 +23,7 @@ export class DragableGridComponent implements OnInit, OnDestroy {
   private watcher: Subscription;
   private activeMediaQuery = "";
   public vignettes$: Observable<Tile[]>;
-  public vignette: Tile;
+  public vignettes: Tile[] = [];
 
   public target: CdkDropList;
   public targetIndex: number;
@@ -67,7 +67,27 @@ export class DragableGridComponent implements OnInit, OnDestroy {
           vignettes.sort((a, b) => a.position - b.position)
         )
       );
+    this.getVignettes();
+    console.log(this.vignettes);
   }
+
+  async getVignettes() {
+    await this.db
+      .collection("vignettes")
+      .get()
+      .toPromise()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (doc.exists) {
+            this.vignettes.push(doc.data());
+          }
+        });
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
+  }
+
 
   ngAfterViewInit() {
     const phElement = this.placeholder.element.nativeElement;
@@ -97,7 +117,7 @@ export class DragableGridComponent implements OnInit, OnDestroy {
     this.source = null;
 
     if (this.sourceIndex !== this.targetIndex) {
-      moveItemInArray(this.items, this.sourceIndex, this.targetIndex);
+      moveItemInArray(this.vignettes, this.sourceIndex, this.targetIndex);
     }
   }
 
@@ -113,7 +133,10 @@ export class DragableGridComponent implements OnInit, OnDestroy {
       dropElement.parentNode.children,
       drag.dropContainer.element.nativeElement
     );
-    const dropIndex = this.__indexOf(dropElement.parentNode.children, dropElement);
+    const dropIndex = this.__indexOf(
+      dropElement.parentNode.children,
+      dropElement
+    );
 
     if (!this.source) {
       this.sourceIndex = dragIndex;
@@ -141,13 +164,15 @@ export class DragableGridComponent implements OnInit, OnDestroy {
       drag.element.nativeElement.offsetLeft,
       drag.element.nativeElement.offsetTop
     );
-    console.log(this.items);
+    console.log(this.vignettes);
     return false;
-  }
+  };
 
   __indexOf(collection, node) {
     return Array.prototype.indexOf.call(collection, node);
   }
+
+  private updatePosition(){}
 
   ngOnDestroy() {
     this.watcher.unsubscribe();
