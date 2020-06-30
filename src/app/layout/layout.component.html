@@ -5,9 +5,14 @@
     <div fxFlex="100">
       <div fxLayout="row">
         <!-- MENU -->
-        <div class="menu-container" fxHide.lt-md=true>
+        <div class="menu-container" fxHide.lt-md="true">
           <a routerLink="home">
-            <img id="logo" class="title-img" ngClass.xs="big" src="assets/img/logoweb.jpg" />
+            <img
+              id="logo"
+              class="title-img"
+              ngClass.xs="big"
+              src="assets/img/logoweb.jpg"
+            />
           </a>
           <app-menu></app-menu>
         </div>
@@ -15,6 +20,13 @@
         <!-- PAGE -->
         <div fxFlex="100" ngClass.gt-sm="content-container-desktop">
           <router-outlet></router-outlet>
+          <div
+            ngClass.sm="container-xs"
+            ngClass.sm="container-sm"
+            ngClass.gt-sm="container"
+          >
+            <app-footer></app-footer>
+          </div>
         </div>
       </div>
     </div>
