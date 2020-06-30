@@ -88,7 +88,6 @@ export class DragableGridComponent implements OnInit, OnDestroy {
       });
   }
 
-
   ngAfterViewInit() {
     const phElement = this.placeholder.element.nativeElement;
 
@@ -165,6 +164,8 @@ export class DragableGridComponent implements OnInit, OnDestroy {
       drag.element.nativeElement.offsetTop
     );
     console.log(this.vignettes);
+    this.updatePosition(this.vignettes);
+    
     return false;
   };
 
@@ -172,7 +173,20 @@ export class DragableGridComponent implements OnInit, OnDestroy {
     return Array.prototype.indexOf.call(collection, node);
   }
 
-  private updatePosition(){}
+  private updatePosition(vignettes: Tile[]) {
+    const batch = this.db.firestore.batch();
+
+    for (let i = 0; i < vignettes.length; i++) {
+      batch.update(
+        this.db.firestore.collection("vignettes").doc(vignettes[i].id),
+        {
+          position: i,
+        }
+      );
+    }
+
+    batch.commit();
+  }
 
   ngOnDestroy() {
     this.watcher.unsubscribe();
