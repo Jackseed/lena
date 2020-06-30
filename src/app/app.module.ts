@@ -32,6 +32,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { VignetteListComponent } from './admin/vignette-list/vignette-list.component';
 import { FooterComponent } from './footer/footer.component';
+import { DragableGridComponent } from './admin/dragable-grid/dragable-grid.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDi0VGkbRt-rPpaWFcEHzkDC9yQK4cMWyQ",
@@ -60,6 +61,7 @@ const firebaseConfig = {
     CategoryListComponent,
     VignetteListComponent,
     FooterComponent,
+    DragableGridComponent,
   ],
   imports: [
     BrowserModule,

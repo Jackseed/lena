@@ -76,6 +76,37 @@ export class UploadTaskComponent implements OnInit, OnDestroy {
         })
       );
     // category image
+    } else if (this.route.snapshot.routeConfig.path === "admin/vignettes") {
+      const collection = await this.db.collection("vignettes").get().toPromise();
+      const position = collection.size;
+      const id = this.db.createId();
+      // The storage path
+      const path = `vignettes/${Date.now()}_${this.file.name}`;
+
+      // Reference to storage bucket
+      const ref = this.storage.ref(path);
+
+      // The main task
+      this.task = this.storage.upload(path, this.file);
+
+      // Progress monitoring
+      this.percentage = this.task.percentageChanges();
+      console.log(this.task);
+
+      this.snapshot = this.task.snapshotChanges().pipe(
+        tap(console.log),
+        // The file's download URL
+        finalize(async () => {
+          const downloadUrl = await ref.getDownloadURL().toPromise();
+
+          this.db.collection("vignettes").doc(id).set({
+            id,
+            downloadUrl,
+            path,
+            position
+          });
+        })
+      );
     } else {
       const collection = await this.db.collection("categories").get().toPromise();
       const position = collection.size;
