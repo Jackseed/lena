@@ -67,15 +67,16 @@
   border-bottom: solid 1px #ccc;
 }
 
-.subtitle {
-  justify-content: left;
-  align-items: center;
-  text-align: center;
-  display: flex;
-  font-size: 16px;
-  padding-left: 10px;
-}
-
 .add-button {
   height: 40px;
+}
+
+.title-img {
+  height: 30px;
+  padding-left: 10px;
+
+}
+.title-img-xs {
+  height: 40px;
+  padding-left: 10px;
 }

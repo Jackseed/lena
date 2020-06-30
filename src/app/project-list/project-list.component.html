@@ -19,13 +19,21 @@
     *ngFor="let category of categories$ | async"
     id="{{ category.id }}"
   >
-    <div fxFlexLayout="row" fxFlexAlign="center end" class="title-line subtitle-line">
-      <h3 class="subtitle" fxFlex>{{ category.name }}</h3>
+    <div
+      fxFlexLayout="row"
+      class="title-line subtitle-line"
+    >
+      <img
+        fxFlex="nogrow"
+        ngClass.xs="title-img-xs"
+        ngClass.gt-xs="title-img"
+        src="{{ category.downloadUrl }}"
+      />
+      <div fxFlex></div>
       <button
         fxFlex="nogrow"
         mat-button
         (click)="addProject(category.id)"
-        class="add-button"
       >
         Ajouter un projet
       </button>
