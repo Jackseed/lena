@@ -5,6 +5,7 @@ import { Category } from "src/app/models/menu-titles";
 import { Observable } from "rxjs";
 import { map } from "rxjs/internal/operators/map";
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
+import { AngularFireStorage } from "@angular/fire/storage";
 
 @Component({
   selector: "app-category-list",
@@ -16,7 +17,10 @@ export class CategoryListComponent implements OnInit {
     category: new FormControl(""),
   });
   public categories$: Observable<Category[]>;
-  constructor(private db: AngularFirestore) {}
+  constructor(
+    private db: AngularFirestore,
+    private storage: AngularFireStorage
+  ) {}
 
   ngOnInit(): void {
     this.categories$ = this.db
@@ -40,6 +44,67 @@ export class CategoryListComponent implements OnInit {
       projectIds: [],
     });
     this.newCategory.reset();
+  }
+
+  // TODO: use a function onDelete to delete the file on Storage
+  public async deleteCategory(category: Category) {
+    const imgRef = this.storage.storage.refFromURL(category.downloadUrl);
+
+    // delete on firestore
+    this.db
+      .collection("categories")
+      .doc(category.id)
+      .delete()
+      .then((_) => {
+        console.log("Image supprimée de la bdd !");
+        // delete on firestorage
+        imgRef
+          .delete()
+          .then(async () => {
+            console.log("Fichier supprimée de storage !");
+            // reposition remaining categories
+            const categories: Category[] = [];
+            await this.db
+              .collection("categories")
+              .get()
+              .toPromise()
+              .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                  if (doc.exists) {
+                    categories.push(doc.data());
+                  }
+                });
+              })
+              .catch((error) => {
+                console.log("Error getting documents: ", error);
+              });
+            categories.sort((a, b) => a.position - b.position);
+
+            const batch = this.db.firestore.batch();
+
+            for (let i = 0; i < categories.length; i++) {
+              batch.update(
+                this.db.firestore
+                  .collection("categories")
+                  .doc(categories[i].id),
+                {
+                  position: i,
+                }
+              );
+            }
+
+            batch.commit();
+          })
+          .catch((error) => {
+            console.error(
+              "Erreur dans la suppression fichier storage: ",
+              error
+            );
+          });
+      })
+      .catch((error) => {
+        console.error("Erreur dans la suppression bdd: ", error);
+      });
   }
 
   drop(event: CdkDragDrop<string[]>) {

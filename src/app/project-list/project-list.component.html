@@ -1,4 +1,14 @@
-<button mat-button routerLink="categories">Nouvelle catégorie</button>
+<div fxFlexLayout="row" fxFlexAlign="center end" class="title-line">
+  <h2 class="title" fxFlex>Liste des projets</h2>
+  <button
+    fxFlex="nogrow"
+    mat-stroked-button
+    routerLink="categories"
+    class="add-button"
+  >
+    Ajouter une catégorie
+  </button>
+</div>
 
 <div cdkDropListGroup>
   <div
@@ -7,10 +17,19 @@
     class="list container"
     (cdkDropListDropped)="drop($event)"
     *ngFor="let category of categories$ | async"
-    id="{{category.id}}"
+    id="{{ category.id }}"
   >
-    <h2>{{ category.name }}</h2>
-    <button mat-button (click)="addProject(category.id)">Nouveau projet</button>
+    <div fxFlexLayout="row" fxFlexAlign="center end" class="title-line subtitle-line">
+      <h3 class="subtitle" fxFlex>{{ category.name }}</h3>
+      <button
+        fxFlex="nogrow"
+        mat-button
+        (click)="addProject(category.id)"
+        class="add-button"
+      >
+        Ajouter un projet
+      </button>
+    </div>
 
     <div
       *ngFor="let projectId of sortByPosition(category.projectIds)"

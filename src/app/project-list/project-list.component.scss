@@ -1,5 +1,5 @@
 .container {
-  width: 400px;
+  width: 500px;
   max-width: 100%;
   margin: 0 25px 25px 0;
   display: inline-block;
@@ -44,9 +44,38 @@
 }
 
 .item:last-child {
-  border: none;
+  border-bottom: none;
 }
 
 .list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.title {
+  justify-content: left;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  font-size: 20px;
+}
+
+.title-line {
+  width: 500px;
+}
+
+.subtitle-line {
+  border-bottom: solid 1px #ccc;
+}
+
+.subtitle {
+  justify-content: left;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  font-size: 16px;
+  padding-left: 10px;
+}
+
+.add-button {
+  height: 40px;
 }

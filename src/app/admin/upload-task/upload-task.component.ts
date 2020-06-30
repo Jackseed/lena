@@ -36,44 +36,79 @@ export class UploadTaskComponent implements OnInit, OnDestroy {
   }
 
   async startUpload() {
-    const project = await this.db
-      .collection("projects")
-      .doc(this.id)
-      .get()
-      .toPromise();
-    const id = this.db.createId();
-    // The storage path
-    const path = `test/${Date.now()}_${this.file.name}`;
+    if (this.id) {
+      const project = await this.db
+        .collection("projects")
+        .doc(this.id)
+        .get()
+        .toPromise();
+      const id = this.db.createId();
+      // The storage path
+      const path = `projects/${Date.now()}_${this.file.name}`;
 
-    // Reference to storage bucket
-    const ref = this.storage.ref(path);
+      // Reference to storage bucket
+      const ref = this.storage.ref(path);
 
-    // The main task
-    this.task = this.storage.upload(path, this.file);
+      // The main task
+      this.task = this.storage.upload(path, this.file);
 
-    // Progress monitoring
-    this.percentage = this.task.percentageChanges();
-    console.log(this.task);
+      // Progress monitoring
+      this.percentage = this.task.percentageChanges();
+      console.log(this.task);
 
-    this.snapshot = this.task.snapshotChanges().pipe(
-      tap(console.log),
-      // The file's download URL
-      finalize(async () => {
-        const downloadUrl = await ref.getDownloadURL().toPromise();
+      this.snapshot = this.task.snapshotChanges().pipe(
+        tap(console.log),
+        // The file's download URL
+        finalize(async () => {
+          const downloadUrl = await ref.getDownloadURL().toPromise();
 
-        this.db
-          .collection("projects")
-          .doc(this.id)
-          .collection("images")
-          .doc(id)
-          .set({
+          this.db
+            .collection("projects")
+            .doc(this.id)
+            .collection("images")
+            .doc(id)
+            .set({
+              id,
+              downloadUrl,
+              path,
+              caption: "",
+            });
+        })
+      );
+    // category image
+    } else {
+      const collection = await this.db.collection("categories").get().toPromise();
+      const position = collection.size;
+      const id = this.db.createId();
+      // The storage path
+      const path = `categories/${Date.now()}_${this.file.name}`;
+
+      // Reference to storage bucket
+      const ref = this.storage.ref(path);
+
+      // The main task
+      this.task = this.storage.upload(path, this.file);
+
+      // Progress monitoring
+      this.percentage = this.task.percentageChanges();
+      console.log(this.task);
+
+      this.snapshot = this.task.snapshotChanges().pipe(
+        tap(console.log),
+        // The file's download URL
+        finalize(async () => {
+          const downloadUrl = await ref.getDownloadURL().toPromise();
+
+          this.db.collection("categories").doc(id).set({
             id,
             downloadUrl,
             path,
-            caption: "",
+            position,
+            projectIds: [],
           });
-      })
-    );
+        })
+      );
+    }
     this.sub = this.snapshot.subscribe();
   }
 
