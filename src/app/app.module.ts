@@ -30,9 +30,10 @@ import { CategoryListComponent } from "./admin/category-list/category-list.compo
 import { MatSelectModule } from "@angular/material/select";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
-import { VignetteListComponent } from './admin/vignette-list/vignette-list.component';
-import { FooterComponent } from './footer/footer.component';
-import { DragableGridComponent } from './admin/dragable-grid/dragable-grid.component';
+import { VignetteListComponent } from "./admin/vignette-list/vignette-list.component";
+import { FooterComponent } from "./footer/footer.component";
+import { DragableGridComponent } from "./admin/dragable-grid/dragable-grid.component";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDi0VGkbRt-rPpaWFcEHzkDC9yQK4cMWyQ",
@@ -80,6 +81,7 @@ const firebaseConfig = {
     MatSelectModule,
     MatInputModule,
     MatFormFieldModule,
+    MatAutocompleteModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: "fr-FR" }],
   bootstrap: [AppComponent],
