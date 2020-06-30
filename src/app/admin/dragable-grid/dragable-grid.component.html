@@ -2,24 +2,8 @@
   ngClass.sm="container-xs"
   ngClass.sm="container-sm"
   ngClass.gt-sm="container"
+  cdkDropListGroup
 >
-  <mat-grid-list [cols]="grid.cols" [gutterSize]="grid.gutterSize">
-    <mat-grid-tile *ngFor="let vignette of vignettes$ | async">
-      <a
-        routerLink="/{{ vignette.projectId }}"
-        ngStyle.xs="width:100%; height:100%;"
-      >
-        <img
-          ngClass.gt-sm="tiles"
-          ngClass.lt-md="mobile-tiles"
-          src="{{ vignette.downloadUrl }}"
-        />
-      </a>
-    </mat-grid-tile>
-  </mat-grid-list>
-</div>
-
-<div class="example-container" cdkDropListGroup>
   <div
     cdkDropList
     [cdkDropListEnterPredicate]="enter"
@@ -32,12 +16,17 @@
     [cdkDropListEnterPredicate]="enter"
     (cdkDropListDropped)="drop()"
   >
-    <div cdkDrag class="example-box">
-      <img
-        ngClass.gt-sm="tiles"
-        ngClass.lt-md="mobile-tiles"
-        src="{{ vignette.downloadUrl }}"
-      />
+    <div cdkDrag ngClass.gt-sm="tiles" ngClass.lt-md="mobile-tiles">
+      <a
+        routerLink="/{{ vignette.projectId }}"
+        ngStyle.xs="width:100%; height:100%;"
+      >
+        <img
+          ngClass.gt-sm="tiles"
+          ngClass.lt-md="mobile-tiles"
+          src="{{ vignette.downloadUrl }}"
+        />
+      </a>
     </div>
   </div>
 </div>
