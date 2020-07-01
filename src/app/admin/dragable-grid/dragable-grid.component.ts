@@ -68,7 +68,6 @@ export class DragableGridComponent implements OnInit, OnDestroy {
         )
       );
     this.getVignettes();
-    console.log(this.vignettes);
   }
 
   async getVignettes() {
@@ -163,9 +162,9 @@ export class DragableGridComponent implements OnInit, OnDestroy {
       drag.element.nativeElement.offsetLeft,
       drag.element.nativeElement.offsetTop
     );
-    console.log(this.vignettes);
+
     this.updatePosition(this.vignettes);
-    
+
     return false;
   };
 

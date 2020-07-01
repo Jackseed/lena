@@ -1,0 +1,23 @@
+<form (ngSubmit)="onSubmit()">
+  <mat-form-field>
+    <input
+      type="text"
+      placeholder="Projet"
+      aria-label="Number"
+      matInput
+      [formControl]="projectForm"
+      [matAutocomplete]="auto"
+    />
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option
+        *ngFor="let project of filteredProjects | async"
+        [value]="project"
+      >
+        {{ project.title }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
+<button mat-button type="submit" (click)="save()">
+  Sauvegarder
+</button>

@@ -34,6 +34,7 @@ import { VignetteListComponent } from "./admin/vignette-list/vignette-list.compo
 import { FooterComponent } from "./footer/footer.component";
 import { DragableGridComponent } from "./admin/dragable-grid/dragable-grid.component";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { VignetteFormComponent } from './admin/vignette-form/vignette-form.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDi0VGkbRt-rPpaWFcEHzkDC9yQK4cMWyQ",
@@ -63,6 +64,7 @@ const firebaseConfig = {
     VignetteListComponent,
     FooterComponent,
     DragableGridComponent,
+    VignetteFormComponent,
   ],
   imports: [
     BrowserModule,
