@@ -7,11 +7,13 @@ import { ProjectListComponent } from "./project-list/project-list.component";
 import { ProjectViewComponent } from "./project-view/project-view.component";
 import { CategoryListComponent } from "./admin/category-list/category-list.component";
 import { VignetteListComponent } from "./admin/vignette-list/vignette-list.component";
+import { AuthComponent } from "./admin/auth/auth.component";
 
 const routes: Routes = [
   { path: "home", component: GridComponent },
   { path: "", redirectTo: "/home", pathMatch: "full" },
-  { path: "admin", component: ProjectListComponent },
+  { path: "admin", component: AuthComponent },
+  { path: "admin/projects", component: ProjectListComponent },
   { path: "admin/categories", component: CategoryListComponent },
   { path: "admin/vignettes", component: VignetteListComponent },
   { path: "admin/:id/edit", component: ProjectFormComponent },
