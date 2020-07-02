@@ -15,7 +15,6 @@ html {
 }
 
 .footer {
-
   padding-bottom: 20px;
   padding-top: 70px;
   color: #a4a4a4;
@@ -26,7 +25,6 @@ html {
   font-weight: bold;
 }
 
-
 h1 {
   font-size: 12px;
   padding-bottom: 3px;
@@ -34,14 +32,26 @@ h1 {
   @include layout-bp(xs) {
     font-size: 20px;
   }
+  @include layout-bp(sm) {
+    font-size: 16px;
+  }
+  @include layout-bp(gt-md) {
+    font-size: 20px;
+  }
 }
 
 p {
-  font-size: 11px;
+  font-size: 10px;
   margin: 0;
   line-height: 9.2px;
 
   @include layout-bp(xs) {
+    font-size: 17px;
+  }
+  @include layout-bp(sm) {
+    font-size: 14px;
+  }
+  @include layout-bp(gt-md) {
     font-size: 17px;
   }
 }
@@ -49,6 +59,12 @@ p {
 span {
   font-size: 9px;
   @include layout-bp(xs) {
+    font-size: 14px;
+  }
+  @include layout-bp(sm) {
+    font-size: 11px;
+  }
+  @include layout-bp(gt-md) {
     font-size: 14px;
   }
 }
@@ -64,15 +80,19 @@ span {
   margin: 10px 0;
 
   &.hovering {
-      border: 2px solid #f16624;
-      color: #dadada !important;
+    border: 2px solid #f16624;
+    color: #dadada !important;
   }
 
   .file-label {
-      font-size: 1.2em;
+    font-size: 1.2em;
   }
 }
 
 progress::-webkit-progress-value {
   transition: width 0.1s ease;
+}
+
+.margin-top {
+  margin-top: 5%;
 }
