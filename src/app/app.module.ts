@@ -3,7 +3,6 @@ import { NgModule, LOCALE_ID } from "@angular/core";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { MenuComponent } from "./menu/menu.component";
-import { ProjectComponent } from "./project/project.component";
 import { GridComponent } from "./grid/grid.component";
 import { NoopAnimationsModule } from "@angular/platform-browser/animations";
 import { FlexLayoutModule } from "@angular/flex-layout";
@@ -23,7 +22,7 @@ import { UploadTaskComponent } from "./admin/upload-task/upload-task.component";
 import { registerLocaleData } from "@angular/common";
 import localeFr from "@angular/common/locales/fr";
 registerLocaleData(localeFr);
-import { ProjectListComponent } from "./project-list/project-list.component";
+import { ProjectListComponent } from "./admin/project-list/project-list.component";
 import { ProjectViewComponent } from "./project-view/project-view.component";
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { CategoryListComponent } from "./admin/category-list/category-list.component";
@@ -55,7 +54,6 @@ const firebaseConfig = {
   declarations: [
     AppComponent,
     MenuComponent,
-    ProjectComponent,
     GridComponent,
     LayoutComponent,
     ToolbarComponent,

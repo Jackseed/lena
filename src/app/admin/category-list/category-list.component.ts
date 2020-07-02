@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Location } from "@angular/common";
 import { FormControl, FormGroup } from "@angular/forms";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { Category } from "src/app/models/menu-titles";
+import { Category } from "src/app/models/categories";
 import { Observable } from "rxjs";
 import { map } from "rxjs/internal/operators/map";
 import { CdkDragDrop } from "@angular/cdk/drag-drop";

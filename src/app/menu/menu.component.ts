@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { Category, MenuTitles } from "../models/menu-titles";
-import { Project } from "../models/project-list";
+import { Category } from "../models/categories";
+import { Project } from "../models/projects";
 import { Observable } from "rxjs";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { map } from "rxjs/operators";
@@ -11,7 +11,6 @@ import { map } from "rxjs/operators";
   styleUrls: ["./menu.component.scss"],
 })
 export class MenuComponent implements OnInit {
-  public categories: Category[] = MenuTitles;
   public categories$: Observable<Category[]>;
   public projects: Project[] = [];
 

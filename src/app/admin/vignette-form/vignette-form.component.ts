@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { Tile } from "src/app/models/vignettes";
-import { Project } from "src/app/models/project-list";
+import { Vignette } from "src/app/models/vignettes";
+import { Project } from "src/app/models/projects";
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { AngularFirestore } from "@angular/fire/firestore";
@@ -14,7 +14,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
   styleUrls: ["./vignette-form.component.scss"],
 })
 export class VignetteFormComponent implements OnInit {
-  @Input() vignette: Tile;
+  @Input() vignette: Vignette;
   public projects: Project[] = [];
   projectForm = new FormControl();
   filteredProjects: Observable<Project[]>;
@@ -99,7 +99,7 @@ export class VignetteFormComponent implements OnInit {
   }
 
   // TODO: use a function onDelete to delete the file on Storage
-  public async deleteVignette(vignette: Tile) {
+  public async deleteVignette(vignette: Vignette) {
     const imgRef = this.storage.storage.refFromURL(vignette.downloadUrl);
 
     // delete on firestore
@@ -115,7 +115,7 @@ export class VignetteFormComponent implements OnInit {
           .then(async () => {
             console.log("Fichier supprimée de storage !");
             // reposition remaining categories
-            const vignettes: Tile[] = [];
+            const vignettes: Vignette[] = [];
             await this.db
               .collection("vignettes")
               .get()

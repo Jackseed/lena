@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Location } from "@angular/common";
-import { Project } from "../models/project-list";
+import { Project } from "../models/projects";
 import { Image } from "../models/images";
 import { Observable } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";

@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Location } from "@angular/common";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { map } from "rxjs/operators";
-import { Tile } from "src/app/models/vignettes";
+import { Vignette } from "src/app/models/vignettes";
 import { Observable } from "rxjs";
 import { Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -13,7 +13,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
   styleUrls: ["./vignette-list.component.scss"],
 })
 export class VignetteListComponent implements OnInit {
-  public vignettes$: Observable<Tile[]>;
+  public vignettes$: Observable<Vignette[]>;
 
   constructor(
     private db: AngularFirestore,
@@ -27,7 +27,7 @@ export class VignetteListComponent implements OnInit {
       .collection("vignettes")
       .valueChanges()
       .pipe(
-        map((vignettes: Tile[]) =>
+        map((vignettes: Vignette[]) =>
           vignettes.sort((a, b) => a.position - b.position)
         )
       );

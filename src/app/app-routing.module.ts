@@ -1,14 +1,13 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { GridComponent } from "./grid/grid.component";
-import { ProjectComponent } from "./project/project.component";
 import { ProjectFormComponent } from "./admin/project-form/project-form.component";
-import { ProjectListComponent } from "./project-list/project-list.component";
+import { ProjectListComponent } from "./admin/project-list/project-list.component";
 import { ProjectViewComponent } from "./project-view/project-view.component";
 import { CategoryListComponent } from "./admin/category-list/category-list.component";
 import { VignetteListComponent } from "./admin/vignette-list/vignette-list.component";
 import { AuthComponent } from "./admin/auth/auth.component";
-import { AuthGuard } from "./admin/auth.guard";
+import { AuthGuard } from "./admin/auth/auth.guard";
 
 const routes: Routes = [
   { path: "home", component: GridComponent },

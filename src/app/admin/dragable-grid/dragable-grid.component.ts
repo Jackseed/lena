@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
-import { Grid, Tile } from "src/app/models/vignettes";
+import { Grid, Vignette } from "src/app/models/vignettes";
 import { Subscription, Observable } from "rxjs";
 import { MediaObserver, MediaChange } from "@angular/flex-layout";
 import { filter, map } from "rxjs/operators";
@@ -24,8 +24,8 @@ export class DragableGridComponent implements OnInit, OnDestroy {
   public grid: Grid;
   private watcher: Subscription;
   private activeMediaQuery = "";
-  public vignettes$: Observable<Tile[]>;
-  public vignettes: Tile[] = [];
+  public vignettes$: Observable<Vignette[]>;
+  public vignettes: Vignette[] = [];
 
   public target: CdkDropList;
   public targetIndex: number;
@@ -67,7 +67,7 @@ export class DragableGridComponent implements OnInit, OnDestroy {
       .collection("vignettes")
       .valueChanges()
       .pipe(
-        map((vignettes: Tile[]) =>
+        map((vignettes: Vignette[]) =>
           vignettes.sort((a, b) => a.position - b.position)
         )
       );
@@ -176,7 +176,7 @@ export class DragableGridComponent implements OnInit, OnDestroy {
     return Array.prototype.indexOf.call(collection, node);
   }
 
-  private updatePosition(vignettes: Tile[]) {
+  private updatePosition(vignettes: Vignette[]) {
     console.log("updating position");
     const batch = this.db.firestore.batch();
     console.log(vignettes);

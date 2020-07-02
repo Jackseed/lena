@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Tiles, Tile, Grid } from "src/app/models/vignettes";
+import { Vignette, Grid } from "src/app/models/vignettes";
 import { Subscription } from "rxjs";
 import { MediaObserver, MediaChange } from "@angular/flex-layout";
 import { filter, map } from "rxjs/operators";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { Project } from '../models/project-list';
+import { Project } from "../models/projects";
 
 @Component({
   selector: "app-grid",
@@ -12,8 +12,7 @@ import { Project } from '../models/project-list';
   styleUrls: ["./grid.component.scss"],
 })
 export class GridComponent implements OnInit, OnDestroy {
-  public tiles: Tile[] = Tiles;
-  public vignettes: Tile[] = [];
+  public vignettes: Vignette[] = [];
   public projects: Project[] = [];
   public grid: Grid;
   watcher: Subscription;
