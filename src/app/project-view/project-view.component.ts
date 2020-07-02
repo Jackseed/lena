@@ -3,9 +3,9 @@ import { Location } from "@angular/common";
 import { Project } from "../models/project-list";
 import { Image } from "../models/images";
 import { Observable } from "rxjs";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { map } from "rxjs/operators";
+import { map, switchMap } from "rxjs/operators";
 
 @Component({
   selector: "app-project-view",
@@ -39,33 +39,35 @@ export class ProjectViewComponent implements OnInit {
       .catch((error) => {
         console.log("Error getting documents: ", error);
       });
-    if (this.route.snapshot.routeConfig.path.includes("admin")) {
-      this.id = this.route.snapshot.paramMap.get("id");
-      this.project$ = this.db
-        .collection("projects")
-        .doc(this.id)
-        .valueChanges();
-    } else {
-      this.id = this.projects.find(
-        (project) => project.title === this.route.snapshot.paramMap.get("title")
-      ).id;
-      this.project$ = this.route.params.pipe(
-        map((p) => p.title),
-        map((title) =>
-          this.projects.find((project) => {
-            return project.title === title;
-          })
-        )
-      );
-    }
-    this.images$ = this.db
-      .collection("projects")
-      .doc(this.id)
-      .collection("images")
-      .valueChanges()
-      .pipe(
-        map((images: Image[]) => images.sort((a, b) => a.position - b.position))
-      );
+
+    this.project$ = this.route.params.pipe(
+      map((p) => {
+        if (p.title) {
+          return this.projects.find((project) => {
+            return project.title === p.title;
+          });
+        } else {
+          return this.projects.find((project) => {
+            return project.id === p.id;
+          });
+        }
+      })
+    );
+
+    this.images$ = this.project$.pipe(
+      switchMap((project) =>
+        this.db
+          .collection("projects")
+          .doc(project.id)
+          .collection("images")
+          .valueChanges()
+          .pipe(
+            map((images: Image[]) =>
+              images.sort((a, b) => a.position - b.position)
+            )
+          )
+      )
+    );
   }
 
   public isAdmin() {

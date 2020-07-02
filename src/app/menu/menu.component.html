@@ -13,10 +13,10 @@
       <div ngClass.gt-xs="project" ngClass.xs="project-xs">
         <a
           class="project-link"
-          routerLink="/{{ getProjectById(projectId.id).title }}"
+          routerLink="/{{ getProjectById(projectId.id)?.title }}"
         >
           <p ngClass.xs="project-title-xs" ngClass.sm="project-title-sm">
-            {{ getProjectById(projectId.id).title }}
+            {{ getProjectById(projectId.id)?.title }}
           </p>
         </a>
       </div>

@@ -50,7 +50,7 @@ export class GridComponent implements OnInit, OnDestroy {
       .toPromise()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          if (doc.exists) {
+          if (doc.exists && doc.data().projectId) {
             this.vignettes.push(doc.data());
           }
         });

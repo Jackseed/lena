@@ -33,7 +33,7 @@ export class MenuComponent implements OnInit {
       .toPromise()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          if (doc.exists) {
+          if (doc.exists && doc.data().status === "published") {
             this.projects.push(doc.data());
           }
         });
