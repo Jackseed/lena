@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Location } from "@angular/common";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { map } from "rxjs/operators";
 import { Tile } from "src/app/models/vignettes";
@@ -12,7 +13,7 @@ import { Observable } from "rxjs";
 export class VignetteListComponent implements OnInit {
   public vignettes$: Observable<Tile[]>;
 
-  constructor(private db: AngularFirestore) {}
+  constructor(private db: AngularFirestore, private location: Location) {}
 
   ngOnInit(): void {
     this.vignettes$ = this.db
@@ -23,5 +24,9 @@ export class VignetteListComponent implements OnInit {
           vignettes.sort((a, b) => a.position - b.position)
         )
       );
+  }
+
+  back() {
+    this.location.back();
   }
 }

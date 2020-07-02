@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Location } from "@angular/common";
 import { FormControl, FormGroup } from "@angular/forms";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Category } from "src/app/models/menu-titles";
@@ -19,7 +20,8 @@ export class CategoryListComponent implements OnInit {
   public categories$: Observable<Category[]>;
   constructor(
     private db: AngularFirestore,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
@@ -142,5 +144,9 @@ export class CategoryListComponent implements OnInit {
     }
 
     batch.commit();
+  }
+
+  back() {
+    this.location.back();
   }
 }

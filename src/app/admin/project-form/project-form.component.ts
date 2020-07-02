@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Location } from "@angular/common";
 import { FormGroup, FormControl } from "@angular/forms";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -39,7 +40,8 @@ export class ProjectFormComponent implements OnInit {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private location: Location
   ) {}
 
   async ngOnInit() {
@@ -320,5 +322,9 @@ export class ProjectFormComponent implements OnInit {
 
     this.openSnackBar("Projet supprimé !");
     this.router.navigate(["/admin"]);
+  }
+
+  back() {
+    this.location.back();
   }
 }

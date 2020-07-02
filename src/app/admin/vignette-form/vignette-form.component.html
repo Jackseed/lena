@@ -1,3 +1,4 @@
+
 <div fxLayout="row" class="container">
   <form (ngSubmit)="onSubmit()" fxFlex>
     <mat-form-field>
@@ -21,7 +22,13 @@
     </mat-form-field>
   </form>
 
-  <button fxFlex="nogrow" mat-stroked-button type="submit" (click)="save()" class="save-button">
+  <button
+    fxFlex="nogrow"
+    mat-stroked-button
+    type="submit"
+    (click)="save()"
+    class="save-button"
+  >
     Sauvegarder
   </button>
 </div>
