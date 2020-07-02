@@ -6,6 +6,7 @@ import { Observable } from "rxjs";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { map, startWith } from "rxjs/operators";
 import { AngularFireStorage } from "@angular/fire/storage";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-vignette-form",
@@ -20,7 +21,8 @@ export class VignetteFormComponent implements OnInit {
 
   constructor(
     private db: AngularFirestore,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private snackBar: MatSnackBar
   ) {}
 
   async ngOnInit() {
@@ -50,6 +52,12 @@ export class VignetteFormComponent implements OnInit {
   save() {
     this.db.collection("vignettes").doc(this.vignette.id).update({
       projectId: this.projectForm.value.id,
+    });
+    this.openSnackBar("Lien sauvegardé !");
+  }
+  private openSnackBar(message: string) {
+    this.snackBar.open(message, "Fermer", {
+      duration: 2000,
     });
   }
 
@@ -136,6 +144,8 @@ export class VignetteFormComponent implements OnInit {
             }
 
             batch.commit();
+
+            this.openSnackBar("Vignette supprimée !");
           })
           .catch((error) => {
             console.error(

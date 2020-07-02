@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Category, MenuTitles } from "../models/menu-titles";
-import { Project, Projects } from "../models/project-list";
+import { Project } from "../models/project-list";
 import { Observable } from "rxjs";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { map } from "rxjs/operators";
