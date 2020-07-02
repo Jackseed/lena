@@ -146,7 +146,15 @@ export class CategoryListComponent implements OnInit {
     batch.commit();
   }
 
-  back() {
+  public isEmpty(category: Category): boolean {
+    if (category.projectIds.length === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public back() {
     this.location.back();
   }
 }

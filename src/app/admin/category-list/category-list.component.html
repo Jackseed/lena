@@ -24,7 +24,7 @@
       ngClass.gt-xs="title-img"
       src="{{ category.downloadUrl }}"
     />
-    <button mat-icon-button (click)="deleteCategory(category)">
+    <button mat-icon-button (click)="deleteCategory(category)" [disabled]="!isEmpty(category)">
       <mat-icon>delete</mat-icon>
     </button>
   </div>
