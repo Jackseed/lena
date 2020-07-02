@@ -10,6 +10,8 @@ import {
   moveItemInArray,
   CdkDrag,
 } from "@angular/cdk/drag-drop";
+import { Router } from "@angular/router";
+import { MatSnackBar } from "@angular/material/snack-bar";
 @Component({
   selector: "app-dragable-grid",
   templateUrl: "./dragable-grid.component.html",
@@ -33,7 +35,9 @@ export class DragableGridComponent implements OnInit, OnDestroy {
 
   constructor(
     private mediaObserver: MediaObserver,
-    private db: AngularFirestore
+    private db: AngularFirestore,
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     this.target = null;
     this.source = null;
@@ -187,6 +191,20 @@ export class DragableGridComponent implements OnInit, OnDestroy {
     }
 
     batch.commit();
+  }
+
+  public navigateProject(projectId: string) {
+    if (projectId) {
+      this.router.navigate([`/admin/${projectId}/view`]);
+    } else {
+      this.openSnackBar("Aucun projet associé (recharge la page ?)");
+    }
+  }
+
+  private openSnackBar(message: string) {
+    this.snackBar.open(message, "Fermer", {
+      duration: 2000,
+    });
   }
 
   ngOnDestroy() {

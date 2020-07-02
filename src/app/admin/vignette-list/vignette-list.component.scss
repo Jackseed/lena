@@ -1,6 +1,11 @@
 .title {
   font-size: 20px;
 }
+
+.tiles :hover {
+  cursor: pointer;
+}
+
 .upload-box {
   height: 110px;
   width: 110px;

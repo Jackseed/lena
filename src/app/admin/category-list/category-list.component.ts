@@ -7,6 +7,7 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/internal/operators/map";
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
 import { AngularFireStorage } from "@angular/fire/storage";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-category-list",
@@ -21,7 +22,8 @@ export class CategoryListComponent implements OnInit {
   constructor(
     private db: AngularFirestore,
     private storage: AngularFireStorage,
-    private location: Location
+    private location: Location,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -107,6 +109,7 @@ export class CategoryListComponent implements OnInit {
       .catch((error) => {
         console.error("Erreur dans la suppression bdd: ", error);
       });
+    this.openSnackBar("Catégorie supprimée !");
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -152,6 +155,12 @@ export class CategoryListComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  private openSnackBar(message: string) {
+    this.snackBar.open(message, "Fermer", {
+      duration: 2000,
+    });
   }
 
   public back() {

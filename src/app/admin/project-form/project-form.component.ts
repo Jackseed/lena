@@ -76,7 +76,7 @@ export class ProjectFormComponent implements OnInit {
     this.openSnackBar("Projet sauvegardé !");
   }
 
-  openSnackBar(message: string) {
+  private openSnackBar(message: string) {
     this.snackBar.open(message, "Fermer", {
       duration: 2000,
     });
