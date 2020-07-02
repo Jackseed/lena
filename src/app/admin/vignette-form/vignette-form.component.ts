@@ -5,6 +5,7 @@ import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { map, startWith } from "rxjs/operators";
+import { AngularFireStorage } from "@angular/fire/storage";
 
 @Component({
   selector: "app-vignette-form",
@@ -17,7 +18,10 @@ export class VignetteFormComponent implements OnInit {
   projectForm = new FormControl();
   filteredProjects: Observable<Project[]>;
 
-  constructor(private db: AngularFirestore) {}
+  constructor(
+    private db: AngularFirestore,
+    private storage: AngularFireStorage
+  ) {}
 
   async ngOnInit() {
     await this.getProjects();
@@ -37,9 +41,7 @@ export class VignetteFormComponent implements OnInit {
     );
 
     if (!!this.vignette.projectId) {
-      this.projectForm.patchValue(
-        this.getProjectById(this.vignette.projectId)
-      );
+      this.projectForm.patchValue(this.getProjectById(this.vignette.projectId));
     } else {
     }
   }
@@ -79,12 +81,71 @@ export class VignetteFormComponent implements OnInit {
     } else {
       filterValue = "";
     }
-    return this.projects.filter((project_) =>
-      project_.title.toLowerCase().includes(filterValue)
+    return this.projects.filter((proj) =>
+      proj.title.toLowerCase().includes(filterValue)
     );
   }
 
   private getProjectById(id: string): Project {
     return this.projects.find((project) => project.id === id);
+  }
+
+  // TODO: use a function onDelete to delete the file on Storage
+  public async deleteVignette(vignette: Tile) {
+    const imgRef = this.storage.storage.refFromURL(vignette.downloadUrl);
+
+    // delete on firestore
+    this.db
+      .collection("vignettes")
+      .doc(vignette.id)
+      .delete()
+      .then((_) => {
+        console.log("Image supprimée de la bdd !");
+        // delete on firestorage
+        imgRef
+          .delete()
+          .then(async () => {
+            console.log("Fichier supprimée de storage !");
+            // reposition remaining categories
+            const vignettes: Tile[] = [];
+            await this.db
+              .collection("vignettes")
+              .get()
+              .toPromise()
+              .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                  if (doc.exists) {
+                    vignettes.push(doc.data());
+                  }
+                });
+              })
+              .catch((error) => {
+                console.log("Error getting documents: ", error);
+              });
+            vignettes.sort((a, b) => a.position - b.position);
+
+            const batch = this.db.firestore.batch();
+
+            for (let i = 0; i < vignettes.length; i++) {
+              batch.update(
+                this.db.firestore.collection("vignettes").doc(vignettes[i].id),
+                {
+                  position: i,
+                }
+              );
+            }
+
+            batch.commit();
+          })
+          .catch((error) => {
+            console.error(
+              "Erreur dans la suppression fichier storage: ",
+              error
+            );
+          });
+      })
+      .catch((error) => {
+        console.error("Erreur dans la suppression bdd: ", error);
+      });
   }
 }

@@ -85,6 +85,7 @@ export class DragableGridComponent implements OnInit, OnDestroy {
       .catch((error) => {
         console.log("Error getting documents: ", error);
       });
+    this.vignettes.sort((a, b) => a.position - b.position);
   }
 
   ngAfterViewInit() {
@@ -116,6 +117,7 @@ export class DragableGridComponent implements OnInit, OnDestroy {
 
     if (this.sourceIndex !== this.targetIndex) {
       moveItemInArray(this.vignettes, this.sourceIndex, this.targetIndex);
+      this.updatePosition(this.vignettes);
     }
   }
 
@@ -163,8 +165,6 @@ export class DragableGridComponent implements OnInit, OnDestroy {
       drag.element.nativeElement.offsetTop
     );
 
-    this.updatePosition(this.vignettes);
-
     return false;
   };
 
@@ -173,7 +173,9 @@ export class DragableGridComponent implements OnInit, OnDestroy {
   }
 
   private updatePosition(vignettes: Tile[]) {
+    console.log("updating position");
     const batch = this.db.firestore.batch();
+    console.log(vignettes);
 
     for (let i = 0; i < vignettes.length; i++) {
       batch.update(

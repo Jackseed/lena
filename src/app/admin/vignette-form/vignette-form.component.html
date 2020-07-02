@@ -1,4 +1,3 @@
-
 <div fxLayout="row" class="container">
   <form (ngSubmit)="onSubmit()" fxFlex>
     <mat-form-field>
@@ -21,7 +20,9 @@
       </mat-autocomplete>
     </mat-form-field>
   </form>
-
+  <button fxFlex="nogrow" mat-icon-button (click)="deleteVignette(vignette)">
+    <mat-icon>delete</mat-icon>
+  </button>
   <button
     fxFlex="nogrow"
     mat-stroked-button
