@@ -17,7 +17,7 @@ const routes: Routes = [
   {
     path: "admin/projects",
     component: ProjectListComponent,
-    canActivate: [AuthGuard],
+    /* canActivate: [AuthGuard], */
   },
   {
     path: "admin/categories",
