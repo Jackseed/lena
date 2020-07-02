@@ -1,0 +1,23 @@
+<div class="container" cdkDropListGroup>
+  <div
+    cdkDropList
+    [cdkDropListEnterPredicate]="enter"
+    (cdkDropListDropped)="drop()"
+    #placeholder
+  ></div>
+  <div
+    cdkDropList
+    *ngFor="let vignette of vignettes"
+    [cdkDropListEnterPredicate]="enter"
+    (cdkDropListDropped)="drop()"
+  >
+    <div cdkDrag ngClass.gt-sm="tiles" ngClass.lt-md="mobile-tiles">
+      <a
+        routerLink="/admin/{{ vignette.projectId }}/view"
+        ngStyle.xs="width:100%; height:100%;"
+      >
+        <img class="tiles" src="{{ vignette.downloadUrl }}" />
+      </a>
+    </div>
+  </div>
+</div>

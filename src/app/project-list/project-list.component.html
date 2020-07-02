@@ -1,0 +1,59 @@
+<div fxFlexLayout="row" fxFlexAlign="center end" class="title-line">
+  <h2 class="title" fxFlex>Liste des projets</h2>
+  <button
+    fxFlex="nogrow"
+    mat-stroked-button
+    routerLink="categories"
+    class="add-button"
+  >
+    Ajouter une catégorie
+  </button>
+  <button
+  fxFlex="nogrow"
+  mat-stroked-button
+  routerLink="vignettes"
+  class="add-button"
+>
+  Gérer les vignettes
+</button>
+</div>
+
+<div cdkDropListGroup>
+  <div
+    cdkDropList
+    [cdkDropListData]="category.projectIds"
+    class="list container"
+    (cdkDropListDropped)="drop($event)"
+    *ngFor="let category of categories$ | async"
+    id="{{ category.id }}"
+  >
+    <div
+      fxFlexLayout="row"
+      class="title-line subtitle-line"
+    >
+      <img
+        fxFlex="nogrow"
+        ngClass.xs="title-img-xs"
+        ngClass.gt-xs="title-img"
+        src="{{ category.downloadUrl }}"
+      />
+      <div fxFlex></div>
+      <button
+        fxFlex="nogrow"
+        mat-button
+        (click)="addProject(category.id)"
+      >
+        Ajouter un projet
+      </button>
+    </div>
+
+    <div
+      *ngFor="let projectId of sortByPosition(category.projectIds)"
+      class="item"
+      [routerLink]="[projectId.id, 'edit']"
+      cdkDrag
+    >
+      {{ getProjectById(projectId.id).title }}
+    </div>
+  </div>
+</div>

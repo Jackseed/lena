@@ -1,0 +1,40 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+  <div fxFlex="100%" fxFlex.sm="60%" fxFlex.xs="100%">
+    <!-- HEADER -->
+    <div *ngIf="project$ | async as project">
+      <div ngStyle.lt-md="margin:20px;" ngStyle.gt-sm="width:500px;">
+        <h1>{{ project.title }}</h1>
+        <p>
+          {{ project.description }}
+        </p>
+
+        <br />
+        <span> {{ project.caption }}</span>
+      </div>
+      <!-- IMAGES -->
+      <div *ngFor="let image of images$ | async">
+        <p
+          ngStyle.xs="margin-right: 5%; margin-left: 5%; width: 90%;"
+          ngStyle.gt-sm="width:500px;"
+          class="legende-projets"
+          *ngIf="image.caption"
+        >
+          {{ image.caption }}
+        </p>
+
+        <img
+          ngClass.lt-md="images-projet-mobile"
+          ngClass.gt-sm="images-projet"
+          src="{{ image.downloadUrl }}"
+        />
+      </div>
+      <p
+        ngStyle.xs="margin-right: 5%; margin-left: 5%; width: 90%;"
+        ngStyle.gt-sm="width:500px;"
+        class="legende-projets"
+      >
+        {{ project.finalCaption }}
+      </p>
+    </div>
+  </div>
+</div>

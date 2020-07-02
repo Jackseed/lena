@@ -1,38 +1,49 @@
 export interface Project {
-  section: string;
-  titre: string;
-  lien: string;
-  description: string[];
-  signature_projet: string;
-  images: string[];
-  legende1: string[];
-  images1: string[];
-  legende2: string[];
-  images2: string[];
-  legende3: string[];
-  images3: string[];
-  legende4: string[];
-  images4: string[];
-  legende5: string[];
-  images5: string[];
-  legende_finale: string[];
-  copyright: string;
-  signature: string;
+  id?: string;
+  position?: number;
+  categoryId?: string;
+  title?: string;
+  link?: string;
+  description?: string;
+  caption?: string;
+  finalCaption?: string;
+  images0?: string[];
+  legende1?: string[];
+  images1?: string[];
+  legende2?: string[];
+  images2?: string[];
+  legende3?: string[];
+  images3?: string[];
+  legende4?: string[];
+  images4?: string[];
+  legende5?: string[];
+  images5?: string[];
+  legende_finale?: string[];
+  copyright?: string;
+  signature?: string;
+}
+
+export function createProject(p: Partial<Project>): Project {
+  const project = {
+    id: p.id,
+    title: p.title,
+    description: p.description,
+    caption: p.caption,
+  };
+
+  return project;
 }
 
 export const Projects = [
   {
-    section: "graphisme",
-    titre: "Le Monde des enfants",
-    lien: "lemondedesenfants",
-    description: [
-      "Conception d'un supplément hebdomadaire au journal Le Monde.",
-      "Le Monde des Enfants, pour expliquer l'actualité aux enfants avec des mots simples : C'est où la  Syrie ?",
+    category: "graphisme",
+    title: "Le Monde des enfants",
+    link: "lemondedesenfants",
+    description:
       // tslint:disable-next-line: max-line-length
-      "Et pourquoi on en parle ? Papa, un coeur greffé il peut tomber amoureux ? Et pourquoi il fait si froid à Chigaco alors qu'on dit que la terre elle se réchauffe ?",
-    ],
-    signature_projet: "La Cambre, 2014.",
-    images: [
+      "Conception d'un supplément hebdomadaire au journal Le Monde. Le Monde des Enfants, pour expliquer l'actualité aux enfants avec des mots simples : C'est où la  Syrie ? Et pourquoi on en parle ? Papa, un coeur greffé il peut tomber amoureux ? Et pourquoi il fait si froid à Chigaco alors qu'on dit que la terre elle se réchauffe ?",
+    caption: "La Cambre, 2014.",
+    images0: [
       "lmde_1.jpg",
       "lmde_2.jpg",
       "lmde_3.jpg",
@@ -65,11 +76,11 @@ export const Projects = [
     signature: "Lena Piroux 2016",
   },
   {
-    section: "graphisme",
-    titre: "College 75",
-    lien: "college75",
-    description: [],
-    signature_projet: "",
+    category: "graphisme",
+    title: "College 75",
+    link: "college75",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -86,11 +97,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "graphisme",
-    titre: "Chill, Farm & Sun",
-    lien: "chillfarmandsun",
-    description: [],
-    signature_projet: "",
+    category: "graphisme",
+    title: "Chill, Farm & Sun",
+    link: "chillfarmandsun",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -107,11 +118,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "graphisme",
-    titre: "Les Silences de Palomar",
-    lien: "palomar",
-    description: [],
-    signature_projet: "",
+    category: "graphisme",
+    title: "Les Silences de Palomar",
+    link: "palomar",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -128,11 +139,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "graphisme",
-    titre: "Manuel Typographique",
-    lien: "manueltypo",
-    description: [],
-    signature_projet: "",
+    category: "graphisme",
+    title: "Manuel Typographique",
+    link: "manueltypo",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -149,11 +160,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "graphisme",
-    titre: "Couvertures de livres",
-    lien: "collectionxxi",
-    description: [],
-    signature_projet: "",
+    category: "graphisme",
+    title: "Couvertures de livres",
+    link: "collectionxxi",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -170,11 +181,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "graphisme",
-    titre: "m²",
-    lien: "m2",
-    description: [],
-    signature_projet: "",
+    category: "graphisme",
+    title: "m²",
+    link: "m2",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -191,11 +202,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "graphisme",
-    titre: "Cartographie",
-    lien: "cartoactium",
-    description: [],
-    signature_projet: "",
+    category: "graphisme",
+    title: "Cartographie",
+    link: "cartoactium",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -212,11 +223,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "graphisme",
-    titre: "L'établi - logo",
-    lien: "letabli",
-    description: [],
-    signature_projet: "",
+    category: "graphisme",
+    title: "L'établi - logo",
+    link: "letabli",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -233,11 +244,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "graphisme",
-    titre: "ReadMyBook",
-    lien: "readmybook",
-    description: [],
-    signature_projet: "",
+    category: "graphisme",
+    title: "ReadMyBook",
+    link: "readmybook",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -254,11 +265,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "graphisme",
-    titre: "La Cabine - logo",
-    lien: "lacabine",
-    description: [],
-    signature_projet: "",
+    category: "graphisme",
+    title: "La Cabine - logo",
+    link: "lacabine",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -275,11 +286,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
-    titre: "Illustrations I",
-    lien: "illustrations1",
-    description: [],
-    signature_projet: "",
+    category: "illustration",
+    title: "Illustrations I",
+    link: "illustrations1",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -296,11 +307,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
-    titre: "Illustrations II",
-    lien: "illustrations2",
-    description: [],
-    signature_projet: "",
+    category: "illustration",
+    title: "Illustrations II",
+    link: "illustrations2",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -317,11 +328,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
-    titre: "Illustrations III",
-    lien: "illustrations3",
-    description: [],
-    signature_projet: "",
+    category: "illustration",
+    title: "Illustrations III",
+    link: "illustrations3",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -338,11 +349,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
-    titre: "Paulette Magazine",
-    lien: "paulette",
-    description: [],
-    signature_projet: "",
+    category: "illustration",
+    title: "Paulette Magazine",
+    link: "paulette",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -359,11 +370,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
-    titre: "Paulette Magazine web",
-    lien: "pauletteweb",
-    description: [],
-    signature_projet: "",
+    category: "illustration",
+    title: "Paulette Magazine web",
+    link: "pauletteweb",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -380,11 +391,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
-    titre: "Feels Like Home",
-    lien: "feelslikehome",
-    description: [],
-    signature_projet: "",
+    category: "illustration",
+    title: "Feels Like Home",
+    link: "feelslikehome",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -401,11 +412,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
-    titre: "Make your monsters",
-    lien: "serigraphie",
-    description: [],
-    signature_projet: "",
+    category: "illustration",
+    title: "Make your monsters",
+    link: "serigraphie",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -422,11 +433,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
-    titre: "Pictogrammes",
-    lien: "pictosbateaux",
-    description: [],
-    signature_projet: "",
+    category: "illustration",
+    title: "Pictogrammes",
+    link: "pictosbateaux",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -443,11 +454,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
-    titre: "Pourquoi ?",
-    lien: "pourquoi",
-    description: [],
-    signature_projet: "",
+    category: "illustration",
+    title: "Pourquoi ?",
+    link: "pourquoi",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -464,11 +475,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "illustration",
-    titre: "Carnets",
-    lien: "carnets",
-    description: [],
-    signature_projet: "",
+    category: "illustration",
+    title: "Carnets",
+    link: "carnets",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -485,11 +496,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "animation",
-    titre: "GIFS",
-    lien: "gifs",
-    description: [],
-    signature_projet: "",
+    category: "animation",
+    title: "GIFS",
+    link: "gifs",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -506,11 +517,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "animation",
-    titre: "Les Petites Résolutions Paulette",
-    lien: "paulettegif",
-    description: [],
-    signature_projet: "",
+    category: "animation",
+    title: "Les Petites Résolutions Paulette",
+    link: "paulettegif",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -527,11 +538,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "animation",
-    titre: "Matabase",
-    lien: "matabase",
-    description: [],
-    signature_projet: "",
+    category: "animation",
+    title: "Matabase",
+    link: "matabase",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -548,11 +559,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "animation",
-    titre: "Saul Bass's Walk to Chaumont",
-    lien: "saulbasswalk",
-    description: [],
-    signature_projet: "",
+    category: "animation",
+    title: "Saul Bass's Walk to Chaumont",
+    link: "saulbasswalk",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],
@@ -569,11 +580,11 @@ export const Projects = [
     signature: "",
   },
   {
-    section: "animation",
-    titre: "ReadMyBook - animation",
-    lien: "readmybookgif",
-    description: [],
-    signature_projet: "",
+    category: "animation",
+    title: "ReadMyBook - animation",
+    link: "readmybookgif",
+    description: "",
+    caption: "",
     images: [],
     legende1: [],
     images1: [],

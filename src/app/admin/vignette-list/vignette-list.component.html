@@ -1,0 +1,34 @@
+<h2 class="title">Vignettes</h2>
+<p class="subtitle">
+  Pour ajouter une nouvelle vignette, uploade une image ci-dessous:
+</p>
+<div class="upload-box">
+  <app-uploader></app-uploader>
+</div>
+
+<p class="subtitle">
+  Après avoir uploadé des images, rafraîchis la page.
+  <br />
+  Tu peux ensuite changer l'ordre des vignettes en les déplaçant.
+</p>
+<app-dragable-grid></app-dragable-grid>
+
+<h2 class="title">Liens des vignettes</h2>
+<p class="subtitle">
+  Choisis le projet que tu veux associer à chaque vignette.
+  <br />
+  Tu peux cliquer sur la vignette en question pour vérifier le lien.
+</p>
+<div *ngFor="let vignette of vignettes$ | async">
+  <h3>Vignette {{ vignette.position + 1 }}</h3>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <a
+      fxFlex="nogrow"
+      routerLink="/admin/{{ vignette.projectId }}/view"
+      ngStyle.xs="width:100%; height:100%;"
+    >
+      <img class="tiles" src="{{ vignette.downloadUrl }}" />
+    </a>
+    <app-vignette-form fxFlex [vignette]="vignette"></app-vignette-form>
+  </div>
+</div>

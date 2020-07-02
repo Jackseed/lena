@@ -1,5 +1,5 @@
 <div class="container">
-  <div *ngFor="let title of imgTitles; let i = index">
+  <div *ngFor="let title of categories; let i = index">
     <!-- IMAGE TITLE  -->
     <img
       ngClass.xs="title-img-xs"
@@ -10,11 +10,11 @@
     />
     <!-- PROJECTS -->
     <ul *ngFor="let project of projects">
-      <ng-container *ngIf="project.section === title.section">
+      <ng-container *ngIf="project.category === title.name">
         <div ngClass.gt-xs="project" ngClass.xs="project-xs">
-          <a class="project-link" routerLink="/{{ project.lien }}">
+          <a class="project-link" routerLink="/{{ project.link }}">
             <span ngClass.xs="project-title-xs" ngClass.sm="project-title-sm">{{
-              project.titre
+              project.title
             }}</span>
           </a>
         </div>

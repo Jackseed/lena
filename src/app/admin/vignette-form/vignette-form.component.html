@@ -1,0 +1,27 @@
+<div fxLayout="row" class="container">
+  <form (ngSubmit)="onSubmit()" fxFlex>
+    <mat-form-field>
+      <input
+        type="text"
+        placeholder="Projet"
+        aria-label="Number"
+        matInput
+        [formControl]="projectForm"
+        [matAutocomplete]="auto"
+      />
+
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option
+          *ngFor="let project of filteredProjects | async"
+          [value]="project"
+        >
+          {{ project.title }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+
+  <button fxFlex="nogrow" mat-stroked-button type="submit" (click)="save()" class="save-button">
+    Sauvegarder
+  </button>
+</div>

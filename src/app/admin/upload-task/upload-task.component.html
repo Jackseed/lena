@@ -1,0 +1,7 @@
+<div *ngIf="percentage | async as pct">
+  <div *ngIf="pct < 100">
+    <progress [value]="pct" max="100"></progress>
+    {{ pct | number: "0.0-0":"fr" }}%
+  </div>
+</div>
+

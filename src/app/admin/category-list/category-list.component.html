@@ -1,0 +1,28 @@
+<h2 class="title">Liste des catégories</h2>
+<p class="subtitle">
+  Pour ajouter une nouvelle catégorie, uploade une image-titre ci-dessous:
+</p>
+
+<div class="upload-box"><app-uploader></app-uploader></div>
+
+<p class="subtitle">
+  Tu peux ensuite réarranger leur ordre ici:
+</p>
+<div
+  cdkDropList
+  [cdkDropListData]="categories$ | async"
+  class="list"
+  (cdkDropListDropped)="drop($event)"
+>
+  <div *ngFor="let category of categories$ | async" class="item" cdkDrag>
+    {{ category.name }}
+    <img
+      ngClass.xs="title-img-xs"
+      ngClass.gt-xs="title-img"
+      src="{{ category.downloadUrl }}"
+    />
+    <button mat-icon-button (click)="deleteCategory(category)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</div>
