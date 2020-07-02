@@ -224,7 +224,7 @@ export class ProjectFormComponent implements OnInit {
     const batch = this.db.firestore.batch();
     // tslint:disable-next-line: prefer-for-of
     for (let i = 0; i < images.length; i++) {
-      // delete on db
+      // delete img on db
       batch.delete(
         this.db.firestore
           .collection("projects")
@@ -232,7 +232,7 @@ export class ProjectFormComponent implements OnInit {
           .collection("images")
           .doc(images[i].id)
       );
-      // delete on storage
+      // delete img on storage
       this.storage.storage.refFromURL(images[i].downloadUrl).delete();
     }
     // delete the project
@@ -279,6 +279,26 @@ export class ProjectFormComponent implements OnInit {
         );
       }
     }
+
+    // delete the projectId on vignettes
+    const vignettes = [];
+    await this.db
+      .collection("vignettes")
+      .get()
+      .toPromise()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          vignettes.push(doc.data());
+        });
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
+    const vignette = vignettes.find((vign) => vign.projectId === this.id);
+    console.log(vignette);
+    batch.update(this.db.firestore.collection("vignettes").doc(vignette.id), {
+      projectId: firestore.FieldValue.delete(),
+    });
 
     batch.commit();
 
