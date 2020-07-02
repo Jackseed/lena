@@ -37,6 +37,7 @@ import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { VignetteFormComponent } from "./admin/vignette-form/vignette-form.component";
 import { AuthComponent } from "./admin/auth/auth.component";
 import { MatCardModule } from "@angular/material/card";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDi0VGkbRt-rPpaWFcEHzkDC9yQK4cMWyQ",
@@ -88,6 +89,7 @@ const firebaseConfig = {
     MatFormFieldModule,
     MatAutocompleteModule,
     MatCardModule,
+    MatSnackBarModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: "fr-FR" }],
   bootstrap: [AppComponent],

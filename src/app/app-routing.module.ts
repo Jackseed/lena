@@ -15,7 +15,6 @@ const routes: Routes = [
   { path: "", redirectTo: "/home", pathMatch: "full" },
   { path: "admin/login", component: AuthComponent },
   { path: "admin", component: ProjectListComponent, canActivate: [AuthGuard] },
-
   {
     path: "admin/categories",
     component: CategoryListComponent,

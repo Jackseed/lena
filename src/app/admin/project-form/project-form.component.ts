@@ -9,6 +9,7 @@ import { firestore } from "firebase/app";
 import { Category } from "src/app/models/menu-titles";
 import { Image } from "src/app/models/images";
 import { map } from "rxjs/operators";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-project-form",
@@ -33,7 +34,8 @@ export class ProjectFormComponent implements OnInit {
   constructor(
     private storage: AngularFireStorage,
     private db: AngularFirestore,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) {}
 
   async ngOnInit() {
@@ -65,6 +67,13 @@ export class ProjectFormComponent implements OnInit {
       },
       { merge: true }
     );
+    this.openSnackBar("Projet sauvegardé !");
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, "Fermer", {
+      duration: 2000,
+    });
   }
 
   sortByPosition(images: Image[]): Image[] {
@@ -133,6 +142,7 @@ export class ProjectFormComponent implements OnInit {
       .catch((error) => {
         console.error("Erreur dans l'update caption': ", error);
       });
+    this.openSnackBar("Sous-titre sauvegardé !");
   }
 
   private updateImgPositions(images: Image[]): firestore.WriteBatch {

@@ -4,7 +4,7 @@
     <div *ngIf="project$ | async as project">
       <div ngStyle.lt-md="margin:20px;" ngStyle.gt-sm="width:500px;">
         <h1>{{ project.title }}</h1>
-        <p>
+        <p class="description">
           {{ project.description }}
         </p>
 
