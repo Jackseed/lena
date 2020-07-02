@@ -4,13 +4,15 @@
   ngClass.gt-sm="container"
 >
   <mat-grid-list [cols]="grid.cols" [gutterSize]="grid.gutterSize">
-    <mat-grid-tile *ngFor="let tile of tiles">
-      <a routerLink="/{{ tile.link }}" ngStyle.xs="width:100%; height:100%;">
+    <mat-grid-tile *ngFor="let vignette of vignettes">
+      <a
+        routerLink="/{{ getProjectById(vignette.id)?.title }}"
+        ngStyle.xs="width:100%; height:100%;"
+      >
         <img
           ngClass.gt-sm="tiles"
           ngClass.lt-md="mobile-tiles"
-          src="assets/img/{{ tile.img }}"
-          alt="{{ tile.alt }}"
+          src="{{ vignette.downloadUrl }}"
         />
       </a>
     </mat-grid-tile>
