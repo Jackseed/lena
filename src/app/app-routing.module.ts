@@ -8,6 +8,7 @@ import { CategoryListComponent } from "./admin/category-list/category-list.compo
 import { VignetteListComponent } from "./admin/vignette-list/vignette-list.component";
 import { AuthComponent } from "./admin/auth/auth.component";
 import { AuthGuard } from "./admin/auth/auth.guard";
+import { ContactPageComponent } from './contact-page/contact-page.component';
 
 const routes: Routes = [
   { path: "home", component: GridComponent },
@@ -34,6 +35,7 @@ const routes: Routes = [
     component: ProjectViewComponent,
     canActivate: [AuthGuard],
   },
+  { path: "contact", component: ContactPageComponent },
   {
     path: ":id/view",
     component: ProjectViewComponent,

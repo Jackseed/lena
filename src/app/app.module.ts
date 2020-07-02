@@ -39,6 +39,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatDialogModule } from "@angular/material/dialog";
 import { ConfirmationDialogComponent } from "./admin/confirmation-dialog/confirmation-dialog.component";
+import { ContactPageComponent } from './contact-page/contact-page.component';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDi0VGkbRt-rPpaWFcEHzkDC9yQK4cMWyQ",
@@ -70,6 +71,7 @@ const firebaseConfig = {
     VignetteFormComponent,
     AuthComponent,
     ConfirmationDialogComponent,
+    ContactPageComponent,
   ],
   imports: [
     BrowserModule,

@@ -57,12 +57,14 @@ p {
 }
 
 span {
-  font-size: 9px;
   @include layout-bp(xs) {
     font-size: 14px;
   }
   @include layout-bp(sm) {
     font-size: 11px;
+  }
+  @include layout-bp(md) {
+    font-size: 9px;
   }
   @include layout-bp(gt-md) {
     font-size: 14px;
