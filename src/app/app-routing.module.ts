@@ -13,12 +13,9 @@ import { AuthGuard } from "./admin/auth.guard";
 const routes: Routes = [
   { path: "home", component: GridComponent },
   { path: "", redirectTo: "/home", pathMatch: "full" },
-  { path: "admin", component: AuthComponent },
-  {
-    path: "admin/projects",
-    component: ProjectListComponent,
-    /* canActivate: [AuthGuard], */
-  },
+  { path: "admin/login", component: AuthComponent },
+  { path: "admin", component: ProjectListComponent, canActivate: [AuthGuard] },
+
   {
     path: "admin/categories",
     component: CategoryListComponent,

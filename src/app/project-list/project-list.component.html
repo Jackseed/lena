@@ -3,20 +3,19 @@
   <button
     fxFlex="nogrow"
     mat-stroked-button
-    [routerLink]="['/admin/categories']"
-    replaceUrl="true"
+    routerLink="categories"
     class="add-button"
   >
     Ajouter une catégorie
   </button>
   <button
-    fxFlex="nogrow"
-    mat-stroked-button
-    routerLink="vignettes"
-    class="add-button"
-  >
-    Gérer les vignettes
-  </button>
+  fxFlex="nogrow"
+  mat-stroked-button
+  routerLink="vignettes"
+  class="add-button"
+>
+  Gérer les vignettes
+</button>
 </div>
 
 <div cdkDropListGroup>
@@ -28,7 +27,10 @@
     *ngFor="let category of categories$ | async"
     id="{{ category.id }}"
   >
-    <div fxFlexLayout="row" class="title-line subtitle-line">
+    <div
+      fxFlexLayout="row"
+      class="title-line subtitle-line"
+    >
       <img
         fxFlex="nogrow"
         ngClass.xs="title-img-xs"
@@ -36,7 +38,11 @@
         src="{{ category.downloadUrl }}"
       />
       <div fxFlex></div>
-      <button fxFlex="nogrow" mat-button (click)="addProject(category.id)">
+      <button
+        fxFlex="nogrow"
+        mat-button
+        (click)="addProject(category.id)"
+      >
         Ajouter un projet
       </button>
     </div>
