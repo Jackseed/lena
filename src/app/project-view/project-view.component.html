@@ -1,5 +1,10 @@
 <div fxLayout="row" fxLayoutAlign="center center">
   <div fxFlex="100%" fxFlex.sm="60%" fxFlex.xs="100%">
+    <div *ngIf="isAdmin()">
+      <button mat-icon-button (click)="back()">
+        <mat-icon>keyboard_backspace</mat-icon>
+      </button>
+    </div>
     <!-- HEADER -->
     <div *ngIf="project$ | async as project">
       <div ngStyle.lt-md="margin:20px;" ngStyle.gt-sm="width:500px;">

@@ -35,6 +35,10 @@ const routes: Routes = [
     component: ProjectViewComponent,
     canActivate: [AuthGuard],
   },
+  {
+    path: ":id/view",
+    component: ProjectViewComponent,
+  },
   { path: ":title", component: ProjectComponent },
 ];
 

@@ -1,10 +1,11 @@
 import { Component, OnInit } from "@angular/core";
+import { Location } from "@angular/common";
 import { Project } from "../models/project-list";
 import { Image } from "../models/images";
 import { Observable } from "rxjs";
 import { ActivatedRoute } from "@angular/router";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { map } from 'rxjs/operators';
+import { map } from "rxjs/operators";
 
 @Component({
   selector: "app-project-view",
@@ -16,7 +17,11 @@ export class ProjectViewComponent implements OnInit {
   public project$: Observable<Project>;
   public images$: Observable<any[]>;
 
-  constructor(private db: AngularFirestore, private route: ActivatedRoute) {}
+  constructor(
+    private db: AngularFirestore,
+    private route: ActivatedRoute,
+    private location: Location
+  ) {}
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get("id");
@@ -29,5 +34,17 @@ export class ProjectViewComponent implements OnInit {
       .pipe(
         map((images: Image[]) => images.sort((a, b) => a.position - b.position))
       );
+  }
+
+  public isAdmin() {
+    if (this.route.snapshot.routeConfig.path.includes("admin")) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  back() {
+    this.location.back();
   }
 }
