@@ -2,6 +2,11 @@
   width: 100%;
   min-height: 300px;
 }
+.icon-text {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+}
 
 .images-projet {
   padding-top: 10px;
@@ -41,8 +46,8 @@
   padding-top: 30px;
 }
 
-.title-line-mobile{
-  width: 100%
+.title-line-mobile {
+  width: 100%;
 }
 
 .save-button {

@@ -6,6 +6,7 @@ export interface Project {
   link?: string;
   description?: string;
   caption?: string;
+  status?: "draft" | "published";
   finalCaption?: string;
   images0?: string[];
   legende1?: string[];

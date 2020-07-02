@@ -324,6 +324,20 @@ export class ProjectFormComponent implements OnInit {
     this.router.navigate(["/admin"]);
   }
 
+  public publish() {
+    this.projectRef.update({
+      status: "published",
+    });
+    this.openSnackBar("Projet publié !");
+  }
+
+  public unpublish() {
+    this.projectRef.update({
+      status: "draft",
+    });
+    this.openSnackBar("Projet retiré du site !");
+  }
+
   back() {
     this.location.back();
   }

@@ -69,6 +69,7 @@ export class ProjectListComponent implements OnInit {
       id,
       categoryId,
       title: "",
+      status: "draft",
     });
 
     batch.update(this.db.firestore.collection("categories").doc(categoryId), {
