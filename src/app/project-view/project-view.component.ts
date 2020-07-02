@@ -16,6 +16,7 @@ export class ProjectViewComponent implements OnInit {
   private id: string;
   public project$: Observable<Project>;
   public images$: Observable<any[]>;
+  public projects: Project[] = [];
 
   constructor(
     private db: AngularFirestore,
@@ -23,9 +24,40 @@ export class ProjectViewComponent implements OnInit {
     private location: Location
   ) {}
 
-  ngOnInit() {
-    this.id = this.route.snapshot.paramMap.get("id");
-    this.project$ = this.db.collection("projects").doc(this.id).valueChanges();
+  async ngOnInit() {
+    await this.db
+      .collection("projects")
+      .get()
+      .toPromise()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (doc.exists) {
+            this.projects.push(doc.data());
+          }
+        });
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
+    if (this.route.snapshot.routeConfig.path.includes("admin")) {
+      this.id = this.route.snapshot.paramMap.get("id");
+      this.project$ = this.db
+        .collection("projects")
+        .doc(this.id)
+        .valueChanges();
+    } else {
+      this.id = this.projects.find(
+        (project) => project.title === this.route.snapshot.paramMap.get("title")
+      ).id;
+      this.project$ = this.route.params.pipe(
+        map((p) => p.title),
+        map((title) =>
+          this.projects.find((project) => {
+            return project.title === title;
+          })
+        )
+      );
+    }
     this.images$ = this.db
       .collection("projects")
       .doc(this.id)

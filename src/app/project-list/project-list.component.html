@@ -53,7 +53,7 @@
       [routerLink]="[projectId.id, 'edit']"
       cdkDrag
     >
-      {{ getProjectById(projectId.id).title }}
+      {{ getProjectById(projectId.id)?.title }}
     </div>
   </div>
 </div>

@@ -39,7 +39,7 @@ const routes: Routes = [
     path: ":id/view",
     component: ProjectViewComponent,
   },
-  { path: ":title", component: ProjectComponent },
+  { path: ":title", component: ProjectViewComponent },
 ];
 
 @NgModule({
