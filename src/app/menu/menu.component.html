@@ -1,26 +1,32 @@
 <div class="container">
-  <div *ngFor="let title of categories; let i = index">
+  <div *ngFor="let category of categories$ | async; let i = index">
     <!-- IMAGE TITLE  -->
     <img
       ngClass.xs="title-img-xs"
       ngClass.gt-xs="title-img"
       [class.first-img]="i === 0"
       [class.other-img]="i > 0"
-      src="assets/img/{{ title.img }}"
+      src="{{ category.downloadUrl }}"
     />
     <!-- PROJECTS -->
-    <ul *ngFor="let project of projects">
-      <ng-container *ngIf="project.category === title.name">
-        <div ngClass.gt-xs="project" ngClass.xs="project-xs">
-          <a class="project-link" routerLink="/{{ project.link }}">
-            <span ngClass.xs="project-title-xs" ngClass.sm="project-title-sm">{{
-              project.title
-            }}</span>
-          </a>
-        </div>
-      </ng-container>
+    <ul *ngFor="let projectId of sortByPosition(category.projectIds)">
+      <div ngClass.gt-xs="project" ngClass.xs="project-xs">
+        <a
+          class="project-link"
+          routerLink="/{{ getProjectById(projectId.id).title }}"
+        >
+          <p ngClass.xs="project-title-xs" ngClass.sm="project-title-sm">
+            {{ getProjectById(projectId.id).title }}
+          </p>
+        </a>
+      </div>
     </ul>
   </div>
+  <img
+    ngClass.xs="title-img-xs"
+    ngClass.gt-xs="title-img"
+    src="assets/img/menu-contact.jpg"
+  />
   <div>
     <a href="http://instagram.com/lenapiroux" target="_blank">
       <img

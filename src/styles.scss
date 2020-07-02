@@ -36,8 +36,9 @@ h1 {
 }
 
 p {
-  font-size: 10px;
+  font-size: 11px;
   margin: 0;
+  line-height: 9.2px;
 
   @include layout-bp(xs) {
     font-size: 17px;
