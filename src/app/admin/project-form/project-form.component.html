@@ -1,7 +1,14 @@
-<div fxFlexLayout="row" fxFlexAlign="center end"   ngClass.lt-md="title-line-mobile"
-ngClass.gt-sm="title-line">
+<div
+  fxFlexLayout="row"
+  fxFlexAlign="center end"
+  ngClass.lt-md="title-line-mobile"
+  ngClass.gt-sm="title-line"
+>
   <h1 class="title" fxFlex>Projet</h1>
-  <div fxFlex="nogrow" class="title-button">
+  <div fxFlex="nogrow" class="title-button" *ngIf="project$ | async as project">
+    <button mat-icon-button (click)="deleteProject(project)">
+      <mat-icon>delete</mat-icon>
+    </button>
     <button mat-stroked-button type="submit" (click)="save()">
       Sauvegarder
     </button>

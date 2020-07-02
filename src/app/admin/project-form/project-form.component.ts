@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormControl } from "@angular/forms";
 import { AngularFirestore } from "@angular/fire/firestore";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Project } from "src/app/models/project-list";
 import { Observable } from "rxjs";
 import { AngularFireStorage } from "@angular/fire/storage";
@@ -35,7 +35,8 @@ export class ProjectFormComponent implements OnInit {
     private storage: AngularFireStorage,
     private db: AngularFirestore,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {}
 
   async ngOnInit() {
@@ -203,5 +204,85 @@ export class ProjectFormComponent implements OnInit {
     images.splice(img.position + 1, 0, img);
     const batch = this.updateImgPositions(images);
     batch.commit();
+  }
+
+  public async deleteProject(project: Project) {
+    // delete images first
+    const images = [];
+    await this.projectRef
+      .collection("images")
+      .get()
+      .toPromise()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          images.push(doc.data());
+        });
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
+    const batch = this.db.firestore.batch();
+    // tslint:disable-next-line: prefer-for-of
+    for (let i = 0; i < images.length; i++) {
+      // delete on db
+      batch.delete(
+        this.db.firestore
+          .collection("projects")
+          .doc(this.id)
+          .collection("images")
+          .doc(images[i].id)
+      );
+      // delete on storage
+      this.storage.storage.refFromURL(images[i].downloadUrl).delete();
+    }
+    // delete the project
+    batch.delete(this.db.firestore.collection("projects").doc(this.id));
+
+    // remove the projectId from category
+    const categoryDoc = await this.db
+      .collection("categories")
+      .doc(project.categoryId)
+      .get()
+      .toPromise();
+    const projectIds = categoryDoc.data().projectIds;
+    const projectId = projectIds.find((proj) => proj.id === this.id);
+
+    // sort old category and remove the project
+    projectIds.sort((a, b) => a.position - b.position);
+    projectIds.splice(projectId.position, 1);
+    batch.update(
+      this.db.firestore.collection("categories").doc(project.categoryId),
+      {
+        projectIds: firestore.FieldValue.delete(),
+      }
+    );
+
+    // re-write all projectIds from old category without the changing project
+    // if there is no more project, write an empty array
+    // tslint:disable-next-line: prefer-for-of
+    if (projectIds.length === 0) {
+      batch.update(
+        this.db.firestore.collection("categories").doc(project.categoryId),
+        {
+          projectIds: [],
+        }
+      );
+    } else {
+      for (let i = 0; i < projectIds.length; i++) {
+        projectIds[i].position = i;
+
+        batch.update(
+          this.db.firestore.collection("categories").doc(project.categoryId),
+          {
+            projectIds: firestore.FieldValue.arrayUnion(projectIds[i]),
+          }
+        );
+      }
+    }
+
+    batch.commit();
+
+    this.openSnackBar("Projet supprimé !");
+    this.router.navigate(["/admin"]);
   }
 }
