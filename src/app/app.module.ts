@@ -38,6 +38,8 @@ import { VignetteFormComponent } from "./admin/vignette-form/vignette-form.compo
 import { AuthComponent } from "./admin/auth/auth.component";
 import { MatCardModule } from "@angular/material/card";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatDialogModule } from "@angular/material/dialog";
+import { ConfirmationDialogComponent } from "./admin/confirmation-dialog/confirmation-dialog.component";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDi0VGkbRt-rPpaWFcEHzkDC9yQK4cMWyQ",
@@ -69,6 +71,7 @@ const firebaseConfig = {
     DragableGridComponent,
     VignetteFormComponent,
     AuthComponent,
+    ConfirmationDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -90,6 +93,7 @@ const firebaseConfig = {
     MatAutocompleteModule,
     MatCardModule,
     MatSnackBarModule,
+    MatDialogModule,
   ],
   providers: [{ provide: LOCALE_ID, useValue: "fr-FR" }],
   bootstrap: [AppComponent],

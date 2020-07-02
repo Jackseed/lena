@@ -10,6 +10,8 @@ import { Category } from "src/app/models/menu-titles";
 import { Image } from "src/app/models/images";
 import { map } from "rxjs/operators";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatDialog } from "@angular/material/dialog";
+import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: "app-project-form",
@@ -36,7 +38,8 @@ export class ProjectFormComponent implements OnInit {
     private db: AngularFirestore,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) {}
 
   async ngOnInit() {
@@ -206,7 +209,21 @@ export class ProjectFormComponent implements OnInit {
     batch.commit();
   }
 
-  public async deleteProject(project: Project) {
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: "350px",
+      data:
+        "Attention, si le projet est associé à une vignette, le lien sera cassé. Es-tu sûre de vouloir supprimer ?",
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log("Yes clicked");
+        this.deleteProject();
+      }
+    });
+  }
+
+  public async deleteProject() {
     // delete images first
     const images = [];
     await this.projectRef
@@ -239,9 +256,11 @@ export class ProjectFormComponent implements OnInit {
     batch.delete(this.db.firestore.collection("projects").doc(this.id));
 
     // remove the projectId from category
+    const project = await this.projectRef.get().toPromise();
+    const categoryId = project.data().categoryId;
     const categoryDoc = await this.db
       .collection("categories")
-      .doc(project.categoryId)
+      .doc(categoryId)
       .get()
       .toPromise();
     const projectIds = categoryDoc.data().projectIds;
@@ -250,29 +269,23 @@ export class ProjectFormComponent implements OnInit {
     // sort old category and remove the project
     projectIds.sort((a, b) => a.position - b.position);
     projectIds.splice(projectId.position, 1);
-    batch.update(
-      this.db.firestore.collection("categories").doc(project.categoryId),
-      {
-        projectIds: firestore.FieldValue.delete(),
-      }
-    );
+    batch.update(this.db.firestore.collection("categories").doc(categoryId), {
+      projectIds: firestore.FieldValue.delete(),
+    });
 
     // re-write all projectIds from old category without the changing project
     // if there is no more project, write an empty array
     // tslint:disable-next-line: prefer-for-of
     if (projectIds.length === 0) {
-      batch.update(
-        this.db.firestore.collection("categories").doc(project.categoryId),
-        {
-          projectIds: [],
-        }
-      );
+      batch.update(this.db.firestore.collection("categories").doc(categoryId), {
+        projectIds: [],
+      });
     } else {
       for (let i = 0; i < projectIds.length; i++) {
         projectIds[i].position = i;
 
         batch.update(
-          this.db.firestore.collection("categories").doc(project.categoryId),
+          this.db.firestore.collection("categories").doc(categoryId),
           {
             projectIds: firestore.FieldValue.arrayUnion(projectIds[i]),
           }
@@ -294,11 +307,14 @@ export class ProjectFormComponent implements OnInit {
       .catch((error) => {
         console.log("Error getting documents: ", error);
       });
+
     const vignette = vignettes.find((vign) => vign.projectId === this.id);
-    console.log(vignette);
-    batch.update(this.db.firestore.collection("vignettes").doc(vignette.id), {
-      projectId: firestore.FieldValue.delete(),
-    });
+
+    if (vignette) {
+      batch.update(this.db.firestore.collection("vignettes").doc(vignette.id), {
+        projectId: firestore.FieldValue.delete(),
+      });
+    }
 
     batch.commit();
 
