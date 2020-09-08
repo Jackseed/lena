@@ -22,27 +22,34 @@
       </div>
     </ul>
   </div>
-  <a routerLink="contact">
-    <img
-      ngClass.xs="title-img-xs"
-      ngClass.gt-xs="title-img"
-      class="contact-title"
-      src="assets/img/menu-contact.png"
-    />
-  </a>
-  <div>
+  <img
+    ngClass.xs="title-img-xs"
+    ngClass.gt-xs="title-img"
+    class="contact-title"
+    src="assets/img/menu-contact.png"
+  />
+  <ul>
+    <div ngClass.gt-xs="project" ngClass.xs="project-xs">
+      <a class="project-link" routerLink="contact">
+        <p ngClass.xs="project-title-xs" ngClass.sm="project-title-sm">
+          Coucou
+        </p>
+      </a>
+    </div>
+  </ul>
+  <div class="img-buttons">
     <a href="http://instagram.com/lenapiroux" target="_blank">
       <img
         class="contact-img"
-        src="assets/img/instalena.jpg"
+        src="assets/img/instalena.png"
         alt="Contactez-moi!"
       />
     </a>
-    <a href="mailto:atelier@lenapiroux.com">
-      <img class="contact-img" src="assets/img/mail.png" alt="Contactez-moi!" />
-    </a>
     <a href="https://www.etsy.com/fr/shop/atelierlenapiroux" target="_blank">
       <img class="contact-img" src="assets/img/etsy.png" alt="Contactez-moi!" />
+    </a>
+    <a href="mailto:atelier@lenapiroux.com">
+      <img class="contact-img" src="assets/img/mail.png" alt="Contactez-moi!" />
     </a>
   </div>
 </div>
