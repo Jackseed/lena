@@ -40,13 +40,15 @@ h1 {
 p {
   font-size: 10px;
   margin: 0;
-  line-height: 9.2px;
+  line-height: 12.5px;
 
   @include layout-bp(xs) {
     font-size: 17px;
+    line-height: 18px;
   }
   @include layout-bp(sm) {
     font-size: 14px;
+    line-height: 16px;
   }
 }
 
