@@ -3,7 +3,7 @@ import { Location } from "@angular/common";
 import { Project } from "../models/projects";
 import { Image } from "../models/images";
 import { Observable } from "rxjs";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { map, switchMap } from "rxjs/operators";
 
@@ -13,7 +13,6 @@ import { map, switchMap } from "rxjs/operators";
   styleUrls: ["./project-view.component.scss"],
 })
 export class ProjectViewComponent implements OnInit {
-  private id: string;
   public project$: Observable<Project>;
   public images$: Observable<any[]>;
   public projects: Project[] = [];
@@ -80,5 +79,10 @@ export class ProjectViewComponent implements OnInit {
 
   back() {
     this.location.back();
+  }
+
+  open(url: string) {
+    console.log("oppening ", url);
+    window.open(url, "_blank");
   }
 }
