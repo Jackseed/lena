@@ -74,7 +74,9 @@ export class UploadTaskComponent implements OnInit, OnDestroy {
                 downloadUrl,
                 path,
                 caption: "",
-                video: true,
+                video: {
+                  isVideo: true
+                }
               });
           } else {
             this.db

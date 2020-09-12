@@ -35,13 +35,20 @@
           {{ image.caption }}
         </p>
 
-        <img
-          ngClass.lt-md="images-projet-mobile"
-          ngClass.lt-xl="images-projet-desktop"
-          ngClass.xl="images-projet-xl"
-          src="{{ image.downloadUrl }}"
-        />
+        <div *ngIf="image.video?.isVideo">
+          video
+        </div>
+
+        <div *ngIf="!!!image.video">
+          <img
+            ngClass.lt-md="images-projet-mobile"
+            ngClass.lt-xl="images-projet-desktop"
+            ngClass.xl="images-projet-xl"
+            src="{{ image.downloadUrl }}"
+          />
+        </div>
       </div>
+
       <p
         ngStyle.xs="margin-right: 5%; margin-left: 5%; width: 90%;"
         ngStyle.gt-sm="width:500px;"
