@@ -146,11 +146,28 @@
         <button mat-icon-button (click)="deleteImg(image)">
           <mat-icon>delete</mat-icon>
         </button>
-        <img
-          ngClass.lt-md="images-projet-mobile"
-          ngClass.gt-sm="images-projet"
-          src="{{ image.downloadUrl }}"
-        />
+        <div *ngIf="image.video?.isVideo">
+          <video
+            ngClass.lt-md="images-projet-mobile"
+            ngClass.gt-sm="images-projet"
+            src="{{ image.downloadUrl }}"
+            controls
+            type="video/mp4"
+            poster="{{ image.video.poster }}"
+          >
+            <p>
+              Désolé, votre navigateur ne prend pas en charge les vidéos HTML5.
+            </p>
+          </video>
+        </div>
+
+        <div *ngIf="!!!image.video">
+          <img
+            ngClass.lt-md="images-projet-mobile"
+            ngClass.gt-sm="images-projet"
+            src="{{ image.downloadUrl }}"
+          />
+        </div>
       </div>
     </div>
   </div>

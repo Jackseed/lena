@@ -35,13 +35,32 @@
           {{ image.caption }}
         </p>
 
-        <img
+        <div *ngIf="image.video?.isVideo">
+          <video
           ngClass.lt-md="images-projet-mobile"
           ngClass.lt-xl="images-projet-desktop"
           ngClass.xl="images-projet-xl"
-          src="{{ image.downloadUrl }}"
-        />
+            src="{{ image.downloadUrl }}"
+            controls
+            type="video/mp4"
+            poster="{{ image.video.poster }}"
+          >
+            <p>
+              Désolé, votre navigateur ne prend pas en charge les vidéos HTML5.
+            </p>
+          </video>
+        </div>
+
+        <div *ngIf="!!!image.video">
+          <img
+            ngClass.lt-md="images-projet-mobile"
+            ngClass.lt-xl="images-projet-desktop"
+            ngClass.xl="images-projet-xl"
+            src="{{ image.downloadUrl }}"
+          />
+        </div>
       </div>
+
       <p
         ngStyle.xs="margin-right: 5%; margin-left: 5%; width: 90%;"
         ngStyle.gt-sm="width:500px;"

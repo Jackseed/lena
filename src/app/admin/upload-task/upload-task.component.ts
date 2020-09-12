@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnDestroy } from "@angular/core";
 import {
   AngularFireStorage,
-  AngularFireUploadTask,
+  AngularFireUploadTask
 } from "@angular/fire/storage";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { Observable, Subscription } from "rxjs";
@@ -11,7 +11,7 @@ import { ActivatedRoute } from "@angular/router";
 @Component({
   selector: "app-upload-task",
   templateUrl: "./upload-task.component.html",
-  styleUrls: ["./upload-task.component.scss"],
+  styleUrls: ["./upload-task.component.scss"]
 })
 export class UploadTaskComponent implements OnInit, OnDestroy {
   @Input() file: File;
@@ -61,23 +61,45 @@ export class UploadTaskComponent implements OnInit, OnDestroy {
         // The file's download URL
         finalize(async () => {
           const downloadUrl = await ref.getDownloadURL().toPromise();
-
-          this.db
-            .collection("projects")
-            .doc(this.id)
-            .collection("images")
-            .doc(id)
-            .set({
-              id,
-              downloadUrl,
-              path,
-              caption: "",
-            });
+          const fileExtension = path.split(".").pop();
+          console.log(fileExtension);
+          if (fileExtension === "mp4") {
+            this.db
+              .collection("projects")
+              .doc(this.id)
+              .collection("images")
+              .doc(id)
+              .set({
+                id,
+                downloadUrl,
+                path,
+                caption: "",
+                video: {
+                  isVideo: true,
+                  poster: "",
+                }
+              });
+          } else {
+            this.db
+              .collection("projects")
+              .doc(this.id)
+              .collection("images")
+              .doc(id)
+              .set({
+                id,
+                downloadUrl,
+                path,
+                caption: ""
+              });
+          }
         })
       );
-    // category image
+      // category image
     } else if (this.route.snapshot.routeConfig.path === "admin/vignettes") {
-      const collection = await this.db.collection("vignettes").get().toPromise();
+      const collection = await this.db
+        .collection("vignettes")
+        .get()
+        .toPromise();
       const position = collection.size;
       const id = this.db.createId();
       // The storage path
@@ -99,16 +121,22 @@ export class UploadTaskComponent implements OnInit, OnDestroy {
         finalize(async () => {
           const downloadUrl = await ref.getDownloadURL().toPromise();
 
-          this.db.collection("vignettes").doc(id).set({
-            id,
-            downloadUrl,
-            path,
-            position
-          });
+          this.db
+            .collection("vignettes")
+            .doc(id)
+            .set({
+              id,
+              downloadUrl,
+              path,
+              position
+            });
         })
       );
     } else {
-      const collection = await this.db.collection("categories").get().toPromise();
+      const collection = await this.db
+        .collection("categories")
+        .get()
+        .toPromise();
       const position = collection.size;
       const id = this.db.createId();
       // The storage path
@@ -130,13 +158,16 @@ export class UploadTaskComponent implements OnInit, OnDestroy {
         finalize(async () => {
           const downloadUrl = await ref.getDownloadURL().toPromise();
 
-          this.db.collection("categories").doc(id).set({
-            id,
-            downloadUrl,
-            path,
-            position,
-            projectIds: [],
-          });
+          this.db
+            .collection("categories")
+            .doc(id)
+            .set({
+              id,
+              downloadUrl,
+              path,
+              position,
+              projectIds: []
+            });
         })
       );
     }
