@@ -8,4 +8,8 @@ export interface Project {
   caption?: string;
   status?: "draft" | "published";
   finalCaption?: string;
+  button?: {
+    text: string;
+    url: string;
+  };
 }

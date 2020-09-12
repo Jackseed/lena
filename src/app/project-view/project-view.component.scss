@@ -23,3 +23,14 @@
 .description {
   white-space: pre-line;
 }
+
+#button-container {
+  padding-top: 10px;
+}
+
+#button {
+  line-height: 15px;
+  padding: 0 10px !important;
+  background-color: grey;
+  color: white;
+}

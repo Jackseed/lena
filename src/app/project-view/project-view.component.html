@@ -8,12 +8,19 @@
     <!-- HEADER -->
     <div *ngIf="project$ | async as project">
       <div ngStyle.gt-sm="width:500px;" ngClass.lt-md="margin-top">
-
         <h1>{{ project.title }}</h1>
         <p class="description">
           {{ project.description }}
         </p>
-
+        <div *ngIf="project.button?.text" id="button-container">
+          <button
+            id="button"
+            mat-stroked-button
+            (click)="open(project.button.url)"
+          >
+            {{ project.button.text }}
+          </button>
+        </div>
         <br />
         <span> {{ project.caption }}</span>
       </div>

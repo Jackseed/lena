@@ -17,7 +17,7 @@ import { ConfirmationDialogComponent } from "../confirmation-dialog/confirmation
 @Component({
   selector: "app-project-form",
   templateUrl: "./project-form.component.html",
-  styleUrls: ["./project-form.component.scss"],
+  styleUrls: ["./project-form.component.scss"]
 })
 export class ProjectFormComponent implements OnInit {
   private id: string;
@@ -27,7 +27,11 @@ export class ProjectFormComponent implements OnInit {
     category: new FormControl(""),
     description: new FormControl(""),
     caption: new FormControl(""),
-    finalCaption: new FormControl(""),
+    finalCaption: new FormControl("")
+  });
+  public button = new FormGroup({
+    text: new FormControl(""),
+    url: new FormControl("")
   });
   caption = new FormControl("");
   public categories$: Observable<Category[]>;
@@ -60,6 +64,9 @@ export class ProjectFormComponent implements OnInit {
     this.images$ = this.projectRef.collection("images").valueChanges();
     if (project.data()) {
       this.newProject.patchValue(project.data());
+      if (project.data().button) {
+      this.button.patchValue(project.data().button);
+      }
     }
   }
   onSubmit() {}
@@ -69,16 +76,29 @@ export class ProjectFormComponent implements OnInit {
         title: this.newProject.value.title,
         description: this.newProject.value.description,
         caption: this.newProject.value.caption,
-        finalCaption: this.newProject.value.finalCaption,
+        finalCaption: this.newProject.value.finalCaption
       },
       { merge: true }
     );
     this.openSnackBar("Projet sauvegardé !");
   }
 
+  saveButton() {
+    this.projectRef.set(
+      {
+        button: {
+          text: this.button.value.text,
+          url: this.button.value.url
+        }
+      },
+      { merge: true }
+    );
+    this.openSnackBar("Bouton sauvegardé !");
+  }
+
   private openSnackBar(message: string) {
     this.snackBar.open(message, "Fermer", {
-      duration: 2000,
+      duration: 2000
     });
   }
 
@@ -94,12 +114,12 @@ export class ProjectFormComponent implements OnInit {
       .collection("images")
       .get()
       .toPromise()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
           images.push(doc.data());
         });
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("Error getting documents: ", error);
       });
 
@@ -108,7 +128,7 @@ export class ProjectFormComponent implements OnInit {
       .collection("images")
       .doc(img.id)
       .delete()
-      .then((_) => {
+      .then(_ => {
         console.log("Image supprimée de la bdd !");
         // delete on firestorage
         imgRef
@@ -128,14 +148,14 @@ export class ProjectFormComponent implements OnInit {
 
             batch.commit();
           })
-          .catch((error) => {
+          .catch(error => {
             console.error(
               "Erreur dans la suppression fichier storage: ",
               error
             );
           });
       })
-      .catch((error) => {
+      .catch(error => {
         console.error("Erreur dans la suppression bdd: ", error);
       });
   }
@@ -145,7 +165,7 @@ export class ProjectFormComponent implements OnInit {
       .collection("images")
       .doc(img.id)
       .update({ caption: img.caption })
-      .catch((error) => {
+      .catch(error => {
         console.error("Erreur dans l'update caption': ", error);
       });
     this.openSnackBar("Sous-titre sauvegardé !");
@@ -162,7 +182,7 @@ export class ProjectFormComponent implements OnInit {
           .collection("images")
           .doc(images[i].id),
         {
-          position: i,
+          position: i
         }
       );
     }
@@ -175,12 +195,12 @@ export class ProjectFormComponent implements OnInit {
       .collection("images")
       .get()
       .toPromise()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
           images.push(doc.data());
         });
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("Error getting documents: ", error);
       });
     images = this.sortByPosition(images);
@@ -196,12 +216,12 @@ export class ProjectFormComponent implements OnInit {
       .collection("images")
       .get()
       .toPromise()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
           images.push(doc.data());
         });
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("Error getting documents: ", error);
       });
     images = this.sortByPosition(images);
@@ -215,9 +235,9 @@ export class ProjectFormComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       width: "350px",
       data:
-        "Attention, si le projet est associé à une vignette, le lien sera cassé. Es-tu sûre de vouloir supprimer ?",
+        "Attention, si le projet est associé à une vignette, le lien sera cassé. Es-tu sûre de vouloir supprimer ?"
     });
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         console.log("Yes clicked");
         this.deleteProject();
@@ -232,12 +252,12 @@ export class ProjectFormComponent implements OnInit {
       .collection("images")
       .get()
       .toPromise()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
           images.push(doc.data());
         });
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("Error getting documents: ", error);
       });
     const batch = this.db.firestore.batch();
@@ -266,13 +286,13 @@ export class ProjectFormComponent implements OnInit {
       .get()
       .toPromise();
     const projectIds = categoryDoc.data().projectIds;
-    const projectId = projectIds.find((proj) => proj.id === this.id);
+    const projectId = projectIds.find(proj => proj.id === this.id);
 
     // sort old category and remove the project
     projectIds.sort((a, b) => a.position - b.position);
     projectIds.splice(projectId.position, 1);
     batch.update(this.db.firestore.collection("categories").doc(categoryId), {
-      projectIds: firestore.FieldValue.delete(),
+      projectIds: firestore.FieldValue.delete()
     });
 
     // re-write all projectIds from old category without the changing project
@@ -280,7 +300,7 @@ export class ProjectFormComponent implements OnInit {
     // tslint:disable-next-line: prefer-for-of
     if (projectIds.length === 0) {
       batch.update(this.db.firestore.collection("categories").doc(categoryId), {
-        projectIds: [],
+        projectIds: []
       });
     } else {
       for (let i = 0; i < projectIds.length; i++) {
@@ -289,7 +309,7 @@ export class ProjectFormComponent implements OnInit {
         batch.update(
           this.db.firestore.collection("categories").doc(categoryId),
           {
-            projectIds: firestore.FieldValue.arrayUnion(projectIds[i]),
+            projectIds: firestore.FieldValue.arrayUnion(projectIds[i])
           }
         );
       }
@@ -301,20 +321,20 @@ export class ProjectFormComponent implements OnInit {
       .collection("vignettes")
       .get()
       .toPromise()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
           vignettes.push(doc.data());
         });
       })
-      .catch((error) => {
+      .catch(error => {
         console.log("Error getting documents: ", error);
       });
 
-    const vignette = vignettes.find((vign) => vign.projectId === this.id);
+    const vignette = vignettes.find(vign => vign.projectId === this.id);
 
     if (vignette) {
       batch.update(this.db.firestore.collection("vignettes").doc(vignette.id), {
-        projectId: firestore.FieldValue.delete(),
+        projectId: firestore.FieldValue.delete()
       });
     }
 
@@ -326,14 +346,14 @@ export class ProjectFormComponent implements OnInit {
 
   public publish() {
     this.projectRef.update({
-      status: "published",
+      status: "published"
     });
     this.openSnackBar("Projet publié !");
   }
 
   public unpublish() {
     this.projectRef.update({
-      status: "draft",
+      status: "draft"
     });
     this.openSnackBar("Projet retiré du site !");
   }
