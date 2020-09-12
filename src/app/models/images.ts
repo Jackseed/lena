@@ -4,4 +4,5 @@ export interface Image {
   path?: string;
   caption?: string;
   position?: number;
+  video?: boolean;
 }
