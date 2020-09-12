@@ -75,7 +75,8 @@ export class UploadTaskComponent implements OnInit, OnDestroy {
                 path,
                 caption: "",
                 video: {
-                  isVideo: true
+                  isVideo: true,
+                  poster: "",
                 }
               });
           } else {

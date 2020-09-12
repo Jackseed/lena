@@ -36,7 +36,19 @@
         </p>
 
         <div *ngIf="image.video?.isVideo">
-          video
+          <video
+          ngClass.lt-md="images-projet-mobile"
+          ngClass.lt-xl="images-projet-desktop"
+          ngClass.xl="images-projet-xl"
+            src="{{ image.downloadUrl }}"
+            controls
+            type="video/mp4"
+            poster="{{ image.video.poster }}"
+          >
+            <p>
+              Désolé, votre navigateur ne prend pas en charge les vidéos HTML5.
+            </p>
+          </video>
         </div>
 
         <div *ngIf="!!!image.video">
