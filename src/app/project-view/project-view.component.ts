@@ -82,7 +82,6 @@ export class ProjectViewComponent implements OnInit {
   }
 
   open(url: string) {
-    console.log("oppening ", url);
     window.open(url, "_blank");
   }
 }

@@ -1,6 +1,5 @@
 <div fxFlexFill fxLayout.lt-md="column" fxLayoutAlign.lt-md="center center">
   <div fxFlex.lt-md="90">
-
     <button mat-icon-button (click)="back()">
       <mat-icon>keyboard_backspace</mat-icon>
     </button>
@@ -71,7 +70,7 @@
       </h3>
       <div fxLayout="row">
         <p>
-          <mat-form-field fxFlex="nogrow" class="legende">
+          <mat-form-field fxFlex="nogrow" class="padding-right">
             <mat-label>Signature</mat-label>
             <input matInput type="text" formControlName="caption" />
           </mat-form-field>
@@ -80,12 +79,37 @@
             <mat-label>Légende finale</mat-label>
             <input matInput type="text" formControlName="finalCaption" />
           </mat-form-field>
+          <button
+            mat-stroked-button
+            class="save-button"
+            type="submit"
+            (click)="save()"
+            fxFlex="nogrow"
+          >
+            Sauvegarder
+          </button>
+        </p>
+      </div>
+      <div fxLayout="row">
+        <h3>Remplis cette partie si tu veux un bouton</h3>
+      </div>
+      <div fxLayout="row" [formGroup]="button">
+        <p>
+          <mat-form-field fxFlex="nogrow" class="padding-right">
+            <mat-label>Texte du bouton</mat-label>
+            <input matInput type="text" formControlName="text" />
+          </mat-form-field>
+
+          <mat-form-field fxFlex="nogrow">
+            <mat-label>Lien du bouton</mat-label>
+            <input matInput type="text" formControlName="url" />
+          </mat-form-field>
         </p>
         <button
           mat-stroked-button
           class="save-button"
           type="submit"
-          (click)="save()"
+          (click)="saveButton()"
           fxFlex="nogrow"
         >
           Sauvegarder
