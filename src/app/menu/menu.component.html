@@ -13,7 +13,7 @@
       <div ngClass.gt-xs="project" ngClass.xs="project-xs">
         <a
           class="project-link"
-          routerLink="/{{ getProjectById(projectId.id)?.title }}"
+          routerLink="/{{ getProjectById(projectId.id)?.title.replaceAll(' ', '-').replaceAll('/', '&') }}"
         >
           <p ngClass.xs="project-title-xs" ngClass.sm="project-title-sm">
             {{ getProjectById(projectId.id)?.title }}

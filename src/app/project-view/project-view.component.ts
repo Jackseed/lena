@@ -42,8 +42,9 @@ export class ProjectViewComponent implements OnInit {
     this.project$ = this.route.params.pipe(
       map((p) => {
         if (p.title) {
+          const title = p.title.replaceAll("-", " ").replaceAll("&", "/");
           return this.projects.find((project) => {
-            return project.title === p.title;
+            return project.title === title;
           });
         } else {
           return this.projects.find((project) => {
