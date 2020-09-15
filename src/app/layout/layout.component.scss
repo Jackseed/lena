@@ -9,36 +9,15 @@
   display: block;
   float: left;
 }
-.title-img {
-  display: block;
-  margin: 0 auto;
+
+#logo {
+  width: 200px;
+  margin-left: 1.5%;
+  top: 0;
 }
 
 .content-container-desktop {
   margin-top: 80px;
   display: block;
   float: left;
-}
-
-#logo {
-  width: 200px;
-  margin-left: 1.5%;
-  position: sticky;
-  position: -webkit-sticky; /* For macOS/iOS Safari */
-  top: 0;
-  display: block;
-}
-.container {
-  width: 500px;
-}
-
-.container-sm {
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 5%;
-  width: 90%;
-}
-
-.container-xs {
-  width: 100%;
 }

@@ -1,33 +1,20 @@
-<div class="full-container">
+<div>
   <!-- TOOLBAR -->
   <app-toolbar></app-toolbar>
-  <div fxLayout="row" ngClass.gt-sm="app-container-desktop">
-    <div fxFlex="100">
-      <div fxLayout="row">
-        <!-- MENU -->
-        <div class="menu-container" fxHide.lt-md="true">
-          <a routerLink="home">
-            <img
-              id="logo"
-              class="title-img"
-              ngClass.xs="big"
-              src="assets/img/logoweb.png"
-            />
-          </a>
-          <app-menu></app-menu>
-        </div>
+  <div ngClass.gt-sm="app-container-desktop">
+    <!-- MENU -->
+    <div class="menu-container" fxHide.lt-md="true">
+      <a routerLink="home">
+        <img id="logo" ngClass.xs="big" src="assets/img/logoweb.png" />
+      </a>
+      <app-menu></app-menu>
+    </div>
 
-        <!-- PAGE -->
-        <div fxFlex="100" ngClass.gt-sm="content-container-desktop">
-          <router-outlet></router-outlet>
-          <div
-            ngClass.sm="container-xs"
-            ngClass.sm="container-sm"
-            ngClass.gt-sm="container"
-          >
-            <app-footer></app-footer>
-          </div>
-        </div>
+    <!-- PAGE -->
+    <div ngClass.gt-sm="content-container-desktop">
+      <router-outlet></router-outlet>
+      <div>
+        <app-footer></app-footer>
       </div>
     </div>
   </div>
