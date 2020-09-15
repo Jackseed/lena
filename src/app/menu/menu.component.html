@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" ngClass.xl="margin-right">
   <div *ngFor="let category of categories$ | async; let i = index">
     <!-- IMAGE TITLE  -->
     <img
@@ -13,7 +13,11 @@
       <div ngClass.gt-xs="project" ngClass.xs="project-xs">
         <a
           class="project-link"
-          routerLink="/{{ getProjectById(projectId.id)?.title.replaceAll(' ', '-').replaceAll('/', '&') }}"
+          routerLink="/{{
+            getProjectById(projectId.id)
+              ?.title.replaceAll(' ', '-')
+              .replaceAll('/', '&')
+          }}"
         >
           <p ngClass.xs="project-title-xs" ngClass.sm="project-title-sm">
             {{ getProjectById(projectId.id)?.title }}

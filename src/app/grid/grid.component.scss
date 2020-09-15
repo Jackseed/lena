@@ -1,5 +1,5 @@
 .tiles {
-  width: 110px;
+  width: 100%;
 }
 .pointer {
   cursor: pointer;
@@ -12,6 +12,11 @@
 .container {
   width: 500px;
 }
+
+.container-xl {
+  width: 700px;
+}
+
 
 .container-sm {
   margin-left: 5%;

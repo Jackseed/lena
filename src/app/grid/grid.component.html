@@ -1,14 +1,14 @@
 <div
-  ngClass.sm="container-xs"
+  ngClass.xs="container-xs"
   ngClass.sm="container-sm"
   ngClass.gt-sm="container"
+  ngClass.xl="container-xl"
 >
   <mat-grid-list [cols]="grid.cols" [gutterSize]="grid.gutterSize">
     <mat-grid-tile *ngFor="let vignette of vignettes">
       <img
         routerLink="/{{ getProjectById(vignette.projectId)?.title.replaceAll(' ', '-').replaceAll('/', '&') }}"
-        ngClass.gt-sm="tiles pointer"
-        ngClass.lt-md="mobile-tiles pointer"
+        class="tiles pointer"
         src="{{ vignette.downloadUrl }}"
       />
     </mat-grid-tile>
