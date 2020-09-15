@@ -7,12 +7,17 @@
     </div>
     <!-- HEADER -->
     <div *ngIf="project$ | async as project">
-      <div ngStyle.gt-sm="width:500px;" ngClass.lt-md="margin-top">
+      <div
+        class="padding-top"
+        ngClass.lt-md="width-mobile"
+        ngClass.lt-xl="width-desktop"
+        ngClass.xl="width-xl"
+      >
         <h1>{{ project.title }}</h1>
         <p class="description">
           {{ project.description }}
         </p>
-        <div *ngIf="project.button?.text" id="button-container">
+        <div *ngIf="project.button?.text" class="padding-top">
           <button
             id="button"
             mat-stroked-button
@@ -27,8 +32,9 @@
       <!-- IMAGES -->
       <div *ngFor="let image of images$ | async">
         <p
-          ngStyle.xs="margin-right: 5%; margin-left: 5%; width: 90%;"
-          ngStyle.gt-sm="width:500px;"
+          ngClass.lt-md="width-mobile"
+          ngClass.lt-xl="width-desktop"
+          ngClass.xl="width-xl"
           class="legende-projets"
           *ngIf="image.caption"
         >
@@ -37,9 +43,10 @@
 
         <div *ngIf="image.video?.isVideo">
           <video
-          ngClass.lt-md="images-projet-mobile"
-          ngClass.lt-xl="images-projet-desktop"
-          ngClass.xl="images-projet-xl"
+            class="padding-top"
+            ngClass.lt-md="width-mobile"
+            ngClass.lt-xl="width-desktop"
+            ngClass.xl="width-xl"
             src="{{ image.downloadUrl }}"
             controls
             type="video/mp4"
@@ -53,17 +60,19 @@
 
         <div *ngIf="!!!image.video">
           <img
-            ngClass.lt-md="images-projet-mobile"
-            ngClass.lt-xl="images-projet-desktop"
-            ngClass.xl="images-projet-xl"
+            class="padding-top"
+            ngClass.lt-md="width-mobile"
+            ngClass.lt-xl="width-desktop"
+            ngClass.xl="width-xl"
             src="{{ image.downloadUrl }}"
           />
         </div>
       </div>
 
       <p
-        ngStyle.xs="margin-right: 5%; margin-left: 5%; width: 90%;"
-        ngStyle.gt-sm="width:500px;"
+        ngClass.lt-md="width-mobile"
+        ngClass.lt-xl="width-desktop"
+        ngClass.xl="width-xl"
         class="legende-projets"
       >
         {{ project.finalCaption }}

@@ -1,15 +1,17 @@
-.images-projet-mobile {
+.width-mobile {
   width: 100%;
 }
 
-.images-projet-desktop {
-  padding-top: 10px;
+.width-desktop {
   width: 500px;
 }
 
-.images-projet-xl {
-  padding-top: 10px;
+.width-xl {
   width: 700px;
+}
+
+.padding-top {
+  padding-top: 10px;
 }
 
 .legende-projets {
@@ -22,10 +24,6 @@
 
 .description {
   white-space: pre-line;
-}
-
-#button-container {
-  padding-top: 10px;
 }
 
 #button {
