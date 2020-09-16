@@ -8,7 +8,7 @@ import { CategoryListComponent } from "./admin/category-list/category-list.compo
 import { VignetteListComponent } from "./admin/vignette-list/vignette-list.component";
 import { AuthComponent } from "./admin/auth/auth.component";
 import { AuthGuard } from "./admin/auth/auth.guard";
-import { ContactPageComponent } from './contact-page/contact-page.component';
+import { ContactPageComponent } from "./contact-page/contact-page.component";
 
 const routes: Routes = [
   { path: "home", component: GridComponent },
@@ -18,33 +18,37 @@ const routes: Routes = [
   {
     path: "admin/categories",
     component: CategoryListComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard]
   },
   {
     path: "admin/vignettes",
     component: VignetteListComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard]
   },
   {
     path: "admin/:id/edit",
     component: ProjectFormComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard]
   },
   {
     path: "admin/:id/view",
     component: ProjectViewComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard]
   },
   { path: "contact", component: ContactPageComponent },
   {
     path: ":id/view",
-    component: ProjectViewComponent,
+    component: ProjectViewComponent
   },
-  { path: ":title", component: ProjectViewComponent },
+  { path: ":title", component: ProjectViewComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule],
+  imports: [
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: "enabled"
+    })
+  ],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}
