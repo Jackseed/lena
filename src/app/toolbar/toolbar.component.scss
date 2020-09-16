@@ -6,13 +6,19 @@ mat-toolbar {
   position: sticky;
   position: -webkit-sticky; /* For macOS/iOS Safari */
   top: 0;
+  display: flex;
 }
 
-.logo-container {
-  text-align: center;
-  margin-left: -20px;
+.box {
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 
 .img-logo {
   height: 70px;
+}
+
+mat-icon {
+  margin-left: 16px;
 }

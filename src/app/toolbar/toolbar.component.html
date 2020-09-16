@@ -1,12 +1,12 @@
 <mat-toolbar fxHide.gt-sm="true" class="toolbar">
-  <button mat-icon-button [matMenuTriggerFor]="menu">
+  <button mat-icon-button [matMenuTriggerFor]="menu" class="box">
     <mat-icon>menu</mat-icon>
   </button>
 
   <mat-menu #menu="matMenu" yPosition="below" [overlapTrigger]="false">
     <app-menu></app-menu>
   </mat-menu>
-  <div class="logo-container" fxFlexFill>
+  <div class="logo-container box" fxFlexFill>
     <a routerLink="home">
       <img class="img-logo" src="assets/img/logoweb.png" />
     </a>
