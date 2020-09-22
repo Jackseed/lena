@@ -7,7 +7,7 @@ body {
 }
 body {
   margin: 0;
-  font-family: "Helvetica", "Helvetica Neue", sans-serif;
+  font-family: "Open Sans", "Helvetica", sans-serif;
 }
 
 html {
@@ -41,13 +41,13 @@ h1 {
 }
 
 p {
-  font-size: 10px;
+  font-size: 12px;
   margin: 0;
-  line-height: 12.5px;
+  line-height: 16px;
 
   @include layout-bp(xs) {
     font-size: 17px;
-    line-height: 18px;
+    line-height: 22px;
   }
   @include layout-bp(sm) {
     font-size: 14px;

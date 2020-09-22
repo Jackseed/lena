@@ -10,7 +10,7 @@
     />
     <!-- PROJECTS -->
     <ul *ngFor="let projectId of sortByPosition(category.projectIds)">
-      <div ngClass.gt-xs="project" ngClass.xs="project-xs">
+      <div ngClass.gt-xs="project" ngClass.sm="project-sm" ngClass.xs="project-xs">
         <a
           class="project-link"
           routerLink="/{{

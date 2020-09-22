@@ -1,5 +1,5 @@
-const functions = require("firebase-functions");
-const admin = require("firebase-admin");
+import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
 admin.initializeApp();
 import { EventContext, Change } from "firebase-functions";
 import * as firebase from "firebase-admin";
@@ -32,13 +32,13 @@ export const documentWriteListener = functions.firestore
             }
 
             transaction.update(projectRef, {
-              imageCount: position + 1,
+              imageCount: position + 1
             });
 
             transaction.set(
               imageRef,
               {
-                position,
+                position
               },
               { merge: true }
             );
