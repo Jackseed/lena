@@ -1,14 +1,23 @@
-<mat-toolbar fxHide.gt-sm="true" class="toolbar">
-  <button mat-icon-button [matMenuTriggerFor]="menu" class="box">
-    <mat-icon>menu</mat-icon>
-  </button>
+<mat-toolbar
+  fxHide.gt-sm="true"
+  class="toolbar"
+  fxFlex
+  fxLayout="center center"
+>
+  <div fxFlex fxLayoutAlign="start start">
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
 
-  <mat-menu #menu="matMenu" yPosition="below" [overlapTrigger]="false">
-    <app-menu></app-menu>
-  </mat-menu>
-  <div class="logo-container box" fxFlexFill>
+    <mat-menu #menu="matMenu" yPosition="below" [overlapTrigger]="false">
+      <app-menu></app-menu>
+    </mat-menu>
+  </div>
+
+  <div fxFlex fxLayoutAlign="center center">
     <a routerLink="home">
       <img class="img-logo" src="assets/img/logoweb.png" />
     </a>
   </div>
+  <div fxFlex></div>
 </mat-toolbar>

@@ -7,19 +7,8 @@ mat-toolbar {
   position: sticky;
   position: -webkit-sticky; /* For macOS/iOS Safari */
   top: 0;
-  display: flex;
-}
-
-.box {
-  flex: 1;
-  display: flex;
-  justify-content: center;
 }
 
 .img-logo {
   height: 70px;
-}
-
-mat-icon {
-  margin-left: 16px;
 }
