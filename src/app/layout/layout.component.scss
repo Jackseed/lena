@@ -1,12 +1,15 @@
 .app-container {
   padding-top: 4%;
-  display: block;
+  display: inline-block;
   margin: auto;
 }
 
 .menu-container {
   display: block;
   float: left;
+  position: sticky;
+  position: -webkit-sticky; /* For macOS/iOS Safari */
+  top: 35px;
 }
 
 #logo {
