@@ -9,7 +9,5 @@ export class FooterComponent implements OnInit {
   public currentYear = new Date().getFullYear();
   constructor() {}
 
-  ngOnInit(): void {
-    console.log(Date.now());
-  }
+  ngOnInit(): void {}
 }
